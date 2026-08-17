@@ -1104,6 +1104,19 @@ function higherLows(){
   const mins=[0,8,16].map(i=>Math.min(...cs.slice(i,i+8).map(c=>c.l)));
   return mins[2]>mins[1]&&mins[1]>mins[0];
 }
+function whaleBias(mins=60){
+  if(!S.whales||!S.whales.length)return null;
+  const t0=Date.now()-mins*60000;
+  const rec=S.whales.filter(w=>w.t>=t0);
+  if(!rec.length)return null;
+  let sb=0,ss=0,fl=0,fs=0,megaB=0,megaS=0;
+  rec.forEach(w=>{
+    if(w.fut){if(w.side==='b')fl+=w.q;else fs+=w.q;}
+    else{if(w.side==='b')sb+=w.q;else ss+=w.q;}
+    if(w.q>=MEGA_Q){if(w.side==='b')megaB+=w.q;else megaS+=w.q;}
+  });
+  return{sb,ss,fl,fs,megaB,megaS,spotTot:sb+ss,futTot:fl+fs,tot:sb+ss+fl+fs,count:rec.length};
+}
 function momentum(){
   const p=S.price;let sc=0;
   const r0=DYN.res[0],s0=DYN.sup[0];
@@ -1203,16 +1216,46 @@ function decision(){
   document.getElementById('bTitle').textContent=bt;
   const nextR=DYN.res.find(r=>r.p>p*1.001);
   document.getElementById('bSub').textContent=bs+(nextR?' · próxima resistencia $'+fmt(nextR.p,3)+': +'+(( nextR.p/p-1)*100).toFixed(1)+'%':'');
+
+  // Muros reales del libro en niveles clave — usados en sugerencias, no solo display
+  const askMuroR0=r0?nearAgg(r0.p,'asks',0.001):0;
+  const bidMuroS0=s0?nearAgg(s0.p,'bids',0.001):0;
+
+  // Flujo neto de ballenas última 1h (spot y futuros por separado)
+  const wb=whaleBias(60);
+  const wSellPressure=wb&&wb.spotTot>=30000&&wb.ss>wb.sb*1.5;  // ballenas spot claramente distribuyendo
+  const wBuyPressure=wb&&wb.spotTot>=30000&&wb.sb>wb.ss*1.5;   // ballenas spot claramente acumulando
+  const wFutBull=wb&&wb.futTot>=30000&&wb.fl>wb.fs*1.4;        // futuros ballena mayoritariamente LONG
+  const wFutBear=wb&&wb.futTot>=30000&&wb.fs>wb.fl*1.4;        // futuros ballena mayoritariamente SHORT
+  const wMegaBuy=wb&&wb.megaB>0;                                // mega-ballena (≥75K) comprando en 1h
+
   if(!POS.avg){
+    const mktRisk=bcls==='b-red';
     add('var(--muted)','<b>Modo análisis</b> — sin posición registrada. Ideas según la estructura actual del mercado:');
     const aboveR=DYN.res.find(r=>r.p>p*1.001);
     const aboveR2=DYN.res.find(r=>r.p>p*1.001&&r!==aboveR);
     const belowS=DYN.sup.find(r=>r.p<p*0.999);
     const belowS2=DYN.sup.find(r=>r.p<p*0.999&&r!==belowS);
-    if(belowS)add('var(--green)',`Compra por valor: zona <b>$${fmt(belowS.p,3)}</b> (muro ~${fmtK(nearAgg(belowS.p,'bids',0.001))}) — entradas por tramos; stop si 1h cierra bajo <b>$${belowS2?fmt(belowS2.p,3):fmt(belowS.p*0.97,3)}</b>`);
+    if(mktRisk){
+      const ref=s0||s1;
+      add('var(--red)',`Mercado en zona de riesgo (${bt.split('·')[0].trim()}) — espera que el precio recupere <b>$${ref?fmt(ref.p,3):'—'}</b> y cierre una vela de 1h arriba antes de considerar cualquier entrada`);
+    } else {
+      const bidMuroAtS=belowS?nearAgg(belowS.p,'bids',0.001):0;
+      if(belowS&&bidMuroAtS>=30000&&!wSellPressure){
+        add('var(--green)',`Compra por valor: zona <b>$${fmt(belowS.p,3)}</b> (muro bids ~${fmtK(bidMuroAtS)}${wBuyPressure?' · ballenas spot acumulando':''}) — entradas por tramos; stop si 1h cierra bajo <b>$${belowS2?fmt(belowS2.p,3):fmt(belowS.p*0.97,3)}</b>`);
+      } else if(belowS&&bidMuroAtS>=30000&&wSellPressure){
+        add('var(--amber)',`Soporte <b>$${fmt(belowS.p,3)}</b> con muro bids (~${fmtK(bidMuroAtS)}) pero ballenas spot distribuyendo (${fmtK(wb.ss)} venta vs ${fmtK(wb.sb)} compra 1h) — espera que dejen de vender antes de entrar`);
+      } else if(belowS){
+        add('var(--muted)',`Soporte <b>$${fmt(belowS.p,3)}</b> sin muro sólido en el libro (${fmtK(bidMuroAtS)}) — el nivel existe en chart pero los bids no lo defienden aún; espera más profundidad`);
+      }
+    }
     if(aboveR)add('var(--amber)',`Compra por ruptura: solo si 1h CIERRA sobre <b>$${fmt(aboveR.p,3)}</b> con volumen ≥ media (ahora ${volTodayRatio().toFixed(2)}×)`);
     if(aboveR)add('var(--red)',`Toma de ganancias: <b>$${fmt(aboveR.p,3)}</b>${aboveR2?' → siguiente <b>$'+fmt(aboveR2.p,3)+'</b>':''}`);
-    add('var(--muted)','Gestión: máximo 5–10% de tu capital por operación, stops siempre. Toca <b>“mi posición”</b> para registrar tu inversión y recibir sugerencias a tu medida.');
+    if(wb&&wb.tot>=20000){
+      const wTxt=`Ballenas 1h: spot ${fmtK(wb.sb)}↑ / ${fmtK(wb.ss)}↓${wb.futTot>=20000?' · fut '+fmtK(wb.fl)+' LONG / '+fmtK(wb.fs)+' SHORT':''}${wMegaBuy?' · <b>mega-ballena comprando</b>':''}`;
+      add(wBuyPressure?'var(--green)':wSellPressure?'var(--red)':'var(--muted)',wTxt);
+    }
+    add('var(--muted)','Gestión: máximo 5–10% de tu capital por operación, stops siempre. Toca <b>”mi posición”</b> para registrar tu inversión y recibir sugerencias a tu medida.');
     const ts=techSummary();if(ts)add('var(--muted)',ts);
     return{m,acts};
   }
@@ -1223,14 +1266,36 @@ function decision(){
     `Tu posición: <b>${t.toLocaleString('en-US')} ETHFI</b> @ <b>$${fmt(avg,3)}</b> → ${breakeven?'sobre':'bajo'} tu breakeven (<b>${pnlP>=0?'+':''}${pnlP.toFixed(1)}% · ${signD}</b>)`);
   if(r1&&p>=r1.p*0.997)add('var(--red)',`VENDE 30% ahora (<b>${Math.round(t*0.3).toLocaleString('en-US')} ETHFI ≈ ${usd(t*0.3*p)}</b>) — tocando segunda resistencia $${fmt(r1.p,3)}`);
   else if(r0&&p>=r0.p*0.997)add('var(--red)',`VENDE 20% ahora (<b>${Math.round(t*0.2).toLocaleString('en-US')} ETHFI ≈ ${usd(t*0.2*p)}</b>) — tocando primera resistencia $${fmt(r0.p,3)}${r1?' · siguiente objetivo $'+fmt(r1.p,3):''}`);
-  else if(r0&&p>=r0.p*0.995&&m>=60)add('var(--green)',`Mantén TODO — ataque fuerte a $${fmt(r0.p,3)}. Venta parcial si rompe y llega a $${r1?fmt(r1.p,3):'—'}`);
-  else if(s0&&p>=s0.p*0.998)add('var(--green)',`Mantén — el soporte dinámico $${fmt(s0.p,3)} aguanta. Nada que hacer mientras no cierre abajo`);
+  else if(r0&&p>=r0.p*0.995&&m>=60){
+    // Ataque fuerte: muro asks + flujo ballenas cambian el peso de la recomendación
+    if(wSellPressure&&askMuroR0>=150000)add('var(--red)',`Ataque a $${fmt(r0.p,3)} con muro denso (~${fmtK(askMuroR0)}) y ballenas spot distribuyendo (${fmtK(wb.ss)} venta) — considera reducir 20% si no cierra arriba`);
+    else if(wSellPressure)add('var(--amber)',`Ataque fuerte a $${fmt(r0.p,3)} pero ballenas spot distribuyendo (${fmtK(wb.ss)} venta vs ${fmtK(wb.sb)} compra 1h) — espera cierre de vela confirmando antes de relajarte`);
+    else if(askMuroR0>=150000)add('var(--amber)',`Ataque fuerte a <b>$${fmt(r0.p,3)}</b> pero muro asks denso (~${fmtK(askMuroR0)}) — espera que la vela de 1h CIERRE arriba para confirmar ruptura`);
+    else add('var(--green)',`Mantén TODO — ataque fuerte a $${fmt(r0.p,3)}${wBuyPressure?' con ballenas spot acumulando':''}, muro asks ligero (~${fmtK(askMuroR0)}). Venta parcial si rompe y llega a $${r1?fmt(r1.p,3):'—'}`);
+  }
+  else if(s0&&p>=s0.p*0.998){
+    if(wSellPressure)add('var(--amber)',`Mantén por ahora — soporte $${fmt(s0.p,3)} aguanta (bids ~${fmtK(bidMuroS0)}) pero ballenas spot distribuyendo (${fmtK(wb.ss)} venta vs ${fmtK(wb.sb)} compra 1h) — si cierra bajo soporte, sal rápido`);
+    else add('var(--green)',`Mantén — soporte $${fmt(s0.p,3)} aguanta (bids ~${fmtK(bidMuroS0)}${wBuyPressure?' · ballenas spot acumulando':''}).  Nada que hacer mientras no cierre abajo`);
+  }
   else if(s1)add('var(--red)',`Soporte perdido: si la vela de 1h CIERRA bajo $${fmt(s1.p,3)} reduce la MITAD (<b>${Math.round(t*0.5).toLocaleString('en-US')} ETHFI</b>)`);
-  const canAdd=s0&&p>=s0.p*0.998&&r0&&p<r0.p*1.02&&higherLows()&&S.flow>=1&&volTodayRatio()>=1;
-  if(canAdd)add('var(--amber)',`Condiciones para AÑADIR cumplidas (soporte firme + flujo comprador + volumen). Si añades, máximo 10-20% extra — tu concentración ya es alta`);
-  else add('var(--muted)',`Para añadir espera: retesteo de <b>$${s0?fmt(s0.p,3):'—'}</b> que aguante + flujo comprador (>1) + volumen sobre la media. Ahora no se dan todas`);
-  const wr=r0?fmtK(nearAgg(r0.p,'asks',0.001)):'—',ws=s0?fmtK(nearAgg(s0.p,'bids',0.001)):'—';
-  add('var(--amber)',`Vigila: resistencia <b>$${r0?fmt(r0.p,3):'—'}</b> (muro ~${wr}) · soporte <b>$${s0?fmt(s0.p,3):'—'}</b> (muro ~${ws})`);
+  // canAdd: requiere muro bids real + ballenas spot no distribuyendo
+  const canAdd=s0&&p>=s0.p*0.998&&r0&&p<r0.p*1.02&&higherLows()&&S.flow>=1&&volTodayRatio()>=1&&bidMuroS0>=30000&&!wSellPressure;
+  if(canAdd)add('var(--amber)',`AÑADE ahora — se cumplen todas: soporte <b>$${s0?fmt(s0.p,3):'—'}</b> aguanta + flujo comprador (${S.flow.toFixed(2)}) + volumen sobre la media (${volTodayRatio().toFixed(2)}×)${wBuyPressure?' + ballenas spot acumulando':''}`);
+  else{
+    const miss=[];
+    if(!higherLows())miss.push('mínimos ascendentes');
+    if(S.flow<1)miss.push('flujo comprador (ahora '+S.flow.toFixed(2)+')');
+    if(volTodayRatio()<1)miss.push('volumen sobre media ('+volTodayRatio().toFixed(2)+'×)');
+    if(bidMuroS0<30000)miss.push('muro bids en soporte ('+fmtK(bidMuroS0)+' / mín 30k)');
+    if(wSellPressure)miss.push('ballenas spot distribuyendo ('+fmtK(wb.ss)+' venta vs '+fmtK(wb.sb)+' compra)');
+    add('var(--muted)',`Para añadir espera: soporte + flujo>1 + volumen>media + muro bids + ballenas. Falta: <b>${miss.length?miss.join(', '):'verificando datos…'}</b>`);
+  }
+  // Resumen ballenas 1h — visible en sugerencias sin tener que bajar al panel
+  if(wb&&wb.tot>=20000){
+    const wTxt=`Ballenas 1h: spot ${fmtK(wb.sb)}↑ / ${fmtK(wb.ss)}↓${wb.futTot>=20000?' · fut '+fmtK(wb.fl)+' LONG / '+fmtK(wb.fs)+' SHORT':''}${wMegaBuy?' · <b>mega-ballena comprando</b>':''}`;
+    add(wBuyPressure?'var(--green)':wSellPressure?'var(--red)':'var(--muted)',wTxt);
+  }
+  add('var(--amber)',`Vigila: resistencia <b>$${r0?fmt(r0.p,3):'—'}</b> (muro asks ~${fmtK(askMuroR0)}) · soporte <b>$${s0?fmt(s0.p,3):'—'}</b> (muro bids ~${fmtK(bidMuroS0)})`);
   const ts=techSummary();if(ts)add('var(--muted)',ts);
   return{m,acts};
 }
