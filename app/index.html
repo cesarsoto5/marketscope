@@ -456,7 +456,7 @@ const WHALE_Q=10000, MEGA_Q=75000;
 
 /* niveles de respaldo (se usan solo si el cálculo dinámico aún no corre o falla) */
 const FB_RES=[{p:0.453,n:'$0.453 · tapa del libro',sc:1,srcs:['respaldo']},{p:0.465,n:'$0.465 · puerta',sc:1,srcs:['respaldo']},{p:0.48,n:'$0.48 · SMA-200',sc:1,srcs:['respaldo']},{p:0.50,n:'$0.50 · número redondo',sc:1,srcs:['redondo']}];
-const FB_SUP=[{p:0.446,n:'$0.446 · fortaleza',sc:1,srcs:['respaldo']},{p:0.431,n:'$0.431 · mínimo reciente',sc:1,srcs:['respaldo']},{p:0.41,n:'$0.41 · nodo de volumen',sc:1,srcs:['respaldo']},{p:0.376,n:'$0.376 · piso de julio',sc:1,srcs:['respaldo']}];
+const FB_SUP=[{p:0.446,n:'$0.446 · fortaleza',sc:1,srcs:['respaldo']},{p:0.431,n:'$0.431 · mínimo reciente',sc:1,srcs:['respaldo']},{p:0.41,n:'$0.41 · nodo de volumen',sc:1,srcs:['respaldo']},{p:0.376,n:'$0.376 · soporte histórico',sc:1,srcs:['respaldo']}];
 let DYN={res:FB_RES,sup:FB_SUP,t:0,dyn:false};
 
 /* exchanges: [nombre, url, parser-> {bids:[[p,q]],asks:[[p,q]]}, proxyOK ] */
@@ -492,7 +492,7 @@ const EXCH=[
 let S={price:0,chg:0,high:0,low:0,vol24:0,candles:[],books:{},exStatus:{},flow:1,flowSpan:'',
        volAvg20:0,volToday:0,oi:0,oi0:0,funding:0,btc:0,btcChg:0,eth:0,ethChg:0,lastUpd:0,
        days:null,h4:null,atr:0,cycles:[],rsi1h:null,rsi4h:null,rsi1d:null,rsi1hSer:[],whales:[],whaleSeen:{},
-       sent:{},sentT:0,fund:{},fundT:0,whaleSrc:{},whaleSrcT:0};
+       sent:{},sentT:0,fund:{},fundT:0,whaleSrc:{},whaleSrcT:0,newsItems:[]};
 let bnIdx=0;
 
 /* perfil de usuario: 'holder' (con posición) o 'watcher' (solo análisis) — persistido en localStorage */
@@ -931,13 +931,16 @@ async function loadNews(){
     const xml=new DOMParser().parseFromString(await r.text(),'text/xml');
     const items=[...xml.querySelectorAll('item')].slice(0,6);
     if(!items.length)throw 0;
-    el.innerHTML=items.map(it=>{
-      const t=it.querySelector('title').textContent,link=it.querySelector('link').textContent;
-      const src=it.querySelector('source')?it.querySelector('source').textContent:'';
-      const dt=new Date(it.querySelector('pubDate').textContent);
-      const h=Math.max(0,Math.round((Date.now()-dt.getTime())/3600000));
+    S.newsItems=items.map(it=>({
+      title:it.querySelector('title').textContent,
+      link:it.querySelector('link').textContent,
+      src:it.querySelector('source')?it.querySelector('source').textContent:'',
+      dt:new Date(it.querySelector('pubDate').textContent)
+    }));
+    el.innerHTML=S.newsItems.map(n=>{
+      const h=Math.max(0,Math.round((Date.now()-n.dt.getTime())/3600000));
       const ago=h<1?'ahora':h<24?'hace '+h+'h':'hace '+Math.round(h/24)+'d';
-      return `<div class="ni"><a href="${link}" target="_blank" rel="noopener">${t}</a><span class="nt">${src} · ${ago}</span></div>`;
+      return `<div class="ni"><a href="${n.link}" target="_blank" rel="noopener">${n.title}</a><span class="nt">${n.src} · ${ago}</span></div>`;
     }).join('');
   }catch(e){
     el.innerHTML='<div style="color:var(--muted);font-size:12px">No se pudieron cargar noticias ahora. Fuentes directas: <a style="color:var(--amber)" href="https://x.com/ether_fi" target="_blank" rel="noopener">x.com/ether_fi</a> · <a style="color:var(--amber)" href="https://www.ether.fi/blog" target="_blank" rel="noopener">ether.fi/blog</a></div>';
@@ -1523,12 +1526,23 @@ function drawCycles(){
   const gaps=[];for(let i=1;i<all.length;i++)gaps.push((all[i].pt-all[i-1].pt)/86400000);
   const avgGap=gaps.length?gaps.reduce((a,b)=>a+b,0)/gaps.length:9;
   const nextIn=Math.max(0,Math.round(avgGap-since));
-  const callDate=new Date('2026-07-30T16:00:00Z');
-  const dToCall=Math.max(0,Math.ceil((callDate.getTime()-Date.now())/86400000));
   const d2=new Date(c.pt),ds2=String(d2.getUTCDate()).padStart(2,'0')+'/'+(d2.getUTCMonth()+1);
+  let catalLine='';
+  if(S.newsItems&&S.newsItems.length){
+    const top=S.newsItems.slice(0,2);
+    const parts=top.map(n=>{
+      const h=Math.max(0,Math.round((Date.now()-n.dt.getTime())/3600000));
+      const ago=h<1?'ahora':h<24?'hace '+h+'h':'hace '+Math.round(h/24)+'d';
+      const tit=n.title.length>80?n.title.slice(0,77)+'…':n.title;
+      return `<a href="${n.link}" target="_blank" rel="noopener" style="color:var(--amber)">${tit}</a> (${n.src||'RSS'} · ${ago})`;
+    });
+    catalLine=` · catalizadores en noticias: ${parts.join(' / ')}`;
+  } else {
+    catalLine=` · sin noticias recientes — revisa <a href="https://x.com/ether_fi" target="_blank" rel="noopener" style="color:var(--amber)">x.com/ether_fi</a>`;
+  }
   document.getElementById('phase').innerHTML=
     `Fase actual: <b>enfriamiento</b> tras el bombeo del ${ds2} · llevamos ~${Math.round(since)}d (lo normal en este patrón: ${avgDays.toFixed(0)}d) · el precio solo cedió <b>${curCool.toFixed(1)}%</b> desde el pico $${fmt(c.peak,3)} (lo típico: -${avgCool.toFixed(0)}%)<br>`+
-    `Si se repite el patrón (bombea cada ~${avgGap.toFixed(0)}d), la próxima ventana abre en ~<b>${nextIn}d</b> · catalizador cercano: llamada mensual ether.fi en ${dToCall}d (30-jul)`;
+    `Si se repite el patrón (bombea cada ~${avgGap.toFixed(0)}d), la próxima ventana abre en ~<b>${nextIn}d</b>${catalLine}`;
 }
 
 /* ===== RSI widget ===== */
