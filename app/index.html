@@ -63,6 +63,13 @@ button:hover{border-color:var(--amber)}
 .chg{font:600 14px var(--mono);padding:3px 8px;border-radius:6px}
 .chg.up{color:var(--green);background:var(--green-bg)} .chg.down{color:var(--red);background:var(--red-bg)}
 #chart{width:100%;height:360px;display:block}
+.chartbar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:2px 0 6px;flex-wrap:wrap}
+.chartbar .wtlzoom{margin-bottom:0}
+.fsbtn{padding:2px 10px;font-size:10px}
+.tfhint{font-size:10px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.card.chart-fs{position:fixed;inset:12px;z-index:1000;margin:0;overflow:auto;box-shadow:0 0 0 100vmax rgba(0,0,0,.62)}
+.card.chart-fs #chart{height:72vh}
+body.noscroll{overflow:hidden}
 #macd{width:100%;height:66px;display:block;margin-top:8px}
 .macdleg{font-size:10px;color:var(--muted);margin:4px 0 2px}
 .tlguide{font-size:12px;line-height:1.45;color:#c8cdd3;background:rgba(255,255,255,.03);border-left:3px solid var(--amber);border-radius:6px;padding:8px 11px;margin:8px 0 2px}
@@ -295,23 +302,27 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
 
   <div class="grid">
     <div class="card">
-      <h2>La batalla · velas 5m con soportes y resistencias dinámicos</h2>
+      <h2>La batalla · velas <span id="tfLabel">5m</span> con soportes y resistencias dinámicos</h2>
       <div class="price-row">
         <div class="big-price" id="px">—</div>
         <div class="chg up" id="chg">—</div>
         <div style="color:var(--muted);font-size:12px" id="rng">—</div>
       </div>
+      <div class="chartbar">
+        <div class="wtlzoom" id="chartTF"><span>velas:</span><button class="on" onclick="setTF('5m',this)" title="Velas de 5 min (~8h, el día en curso)">5m</button><button onclick="setTF('15m',this)" title="Velas de 15 min (~1 día)">15m</button><button onclick="setTF('1h',this)" title="Velas de 1 hora (~4 días)">1h</button><span class="tfhint" id="tfHint">últimas ~8h</span></div>
+        <button id="chartFsBtn" class="fsbtn" onclick="toggleChartFs()" title="Ver el gráfico en grande">⛶ agrandar</button>
+      </div>
       <canvas id="chart"></canvas>
       <div id="tlGuide" class="tlguide" style="display:none"></div>
       <canvas id="macd"></canvas>
       <div class="macdleg"><b>MACD</b> · impulso: <span style="color:#4fd1c5">—</span> línea MACD · <span style="color:#f0b90b">—</span> señal · <span style="color:var(--green)">▮</span><span style="color:var(--red)">▮</span> fuerza</div>
-      <details class="minihelp"><summary></summary><div><b>EMA 20 / EMA 50 (líneas turquesa y morada del gráfico):</b> el promedio del precio dando más peso a lo reciente — el “ritmo” del mercado. Precio <b>por encima de ambas</b> = tendencia sana; por debajo = vendedores al mando. Cuando la rápida (20) cruza sobre la lenta (50) suele anticipar subidas; al revés, caídas.<br><b>MACD (este panel):</b> mide si el impulso <b>acelera o se agota</b>. Barras verdes = impulso alcista, rojas = bajista; que crezcan = acelerando. “Cruce alcista” = la línea turquesa supera a la amarilla — los pumps de ETHFI suelen arrancar poco después de uno. Ideal para el patrón de este token: MACD agotándose tras un pump = fase de enfriamiento.<br><b>VWAP (línea azul):</b> es el precio promedio al que se ha negociado el token en lo que va del día, dándole más peso a las horas de mayor movimiento. Funciona como el “termómetro” de la jornada: si el precio va <b>por encima</b> de esta línea, los compradores llevan la ventaja y suele servir de piso; si va <b>por debajo</b>, mandan los vendedores y suele servir de techo. Es una de las referencias favoritas de los profesionales.<br><b>Líneas de tendencia (rayas roja y verde):</b> la app las dibuja sola uniendo los últimos <b>techos</b> del precio (raya roja) y los últimos <b>pisos</b> (raya verde), y las alarga hacia adelante para mostrarte por dónde podría reaccionar. Cuando el precio rompe una de ellas, suele avisar hacia dónde va el siguiente movimiento. Es el mismo trazo que un trader hace a mano sobre el gráfico.<br><b>Sesiones (fondos de color, horario UTC):</b> ASIA 00–07 (volumen ligero) · LON 07–13 (entra Europa) · LON+NY 13–15 (solape — el momento de más volumen del día) · NY 15–21. Una ruptura de nivel durante Londres/NY pesa mucho más que una de madrugada.</div></details>
+      <details class="minihelp"><summary></summary><div><b>EMA 20 / EMA 50 (líneas turquesa y morada del gráfico):</b> el promedio del precio dando más peso a lo reciente — el “ritmo” del mercado. Precio <b>por encima de ambas</b> = tendencia sana; por debajo = vendedores al mando. Cuando la rápida (20) cruza sobre la lenta (50) suele anticipar subidas; al revés, caídas.<br><b>MACD (este panel):</b> mide si el impulso <b>acelera o se agota</b>. Barras verdes = impulso alcista, rojas = bajista; que crezcan = acelerando. “Cruce alcista” = la línea turquesa supera a la amarilla — los pumps de ETHFI suelen arrancar poco después de uno. Ideal para el patrón de este token: MACD agotándose tras un pump = fase de enfriamiento.<br><b>VWAP (línea azul):</b> es el precio promedio al que se ha negociado el token en lo que va del día, dándole más peso a las horas de mayor movimiento. Funciona como el “termómetro” de la jornada: si el precio va <b>por encima</b> de esta línea, los compradores llevan la ventaja y suele servir de piso; si va <b>por debajo</b>, mandan los vendedores y suele servir de techo. Es una de las referencias favoritas de los profesionales.<br><b>Canal de tendencia (rayas roja y verde):</b> la app traza la <b>dirección de mejor ajuste</b> de las velas recientes y dibuja dos rayas paralelas: el <b>techo</b> (raya roja, por arriba) y el <b>piso</b> (raya verde, por abajo). Como se calcula sobre las propias velas, <b>siempre apunta hacia donde van</b> (sube, baja o lateral, según la flecha). Cuando el precio se pega al techo o al piso, o rompe el canal, suele avisar el siguiente movimiento.<br><b>Sesiones (fondos de color, horario UTC):</b> ASIA 00–07 (volumen ligero) · LON 07–13 (entra Europa) · LON+NY 13–15 (solape — el momento de más volumen del día) · NY 15–21. Una ruptura de nivel durante Londres/NY pesa mucho más que una de madrugada.</div></details>
       <div class="legend">
         <div class="lg"><div class="sw" style="background:rgba(246,70,93,.5)"></div>resistencias (auto)</div>
         <div class="lg"><div class="sw" style="background:rgba(46,189,133,.5)"></div>soportes (auto)</div>
         <div class="lg"><div class="sw" style="background:#eaecef"></div>tu entrada</div>
         <div class="lg"><div class="sw" style="background:var(--amber)"></div>precio / objetivo</div>
-        <div class="lg"><span style="color:#4fd1c5">—</span> EMA20 &nbsp;<span style="color:#b982ff">—</span> EMA50 &nbsp;<span style="color:#8ab4f8">—</span> VWAP &nbsp;<span style="color:var(--red)">╌</span><span style="color:var(--green)">╌</span> líneas de tendencia &nbsp;<span style="color:rgba(234,236,239,.45)">▨</span> sesiones</div>
+        <div class="lg"><span style="color:#4fd1c5">—</span> EMA20 &nbsp;<span style="color:#b982ff">—</span> EMA50 &nbsp;<span style="color:#8ab4f8">—</span> VWAP &nbsp;<span style="color:var(--red)">╌</span><span style="color:var(--green)">╌</span> tendencia &nbsp;<button id="tlineBtn" onclick="toggleTline()">tendencia: ON</button>&nbsp;<span style="color:rgba(234,236,239,.45)">▨</span> sesiones</div>
         <div class="lg"><span style="color:var(--green);font-size:11px">▲</span>compra ballena&nbsp;<span style="color:var(--red);font-size:11px">▼</span>venta ballena&nbsp;<span style="color:var(--muted)">(≥25K · ×N = N órdenes juntas)</span>&nbsp;<button id="wmarkBtn" onclick="toggleWmark()">ballenas: ON</button></div>
       </div>
       <div class="levels" id="levels"></div>
@@ -450,7 +461,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="12" data-commit="73eab88" data-date="2026-08-25 12:21">versión 12 · publicada 2026-08-25 12:21</span></footer>
+  <span id="appVer" data-build="13" data-commit="75f4820" data-date="2026-08-25 15:06">versión 13 · publicada 2026-08-25 15:06</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -712,18 +723,22 @@ async function loadFast(){
   })();
   await Promise.all([tPrice,tFlow,tBtc,tEth]);
 }
+// velas por intervalo (Binance + fallback Gate.io) — reutilizable para cualquier temporalidad
+async function klinesFor(tf,limit){
+  try{
+    const kl=await bn('/klines?symbol='+SYM+'&interval='+tf+'&limit='+limit);
+    return kl.map(k=>({t:k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]}));
+  }catch(e){
+    const kl=await fetchRaw(GSPOT+'/candlesticks?currency_pair=ETHFI_USDT&interval='+tf+'&limit='+limit);
+    return kl.map(k=>({t:+k[0]*1000,o:+k[5],h:+k[3],l:+k[4],c:+k[2],v:+k[1]})).sort((a,b)=>a.t-b.t);
+  }
+}
 async function loadSlow(){
   const tasks=[];
-  tasks.push((async()=>{ // velas 5m
-    try{
-      const kl=await bn('/klines?symbol='+SYM+'&interval=5m&limit=96');
-      S.candles=kl.map(k=>({t:k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]}));
-    }catch(e){
-      try{
-        const kl=await fetchRaw(GSPOT+'/candlesticks?currency_pair=ETHFI_USDT&interval=5m&limit=96');
-        S.candles=kl.map(k=>({t:+k[0]*1000,o:+k[5],h:+k[3],l:+k[4],c:+k[2],v:+k[1]})).sort((a,b)=>a.t-b.t);
-      }catch(e2){}
-    }
+  tasks.push((async()=>{ // velas: el MOTOR siempre en 5m (calibrado); el GRÁFICO según la temporalidad elegida
+    try{ S.candles=await klinesFor('5m',96); }catch(e){}
+    try{ S.chartCandles = TF==='5m' ? S.candles : await klinesFor(TF, TF_LIMIT[TF]||96); }
+    catch(e){ if(TF==='5m') S.chartCandles=S.candles; }
   })());
   tasks.push((async()=>{ // volumen diario vs media
     try{
@@ -1519,15 +1534,20 @@ function drawChart(){
   const dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;
   cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
   cx.clearRect(0,0,W,H);
-  const cs=S.candles;if(!cs.length||!S.price)return;
+  const cs=(S.chartCandles&&S.chartCandles.length)?S.chartCandles:S.candles;if(!cs||!cs.length||!S.price)return;
   const p=S.price;
-  let lo=Math.min(...cs.map(c=>c.l)),hi=Math.max(...cs.map(c=>c.h));
-  DYN.res.slice(0,4).forEach(r=>{if(r.p<hi*1.05)hi=Math.max(hi,r.p*1.005);});
-  DYN.sup.slice(0,4).forEach(r=>{if(r.p>lo*0.95)lo=Math.min(lo,r.p*0.995);});
-  if(POS.avg&&POS.avg<hi*1.02&&POS.avg>lo*0.98){lo=Math.min(lo,POS.avg*0.997);hi=Math.max(hi,POS.avg*1.003);}
+  // ventana visible según el zoom (todo se calcula con el historial completo, pero se dibuja solo esta ventana)
+  const NV=Math.max(6,Math.min(cs.length,ZOOMN)),vStart=cs.length-NV,vis=cs.slice(vStart);
+  let lo=Math.min(...vis.map(c=>c.l)),hi=Math.max(...vis.map(c=>c.h));
+  // encuadre proporcional: incluir niveles/entrada SOLO si están cerca de la acción (≤50% del alto de las velas),
+  // evaluado contra el rango de las velas (sin encadenar) — así soportes/resistencias lejanos no aplastan las velas
+  const cLo=lo,cHi=hi,cSpan=(cHi-cLo)||cHi*0.01,nearY=p=>p>cLo-cSpan*0.5&&p<cHi+cSpan*0.5;
+  DYN.res.slice(0,4).forEach(r=>{if(nearY(r.p))hi=Math.max(hi,r.p);});
+  DYN.sup.slice(0,4).forEach(r=>{if(nearY(r.p))lo=Math.min(lo,r.p);});
+  if(POS.avg&&nearY(POS.avg)){lo=Math.min(lo,POS.avg);hi=Math.max(hi,POS.avg);}
   const pad=(hi-lo)*0.06;lo-=pad;hi+=pad;
-  const padL=8,padR=64,cw=W-padL-padR;
-  const X=i=>padL+(i+0.5)*(cw/cs.length),Y=p=>H-(p-lo)/(hi-lo)*H;
+  const padL=8,padR=64,cw=W-padL-padR,colW=cw/NV;
+  const X=i=>padL+((i-vStart)+0.5)*colW,Y=p=>H-(p-lo)/(hi-lo)*H;
   const zone=(p,color,label)=>{
     const y0=Y(p+0.0007),y1=Y(p-0.0007);
     cx.fillStyle=color;cx.fillRect(padL,y0,cw,Math.max(2,y1-y0));
@@ -1543,15 +1563,30 @@ function drawChart(){
   // sesiones de mercado (UTC): cuándo suele llegar el volumen — fondo sutil por franja horaria
   const SES=[[0,7,'ASIA','rgba(255,255,255,.016)'],[7,13,'LON','rgba(91,192,235,.045)'],[13,15,'LON+NY','rgba(184,130,255,.05)'],[15,21,'NY','rgba(240,185,11,.04)']];
   {const nh=new Date().getUTCHours();const cur=SES.find(s=>nh>=s[0]&&nh<s[1]);S.curSess=cur?cur[2]:'FUERA';}
-  const seenS={};
+  const dayMs=86400000;
+  const spanH=(cs[cs.length-1].t-cs[vStart].t)/3600000; // horas que abarca la vista
+  const multiDay=spanH>28;                               // >~1 día: mostrar separadores de día en vez de sesiones
+  const seenS={};let lastDayKey=null;
   cs.forEach((c,i)=>{
-    const h=new Date(c.t).getUTCHours(),s=SES.find(x=>h>=x[0]&&h<x[1]);if(!s)return;
-    const w=cw/cs.length,x0=X(i)-w/2;
-    cx.fillStyle=s[3];cx.fillRect(x0,0,w,H);
-    if(!seenS[s[2]]){seenS[s[2]]=1;cx.fillStyle='rgba(234,236,239,.34)';cx.font='8px sans-serif';cx.fillText(s[2],x0+3,9);}
+    if(i<vStart)return;
+    const d=new Date(c.t),h=d.getUTCHours(),s=SES.find(x=>h>=x[0]&&h<x[1]);
+    const w=colW,x0=X(i)-w/2;
+    if(s){cx.fillStyle=s[3];cx.fillRect(x0,0,w,H);}
+    if(multiDay){
+      // varias jornadas: separador + fecha en cada medianoche UTC (no amontonar etiquetas de sesión)
+      const dk=Math.floor(c.t/dayMs);
+      if(dk!==lastDayKey){lastDayKey=dk;
+        if(i>vStart){cx.strokeStyle='rgba(234,236,239,.12)';cx.lineWidth=1;cx.setLineDash([2,3]);cx.beginPath();cx.moveTo(x0,0);cx.lineTo(x0,H);cx.stroke();cx.setLineDash([]);}
+        cx.fillStyle='rgba(234,236,239,.5)';cx.font='9px sans-serif';cx.fillText(d.getUTCDate()+'/'+(d.getUTCMonth()+1),x0+3,11);
+      }
+    }else if(s&&!seenS[s[2]]){
+      // intradía: cada sesión etiquetada una vez (ASIA/LON/LON+NY/NY)
+      seenS[s[2]]=1;cx.fillStyle='rgba(234,236,239,.34)';cx.font='8px sans-serif';cx.fillText(s[2],x0+3,9);
+    }
   });
-  const bw=Math.max(2,(cw/cs.length)*0.6);
+  const bw=Math.max(2,colW*0.6);
   cs.forEach((c,i)=>{
+    if(i<vStart)return;
     const up=c.c>=c.o;cx.strokeStyle=up?'#2ebd85':'#f6465d';cx.fillStyle=up?'#2ebd85':'#f6465d';
     cx.beginPath();cx.moveTo(X(i),Y(c.h));cx.lineTo(X(i),Y(c.l));cx.lineWidth=1;cx.stroke();
     const yO=Y(c.o),yC=Y(c.c);cx.fillRect(X(i)-bw/2,Math.min(yO,yC),bw,Math.max(1,Math.abs(yC-yO)));
@@ -1576,49 +1611,44 @@ function drawChart(){
     const lv=vw[vw.length-1];S.vwap=lv;
     if(lv!=null&&lv>=lo&&lv<=hi){cx.fillStyle='#8ab4f8';cx.font='bold 9px monospace';cx.fillText('VWAP '+fmt(lv,3),padL+3,Y(lv)-3);}
   }
-  // Líneas de tendencia automáticas: une los dos últimos swings (máximos→techo, mínimos→piso) y proyecta al borde
-  {
-    const WL=3,hh=[],ll=[];
-    for(let i=WL;i<cs.length-WL;i++){
-      let isH=true,isL=true;
-      for(let k=1;k<=WL;k++){if(cs[i].h<cs[i-k].h||cs[i].h<cs[i+k].h)isH=false;if(cs[i].l>cs[i-k].l||cs[i].l>cs[i+k].l)isL=false;}
-      if(isH)hh.push(i);if(isL)ll.push(i);
-    }
-    // etiqueta pequeña y discreta en el ARRANQUE de la línea (no tapa el precio actual)
+  // Canal de tendencia por REGRESIÓN: la recta de mejor ajuste de las velas (siempre sigue su dirección real)
+  // + bandas techo/piso según la desviación máxima. Sustituye a las trendlines de 2 puntos, que podían apuntar
+  // al revés que las velas. Se calcula sobre el tramo reciente (~60%) para reflejar la tendencia en curso.
+  if(TLINE_ON){
+    const rN=Math.min(cs.length,Math.max(20,Math.round(cs.length*0.6))),s0=cs.length-rN;
+    let sx=0,sy=0,sxx=0,sxy=0;
+    for(let j=0;j<rN;j++){const y=cs[s0+j].c;sx+=j;sy+=y;sxx+=j*j;sxy+=j*y;}
+    const den=(rN*sxx-sx*sx)||1,b=(rN*sxy-sx*sy)/den,a=(sy-b*sx)/rN,line=j=>a+b*j;
+    let upOff=0,dnOff=0;
+    for(let j=0;j<rN;j++){upOff=Math.max(upOff,cs[s0+j].h-line(j));dnOff=Math.max(dnOff,line(j)-cs[s0+j].l);}
+    const jE=rN-1,arw=b>p*0.00004?'↗':b<-p*0.00004?'↘':'→';
+    // etiqueta pequeña y discreta al ARRANQUE de cada banda
     const chip=(x,y,text,bg)=>{
-      cx.font='bold 8px sans-serif';const w=cx.measureText(text).width+7,h=11,ry=y-h/2,r=3;
+      cx.font='bold 8px sans-serif';const w=cx.measureText(text).width+7,ch=11,ry=y-ch/2,r=3;
       cx.globalAlpha=0.9;cx.fillStyle=bg;cx.beginPath();
-      cx.moveTo(x+r,ry);cx.arcTo(x+w,ry,x+w,ry+h,r);cx.arcTo(x+w,ry+h,x,ry+h,r);cx.arcTo(x,ry+h,x,ry,r);cx.arcTo(x,ry,x+w,ry,r);cx.closePath();cx.fill();
+      cx.moveTo(x+r,ry);cx.arcTo(x+w,ry,x+w,ry+ch,r);cx.arcTo(x+w,ry+ch,x,ry+ch,r);cx.arcTo(x,ry+ch,x,ry,r);cx.arcTo(x,ry,x+w,ry,r);cx.closePath();cx.fill();
       cx.globalAlpha=1;cx.fillStyle='#0b0e11';cx.fillText(text,x+3.5,y+2.6);
     };
-    // anclaje = swing real que la línea une; anillo blanco para que se lea como trazo de trader, no como un promedio
-    const anchor=(x,y,col)=>{cx.fillStyle=col;cx.beginPath();cx.arc(x,y,2.7,0,7);cx.fill();cx.strokeStyle='rgba(255,255,255,.9)';cx.lineWidth=1;cx.beginPath();cx.arc(x,y,2.7,0,7);cx.stroke();};
-    const drawTL=(pts,getP,solid,tag,ldy)=>{
-      if(pts.length<2)return null;
-      const i1=pts[pts.length-2],i2=pts[pts.length-1];if(i2-i1<3)return null;
-      const p1=getP(cs[i1]),p2=getP(cs[i2]),slope=(p2-p1)/(i2-i1),iE=cs.length-1,pE=p2+slope*(iE-i2);
-      const x1=X(i1),y1=Y(p1),x2=X(i2),y2=Y(p2),xE=X(iE),yE=Y(pE);
-      // línea gruesa con glow — destaca por encima de EMAs/VWAP (que no tienen resplandor)
-      cx.save();cx.shadowColor=solid;cx.shadowBlur=7;cx.strokeStyle=solid;cx.lineWidth=2.2;cx.lineCap='round';cx.setLineDash([10,6]);
-      cx.beginPath();cx.moveTo(x1,y1);cx.lineTo(xE,yE);cx.stroke();cx.restore();
-      cx.setLineDash([]);cx.lineWidth=1;cx.lineCap='butt';
-      if(p1>=lo&&p1<=hi)anchor(x1,y1,solid);
-      if(p2>=lo&&p2<=hi)anchor(x2,y2,solid);
-      if(pE>=lo&&pE<=hi){cx.save();cx.shadowColor=solid;cx.shadowBlur=6;cx.fillStyle=solid;cx.beginPath();cx.arc(xE,yE,3.2,0,7);cx.fill();cx.restore();}
-      const arw=slope>p*0.00004?'↗':slope<-p*0.00004?'↘':'→';
-      if(p1>=lo&&p1<=hi)chip(x1+2,y1+ldy,tag+arw,solid);
-      return{pE,slope};
+    const band=(off,solid,tag,ldy)=>{
+      const pS=line(0)+off,pEnd=line(jE)+off;
+      const xS=X(s0),yS=Y(pS),xEc=X(cs.length-1),yEc=Y(pEnd);
+      cx.save();cx.shadowColor=solid;cx.shadowBlur=2.5;cx.strokeStyle=solid;cx.globalAlpha=.85;cx.lineWidth=1.6;cx.lineCap='round';cx.setLineDash([7,5]);
+      cx.beginPath();cx.moveTo(xS,yS);cx.lineTo(xEc,yEc);cx.stroke();cx.restore();
+      cx.setLineDash([]);cx.lineCap='butt';
+      if(pS>=lo&&pS<=hi)chip(xS+2,yS+ldy,tag+arw,solid);
+      return{pE:pEnd,slope:b};
     };
-    const tHi=drawTL(hh,c=>c.h,'#f6465d','techo ',-9);
-    const tLo=drawTL(ll,c=>c.l,'#2ebd85','piso ',9);
+    const tHi=band(upOff,'#f6465d','techo ',-9);
+    const tLo=band(-dnOff,'#2ebd85','piso ',9);
     tlGuide(tHi,tLo,p);
   }
   // marcadores de ballenas: solo ≥25K, agrupadas por proximidad (~34px) y lado · ×N = cuántas órdenes · tamaño ∝ total
   const wagg={};
+  const tfMs=cs.length>1?(cs[cs.length-1].t-cs[cs.length-2].t):300000; // intervalo real de la temporalidad actual
   if(WMARK_ON)(S.whales||[]).forEach(w=>{
     if(w.q<25000)return; // las órdenes menores viven en la línea de tiempo y la cinta; aquí solo las que mueven el mercado
-    const idx=Math.floor((w.t-cs[0].t)/300000);
-    if(idx<0||idx>=cs.length||w.p<lo||w.p>hi)return;
+    const idx=Math.floor((w.t-cs[0].t)/tfMs);
+    if(idx<vStart||idx>=cs.length||w.p<lo||w.p>hi)return;
     const x=X(idx),y=Y(w.p);
     const k=Math.round(x/34)+'|'+w.side+'|'+Math.round(y/16);
     const o=wagg[k]||(wagg[k]={x:0,y:0,side:w.side,q:0,n:0,mega:false});
@@ -2003,6 +2033,31 @@ function drawGlob(){
 let WTL_MARKS=[];
 let WMARK_ON=true;
 function toggleWmark(){WMARK_ON=!WMARK_ON;const b=document.getElementById('wmarkBtn');if(b)b.textContent='ballenas: '+(WMARK_ON?'ON':'OFF');drawChart();}
+let TLINE_ON=localStorage.getItem('ethfi_tline')!=='0';
+function toggleTline(){TLINE_ON=!TLINE_ON;try{localStorage.setItem('ethfi_tline',TLINE_ON?'1':'0');}catch(e){}const b=document.getElementById('tlineBtn');if(b)b.textContent='tendencia: '+(TLINE_ON?'ON':'OFF');const g=document.getElementById('tlGuide');if(g&&!TLINE_ON)g.style.display='none';drawChart();}
+{const b=document.getElementById('tlineBtn');if(b)b.textContent='tendencia: '+(TLINE_ON?'ON':'OFF');const g=document.getElementById('tlGuide');if(g&&!TLINE_ON)g.style.display='none';}
+// temporalidad del GRÁFICO (velas reales por intervalo). El motor de decisión sigue en 5m, aparte.
+let ZOOMN=999; // el gráfico muestra todas las velas de la temporalidad elegida
+const TF_LIMIT={'5m':96,'15m':96,'1h':96}; // 5m≈8h · 15m≈1 día · 1h≈4 días
+const TF_HINT={'5m':'últimas ~8h','15m':'~1 día','1h':'~4 días'};
+let TF=(()=>{try{const t=localStorage.getItem('ethfi_tf');return TF_LIMIT[t]?t:'5m';}catch(e){return '5m';}})();
+async function setTF(tf,btn){
+  document.querySelectorAll('#chartTF button').forEach(b=>b.classList.toggle('on',b===btn));
+  const lbl=document.getElementById('tfLabel');if(lbl)lbl.textContent=tf;
+  const hint=document.getElementById('tfHint');if(hint)hint.textContent=TF_HINT[tf]||'';
+  if(TF===tf){drawChart();return;}
+  TF=tf;try{localStorage.setItem('ethfi_tf',tf);}catch(e){}
+  try{S.chartCandles=tf==='5m'?S.candles:await klinesFor(tf,TF_LIMIT[tf]||96);}
+  catch(e){if(tf==='5m')S.chartCandles=S.candles;}
+  drawChart();
+}
+// al cargar: sincroniza botón/título/hint con la temporalidad guardada (loadSlow trae sus velas)
+{document.querySelectorAll('#chartTF button').forEach(b=>b.classList.toggle('on',b.textContent.trim()===TF));
+ const lbl=document.getElementById('tfLabel');if(lbl)lbl.textContent=TF;
+ const hint=document.getElementById('tfHint');if(hint)hint.textContent=TF_HINT[TF]||'';}
+// agrandar: expande la tarjeta del gráfico a casi toda la pantalla y re-renderiza al nuevo tamaño
+function toggleChartFs(){const c=document.getElementById('chart').closest('.card');const on=c.classList.toggle('chart-fs');document.body.classList.toggle('noscroll',on);const b=document.getElementById('chartFsBtn');if(b)b.textContent=on?'⛶ salir':'⛶ agrandar';requestAnimationFrame(()=>{drawChart();if(typeof drawMacd==='function')drawMacd();});}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const c=document.querySelector('.card.chart-fs');if(c)toggleChartFs();}});
 let WTL_SPAN=8*3600000;
 function setWtlSpan(s,btn){WTL_SPAN=s;document.querySelectorAll('.wtlzoom button').forEach(b=>b.classList.toggle('on',b===btn));drawWhaleTL();}
 function drawWhaleTL(){
