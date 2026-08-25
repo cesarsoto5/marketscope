@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Actualiza el sello de versión del footer antes de cada commit.
+set -euo pipefail
+exec "$(git rev-parse --show-toplevel)/scripts/stamp-version.sh"
