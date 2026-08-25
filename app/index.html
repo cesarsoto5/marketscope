@@ -165,6 +165,14 @@ details{margin-top:9px}summary{font-size:11px;color:var(--amber);cursor:pointer}
 .minihelp b{color:var(--text);font-weight:600}
 .cyhelp{font-size:10.5px;color:var(--muted);margin-top:7px}
 .cyhelp b{color:var(--green)} .cyhelp i{color:var(--red);font-style:normal}
+/* medidor visual del sesgo de mercado */
+.biasgauge{display:block;max-width:300px;margin:8px 0 2px}
+.bg-track{position:relative;height:8px;border-radius:5px;background:linear-gradient(90deg,var(--red) 0%,#5b6172 50%,var(--green) 100%);margin-top:16px}
+.bg-mark{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;background:#fff;border:2px solid #11141c;transform:translate(-50%,-50%);box-shadow:0 0 4px rgba(0,0,0,.6)}
+.bg-val{position:absolute;top:-16px;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;font-weight:700;white-space:nowrap}
+.bg-labels{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);margin-top:4px}
+.bg-say{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:6px}
+.bg-say b{color:var(--text);font-weight:600}
 
 /* tarjetas pro: sentimiento, fundamentos, global */
 .metrics3{grid-template-columns:repeat(3,1fr)}
@@ -442,7 +450,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="9" data-commit="d76e92f" data-date="2026-08-25 11:46">versión 9 · publicada 2026-08-25 11:46</span></footer>
+  <span id="appVer" data-build="10" data-commit="dcfdd99" data-date="2026-08-25 12:01">versión 10 · publicada 2026-08-25 12:01</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -1349,7 +1357,14 @@ function decision(){
   const acts=[];
   const add=(c,txt)=>acts.push({c,txt});
   const ctxColor=b=>b<=-15?'var(--red)':b>=15?'var(--green)':'var(--amber)';
-  const ctxLine=()=>{if(!ctx)return;const rs=(ctx.bias<0?ctx.cons:ctx.pros).slice(0,3);add(ctxColor(ctx.bias),`<b>Lectura: ${ctx.regime}</b> · sesgo ${ctx.bias>0?'+':''}${ctx.bias}/100${ctx.phase?' · '+ctx.phase:''}${rs.length?' — '+rs.join('; '):''}`);};
+  const biasPlain=b=>b<=-35?'El mercado empuja con fuerza hacia <b>abajo</b>: mandan los vendedores.'
+    :b<=-15?'Hay <b>más venta que compra</b>, aunque sin fuerza total (una corrección).'
+    :b>=35?'El mercado empuja con fuerza hacia <b>arriba</b>: mandan los compradores.'
+    :b>=15?'Los <b>compradores</b> llevan una ligera ventaja.'
+    :'Ni compradores ni vendedores mandan: el precio está <b>indeciso</b>, moviéndose de lado.';
+  const biasGauge=b=>{const pos=Math.max(2,Math.min(98,Math.round((b+100)/2)));const col=ctxColor(b);
+    return `<div class="biasgauge"><div class="bg-track"><span class="bg-val" style="left:${pos}%;color:${col}">${b>0?'+':''}${b}</span><span class="bg-mark" style="left:${pos}%"></span></div><div class="bg-labels"><span>−100 · venta ↓</span><span>0 · de lado</span><span>↑ compra · +100</span></div><div class="bg-say"><b>¿Qué es el sesgo?</b> Un termómetro de cómo se inclina el mercado <b>ahora</b>. ${biasPlain(b)}</div></div>`;};
+  const ctxLine=()=>{if(!ctx)return;const rs=(ctx.bias<0?ctx.cons:ctx.pros).slice(0,3);add(ctxColor(ctx.bias),`<b>Lectura: ${ctx.regime}</b> · sesgo ${ctx.bias>0?'+':''}${ctx.bias}/100${ctx.phase?' · '+ctx.phase:''}${rs.length?' — '+rs.join('; '):''}${biasGauge(ctx.bias)}`);};
   let bt,bs,bcls;
   if(r0&&p>=r0.p*1.003){bt='ROMPIENDO $'+fmt(r0.p,3);bs=r1?'siguiente nivel: $'+fmt(r1.p,3):'camino abierto';bcls='b-green';}
   else if(r0&&p>=r0.p*0.995){bt='ATACANDO $'+fmt(r0.p,3);bs=m>=60?'ruptura fuerte en curso — exige que cierre arriba':'la toca pero con momentum débil — exige volumen';bcls=m>=60?'b-green':'b-amber';}
