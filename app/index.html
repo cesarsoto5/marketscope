@@ -71,6 +71,7 @@ button:hover{border-color:var(--amber)}
 .card.chart-fs #chart{height:72vh}
 body.noscroll{overflow:hidden}
 #macd{width:100%;height:66px;display:block;margin-top:8px}
+#cvd{width:100%;height:62px;display:block;margin-top:10px}
 .macdleg{font-size:10px;color:var(--muted);margin:4px 0 2px}
 .tlguide{font-size:12px;line-height:1.45;color:#c8cdd3;background:rgba(255,255,255,.03);border-left:3px solid var(--amber);border-radius:6px;padding:8px 11px;margin:8px 0 2px}
 .coffee-link{color:var(--muted);border-color:transparent;font-size:12px;opacity:.75}
@@ -319,7 +320,9 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
       <div id="tlGuide" class="tlguide" style="display:none"></div>
       <canvas id="macd"></canvas>
       <div class="macdleg"><b>MACD</b> · impulso: <span style="color:#4fd1c5">—</span> línea MACD · <span style="color:#f0b90b">—</span> señal · <span style="color:var(--green)">▮</span><span style="color:var(--red)">▮</span> fuerza</div>
-      <details class="minihelp"><summary></summary><div><b>EMA 20 / EMA 50 (líneas turquesa y morada del gráfico):</b> el promedio del precio dando más peso a lo reciente — el “ritmo” del mercado. Precio <b>por encima de ambas</b> = tendencia sana; por debajo = vendedores al mando. Cuando la rápida (20) cruza sobre la lenta (50) suele anticipar subidas; al revés, caídas.<br><b>MACD (este panel):</b> mide si el impulso <b>acelera o se agota</b>. Barras verdes = impulso alcista, rojas = bajista; que crezcan = acelerando. “Cruce alcista” = la línea turquesa supera a la amarilla — los pumps de ETHFI suelen arrancar poco después de uno. Ideal para el patrón de este token: MACD agotándose tras un pump = fase de enfriamiento.<br><b>VWAP (línea azul):</b> es el precio promedio al que se ha negociado el token en lo que va del día, dándole más peso a las horas de mayor movimiento. Funciona como el “termómetro” de la jornada: si el precio va <b>por encima</b> de esta línea, los compradores llevan la ventaja y suele servir de piso; si va <b>por debajo</b>, mandan los vendedores y suele servir de techo. Es una de las referencias favoritas de los profesionales.<br><b>Canal de tendencia (rayas roja y verde):</b> la app traza la <b>dirección de mejor ajuste</b> de las velas recientes y dibuja dos rayas paralelas: el <b>techo</b> (raya roja, por arriba) y el <b>piso</b> (raya verde, por abajo). Como se calcula sobre las propias velas, <b>siempre apunta hacia donde van</b> (sube, baja o lateral, según la flecha). Cuando el precio se pega al techo o al piso, o rompe el canal, suele avisar el siguiente movimiento.<br><b>Sesiones (fondos de color, horario UTC):</b> ASIA 00–07 (volumen ligero) · LON 07–13 (entra Europa) · LON+NY 13–15 (solape — el momento de más volumen del día) · NY 15–21. Una ruptura de nivel durante Londres/NY pesa mucho más que una de madrugada.</div></details>
+      <canvas id="cvd"></canvas>
+      <div class="macdleg" id="cvdMsg"><b>CVD</b> · flujo de órdenes acumulado — cargando…</div>
+      <details class="minihelp"><summary></summary><div><b>EMA 20 / EMA 50 (líneas turquesa y morada del gráfico):</b> el promedio del precio dando más peso a lo reciente — el “ritmo” del mercado. Precio <b>por encima de ambas</b> = tendencia sana; por debajo = vendedores al mando. Cuando la rápida (20) cruza sobre la lenta (50) suele anticipar subidas; al revés, caídas.<br><b>MACD (este panel):</b> mide si el impulso <b>acelera o se agota</b>. Barras verdes = impulso alcista, rojas = bajista; que crezcan = acelerando. “Cruce alcista” = la línea turquesa supera a la amarilla — los pumps de ETHFI suelen arrancar poco después de uno. Ideal para el patrón de este token: MACD agotándose tras un pump = fase de enfriamiento.<br><b>VWAP (línea azul):</b> es el precio promedio al que se ha negociado el token en lo que va del día, dándole más peso a las horas de mayor movimiento. Funciona como el “termómetro” de la jornada: si el precio va <b>por encima</b> de esta línea, los compradores llevan la ventaja y suele servir de piso; si va <b>por debajo</b>, mandan los vendedores y suele servir de techo. Es una de las referencias favoritas de los profesionales.<br><b>Canal de tendencia (rayas roja y verde):</b> la app traza la <b>dirección de mejor ajuste</b> de las velas recientes y dibuja dos rayas paralelas: el <b>techo</b> (raya roja, por arriba) y el <b>piso</b> (raya verde, por abajo). Como se calcula sobre las propias velas, <b>siempre apunta hacia donde van</b> (sube, baja o lateral, según la flecha). Cuando el precio se pega al techo o al piso, o rompe el canal, suele avisar el siguiente movimiento.<br><b>CVD (panel bajo el MACD):</b> suma la <b>compra agresiva menos la venta agresiva</b> vela a vela, combinando <b>spot + futuros</b> (en este token los futuros mueven más, así que pesan más) — el <b>dinero real</b> moviéndose, no las órdenes de adorno del libro. Lo potente son las <b>divergencias</b>: si el <b>precio</b> hace un máximo más alto pero el <b>CVD no</b> lo acompaña, la subida no tiene compradores reales → <b>giro a la baja probable</b> (y al revés: precio con mínimo más bajo pero CVD aguantando = acumulación oculta → giro al alza). Se adelanta al precio y el retail no suele mirarlo; la raya punteada marca la divergencia.<br><b>Sesiones (fondos de color, horario UTC):</b> ASIA 00–07 (volumen ligero) · LON 07–13 (entra Europa) · LON+NY 13–15 (solape — el momento de más volumen del día) · NY 15–21. Una ruptura de nivel durante Londres/NY pesa mucho más que una de madrugada.</div></details>
       <div class="legend">
         <div class="lg"><div class="sw" style="background:rgba(246,70,93,.5)"></div>resistencias (auto)</div>
         <div class="lg"><div class="sw" style="background:rgba(46,189,133,.5)"></div>soportes (auto)</div>
@@ -418,7 +421,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
 
   <div class="metrics">
     <div class="m"><div class="k">Compras vs ventas agresivas</div><div class="v" id="fFlow">—</div><div class="d" id="fFlowD">—</div><div class="gauge"><i id="gFlow" style="background:var(--green);width:50%"></i></div>
-      <details class="minihelp"><summary></summary><div>Mide quién <b>ataca</b> el mercado con órdenes inmediatas. <b>Sobre 1.00</b>: los compradores atacan más → presión de subida. <b>Bajo 1.00</b>: atacan los vendedores. Ejemplo: 0.80 = por cada $1 vendido solo entraron $0.80 comprando.</div></details></div>
+      <details class="minihelp"><summary></summary><div>Mide quién <b>ataca</b> el mercado con órdenes inmediatas, combinando <b>spot + futuros</b> (en este token los futuros mueven más). <b>Sobre 1.00</b>: los compradores atacan más → presión de subida. <b>Bajo 1.00</b>: atacan los vendedores. Ejemplo: 0.80 = por cada $1 vendido solo entraron $0.80 comprando.</div></details></div>
     <div class="m"><div class="k">Volumen de hoy vs lo normal</div><div class="v" id="fVol">—</div><div class="d" id="fVolD">—</div><div class="gauge"><i id="gVol" style="background:var(--amber);width:30%"></i></div>
       <details class="minihelp"><summary></summary><div>Compara el volumen de hoy con un día típico (media de 20 días, ajustado a la hora). <b>1.0×</b> = día normal. <b>Sobre 1.5×</b> = movimiento con fuerza real. <b>Bajo 0.7×</b> = día flojo: los movimientos engañan más fácil.</div></details></div>
     <div class="m"><div class="k">Apuestas en futuros · OI y funding</div><div class="v" id="fOI">—</div><div class="d" id="fOID">—</div>
@@ -466,7 +469,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="14" data-commit="93c1a33" data-date="2026-08-25 15:53">versión 14 · publicada 2026-08-25 15:53</span></footer>
+  <span id="appVer" data-build="15" data-commit="176fc0f" data-date="2026-08-25 16:14">versión 15 · publicada 2026-08-25 16:14</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -698,7 +701,7 @@ async function loadFast(){
   try{
     const tr=await bn('/aggTrades?symbol='+SYM+'&limit=1000');
     let b=0,s=0;tr.forEach(t=>{const q=+t.q;t.m?s+=q:b+=q;});
-    S.flow=s>0?b/s:2;
+    S.flowSpot={b,s};recomputeFlow();
     const span=(tr[tr.length-1].T-tr[0].T)/60000;
     S.flowSpan=span<60?Math.round(span)+' min':(span/60).toFixed(1)+' h';
     mergeWhales(tr.filter(t=>+t.q>=WHALE_Q).map(t=>({id:'b'+t.a,t:t.T,p:+t.p,q:+t.q,side:t.m?'s':'b'})),'Binance',false);
@@ -721,7 +724,7 @@ async function loadFast(){
     try{
       const tr=await fetchRaw(GSPOT+'/trades?currency_pair=ETHFI_USDT&limit=1000');
       let b=0,s=0;tr.forEach(t=>{const q=+t.amount;t.side==='buy'?b+=q:s+=q;});
-      S.flow=s>0?b/s:2;S.flowSpan='reciente';
+      S.flowSpot={b,s};recomputeFlow();S.flowSpan='reciente';
     }catch(e2){}
   }
   })();
@@ -739,13 +742,27 @@ async function loadFast(){
 }
 // velas por intervalo (Binance + fallback Gate.io) — reutilizable para cualquier temporalidad
 async function klinesFor(tf,limit){
+  let out;
   try{
     const kl=await bn('/klines?symbol='+SYM+'&interval='+tf+'&limit='+limit);
-    return kl.map(k=>({t:k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]}));
+    out=kl.map(k=>({t:k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5],tb:+k[9]})); // k[9]=taker buy base vol (spot) → CVD
   }catch(e){
     const kl=await fetchRaw(GSPOT+'/candlesticks?currency_pair=ETHFI_USDT&interval='+tf+'&limit='+limit);
-    return kl.map(k=>({t:+k[0]*1000,o:+k[5],h:+k[3],l:+k[4],c:+k[2],v:+k[1]})).sort((a,b)=>a.t-b.t);
+    out=kl.map(k=>({t:+k[0]*1000,o:+k[5],h:+k[3],l:+k[4],c:+k[2],v:+k[1],tb:null})).sort((a,b)=>a.t-b.t); // Gate no da taker split → proxy
   }
+  // FUTUROS (dominan el token): fusiona taker buy/vol del perp por timestamp → CVD combinado spot+fut
+  try{
+    const fk=await fetchRaw(FAPI+'/fapi/v1/klines?symbol='+SYM+'&interval='+tf+'&limit='+limit,7000,true);
+    const fm={};fk.forEach(k=>{fm[k[0]]={vf:+k[5],tbf:+k[9]};});
+    out.forEach(c=>{const f=fm[c.t];if(f){c.vf=f.vf;c.tbf=f.tbf;}});
+  }catch(e){}
+  return out;
+}
+// flujo taker combinado spot+futuros (futuros dominan el token) → S.flow (ratio compra/venta)
+function recomputeFlow(){
+  const sp=S.flowSpot,fu=S.flowFut;let b=0,s=0;
+  if(sp){b+=sp.b;s+=sp.s;}if(fu){b+=fu.b;s+=fu.s;}
+  S.flow=s>0?b/s:(b>0?2:1);
 }
 async function loadSlow(){
   const tasks=[];
@@ -875,6 +892,7 @@ async function loadWhales(){
   /* futuros: donde operan las ballenas apalancadas */
   tasks.push((async()=>{try{
     const f=await fetchRaw(FAPI+'/fapi/v1/aggTrades?symbol='+SYM+'&limit=1000',7000,true);
+    {let fb=0,fs=0;f.forEach(t=>{const q=+t.q;t.m?fs+=q:fb+=q;});S.flowFut={b:fb,s:fs};recomputeFlow();} // flujo taker de futuros → combina con spot
     mergeWhales(f.filter(t=>+t.q>=WHALE_Q).map(t=>({id:'bf'+t.a,t:t.T,p:+t.p,q:+t.q,side:t.m?'s':'b'})),'Binance Fut',true);
     // relleno anti-huecos en pumps: recupera ids que la ventana de 1000 haya saltado
     try{
@@ -1240,6 +1258,12 @@ function forecast(){
   if(imb>0.08){up+=5;dn-=2;why.push('libro con más compras que ventas cerca del precio ('+(imb>0?'+':'')+Math.round(imb*100)+'%)');}
   else if(imb<-0.08){dn+=5;up-=2;why.push('libro con más ventas que compras cerca del precio');}
   if(higherLows()){up+=4;dn-=2;why.push('mínimos ascendentes en las últimas 2h');}
+  // Divergencia de CVD (flujo real que se adelanta al precio) — sobre las velas 5m del motor
+  if(S.candles&&S.candles.length>=12){
+    const cvdF=cvdSeries(S.candles),dvF=cvdDivergence(S.candles,cvdF);
+    if(dvF&&dvF.bear){dn+=6;up-=3;why.push('divergencia bajista de CVD: el precio sube pero el flujo real no lo acompaña (giro a la baja)');}
+    else if(dvF&&dvF.bull){up+=6;dn-=3;why.push('divergencia alcista de CVD: el precio cae pero el flujo real aguanta (acumulación oculta)');}
+  }
   if(S.btcChg>0&&S.ethChg>0){up+=3;dn-=2;why.push('BTC y ETH en verde acompañan');}
   else if(S.btcChg<-1&&S.ethChg<-1){dn+=4;up-=2;why.push('BTC y ETH presionan a la baja');}
   if(S.sent.topLong!=null){
@@ -1758,6 +1782,57 @@ function drawMacd(){
   }
 }
 
+/* ===== CVD (Cumulative Volume Delta) + divergencias: el flujo de órdenes que se adelanta al precio ===== */
+function cvdSeries(cs){
+  let acc=0;return cs.map(c=>{
+    const v=c.v||0;
+    let d=(Number.isFinite(c.tb)&&v)?(c.tb-(v-c.tb)):((c.c>=c.o?1:-1)*v); // spot: compra agresiva − venta agresiva (o proxy)
+    if(Number.isFinite(c.tbf)&&c.vf)d+=(c.tbf-(c.vf-c.tbf)); // + futuros (perp) si está disponible — dominan el token
+    acc+=d;return acc;
+  });
+}
+function cvdDivergence(cs,cvd){
+  const n=cs.length;if(n<12)return null;
+  const W=2,His=[],Los=[];
+  for(let i=W;i<n-W;i++){
+    let isH=true,isL=true;
+    for(let k=1;k<=W;k++){if(cs[i].h<cs[i-k].h||cs[i].h<cs[i+k].h)isH=false;if(cs[i].l>cs[i-k].l||cs[i].l>cs[i+k].l)isL=false;}
+    if(isH)His.push(i);if(isL)Los.push(i);
+  }
+  let bear=null,bull=null;
+  if(His.length>=2){const a=His[His.length-2],b=His[His.length-1];if(cs[b].h>cs[a].h*1.001&&cvd[b]<cvd[a])bear={a,b};} // precio máximo más alto, CVD no
+  if(Los.length>=2){const a=Los[Los.length-2],b=Los[Los.length-1];if(cs[b].l<cs[a].l*0.999&&cvd[b]>cvd[a])bull={a,b};} // precio mínimo más bajo, CVD aguanta
+  return{bear,bull};
+}
+const cvv=document.getElementById('cvd'),cvx=cvv?cvv.getContext('2d'):null;
+function drawCVD(){
+  if(!cvx)return;
+  const dpr=window.devicePixelRatio||1,W=cvv.clientWidth,H=cvv.clientHeight;
+  cvv.width=W*dpr;cvv.height=H*dpr;cvx.setTransform(dpr,0,0,dpr,0,0);cvx.clearRect(0,0,W,H);
+  const cs=(S.chartCandles&&S.chartCandles.length)?S.chartCandles:S.candles,el=document.getElementById('cvdMsg');
+  if(!cs||cs.length<8){if(el)el.innerHTML='<b>CVD</b> · flujo de órdenes acumulado — cargando…';return;}
+  const cvd=cvdSeries(cs),n=cs.length;
+  const padL=8,padR=64,cw=W-padL-padR;
+  const mn=Math.min(...cvd),mx=Math.max(...cvd),rng=(mx-mn)||1;
+  const X=i=>padL+(i+0.5)*(cw/n),Y=v=>H-6-((v-mn)/rng)*(H-12);
+  if(mn<0&&mx>0){cvx.strokeStyle='rgba(234,236,239,.12)';cvx.beginPath();cvx.moveTo(padL,Y(0));cvx.lineTo(padL+cw,Y(0));cvx.stroke();}
+  const up=cvd[n-1]>=cvd[Math.max(0,n-6)],col=up?'#2ebd85':'#f6465d';
+  cvx.beginPath();for(let i=0;i<n;i++){const x=X(i),y=Y(cvd[i]);i?cvx.lineTo(x,y):cvx.moveTo(x,y);}
+  cvx.lineTo(X(n-1),H);cvx.lineTo(X(0),H);cvx.closePath();cvx.fillStyle=up?'rgba(46,189,133,.10)':'rgba(246,70,93,.10)';cvx.fill();
+  cvx.beginPath();for(let i=0;i<n;i++){const x=X(i),y=Y(cvd[i]);i?cvx.lineTo(x,y):cvx.moveTo(x,y);}
+  cvx.strokeStyle=col;cvx.lineWidth=1.6;cvx.stroke();cvx.lineWidth=1;
+  const hasFut=cs.some(c=>Number.isFinite(c.tbf));
+  cvx.fillStyle=col;cvx.font='bold 9px monospace';cvx.fillText('CVD '+(hasFut?'spot+fut ':'spot ')+(up?'↑ compra real':'↓ venta real'),padL+3,11);
+  const dv=cvdDivergence(cs,cvd);
+  const markDiv=(a,b,c)=>{cvx.strokeStyle=c;cvx.setLineDash([4,3]);cvx.lineWidth=1.5;cvx.beginPath();cvx.moveTo(X(a),Y(cvd[a]));cvx.lineTo(X(b),Y(cvd[b]));cvx.stroke();cvx.setLineDash([]);cvx.lineWidth=1;[a,b].forEach(i=>{cvx.fillStyle=c;cvx.beginPath();cvx.arc(X(i),Y(cvd[i]),2.8,0,7);cvx.fill();});};
+  let msg,sig=null;
+  if(dv&&dv.bear){markDiv(dv.bear.a,dv.bear.b,'#f6465d');sig='bear';msg='<b style="color:var(--red)">⚠ Divergencia bajista</b> · el precio hizo un máximo más alto pero el flujo real NO lo acompañó — compran en pantalla, el dinero de verdad vende. <b>Giro a la baja probable.</b>';}
+  else if(dv&&dv.bull){markDiv(dv.bull.a,dv.bull.b,'#2ebd85');sig='bull';msg='<b style="color:var(--green)">⚡ Divergencia alcista</b> · el precio hizo un mínimo más bajo pero el flujo real aguantó — venden en pantalla, el dinero de verdad acumula. <b>Giro al alza probable.</b>';}
+  else msg='<b>CVD</b> · el flujo real '+(up?'<b style="color:var(--green)">acompaña la subida</b>':'<b style="color:var(--red)">presiona a la baja</b>')+' — sin divergencia con el precio por ahora.';
+  if(el)el.innerHTML=msg;
+  S.cvdSig=sig;S.cvdUp=up;
+}
+
 /* ===== Libro agregado ===== */
 function drawBook(){
   const names=Object.keys(S.exStatus);
@@ -2070,7 +2145,7 @@ async function setTF(tf,btn){
  const lbl=document.getElementById('tfLabel');if(lbl)lbl.textContent=TF;
  const hint=document.getElementById('tfHint');if(hint)hint.textContent=TF_HINT[TF]||'';}
 // agrandar: expande la tarjeta del gráfico a casi toda la pantalla y re-renderiza al nuevo tamaño
-function toggleChartFs(){const c=document.getElementById('chart').closest('.card');const on=c.classList.toggle('chart-fs');document.body.classList.toggle('noscroll',on);const b=document.getElementById('chartFsBtn');if(b)b.textContent=on?'⛶ salir':'⛶ agrandar';requestAnimationFrame(()=>{drawChart();if(typeof drawMacd==='function')drawMacd();});}
+function toggleChartFs(){const c=document.getElementById('chart').closest('.card');const on=c.classList.toggle('chart-fs');document.body.classList.toggle('noscroll',on);const b=document.getElementById('chartFsBtn');if(b)b.textContent=on?'⛶ salir':'⛶ agrandar';requestAnimationFrame(()=>{drawChart();if(typeof drawMacd==='function')drawMacd();if(typeof drawCVD==='function')drawCVD();});}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){const c=document.querySelector('.card.chart-fs');if(c)toggleChartFs();}});
 let WTL_SPAN=8*3600000;
 function setWtlSpan(s,btn){WTL_SPAN=s;document.querySelectorAll('.wtlzoom button').forEach(b=>b.classList.toggle('on',b===btn));drawWhaleTL();}
@@ -2278,7 +2353,7 @@ function render(){
   const ch=document.getElementById('chg');
   ch.textContent=(S.chg>=0?'+':'')+S.chg.toFixed(2)+'%';ch.className='chg '+(S.chg>=0?'up':'down');
   document.getElementById('rng').textContent='24h: '+fmt(S.low)+' – '+fmt(S.high);
-  drawCtx();drawChart();drawMacd();drawBook();drawLevels();drawSigs();drawDecision();drawForecast();drawCycles();drawRSI();drawWhales();drawMetrics();drawSent();drawFund();drawGlob();pushSnap();drawHeat();
+  drawCtx();drawChart();drawMacd();drawCVD();drawBook();drawLevels();drawSigs();drawDecision();drawForecast();drawCycles();drawRSI();drawWhales();drawMetrics();drawSent();drawFund();drawGlob();pushSnap();drawHeat();
   document.getElementById('clock').textContent=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }
 
@@ -2286,7 +2361,7 @@ function render(){
 let cd=12;
 setInterval(()=>{cd--;if(cd<=0){cd=12;loadAll();}document.getElementById('cd').textContent='↻ '+cd+'s';},1000);
 setInterval(loadNews,300000);
-window.addEventListener('resize',()=>{drawChart();drawMacd();drawWhaleTL();});
+window.addEventListener('resize',()=>{drawChart();drawMacd();drawCVD();drawWhaleTL();});
 (async()=>{
   const rw=restoreWhales();
   dlog('INFO','monitor iniciado · '+navigator.userAgent.slice(0,90)+' · perfil: '+(PROFILE?PROFILE.mode:'nuevo')+' · ballenas restauradas: '+rw);
