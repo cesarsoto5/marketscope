@@ -1244,6 +1244,10 @@ function marketContext(){
   }
   if(S.rsi1h!=null){if(S.rsi1h<28)push(4,'RSI 1h en sobreventa extrema (rebote técnico probable)');else if(S.rsi1h>72)push(-4,'RSI 1h caliente ('+S.rsi1h.toFixed(0)+')');}
   if(S.flow!=null){if(S.flow>=1.15)push(8,'compras agresivas dominando ahora ('+S.flow.toFixed(2)+'× vs ventas)');else if(S.flow<=0.85)push(-8,'ventas agresivas dominando ahora ('+S.flow.toFixed(2)+'× vs ventas)');}
+  // Presión del libro cerca del precio (±1.5%): las órdenes que de verdad marcan la pauta. Se pesa moderado porque en tendencia se comen/retiran
+  {const{sA,sB}=bookSums();const bimb=(sA+sB)>0?(sB-sA)/(sB+sA):0;
+   if(bimb>=0.06)push(Math.min(8,bimb*22),'más órdenes de compra que de venta pegadas al precio (+'+Math.round(bimb*100)+'% en el libro)');
+   else if(bimb<=-0.06)push(Math.max(-8,bimb*22),'más órdenes de venta que de compra pegadas al precio ('+Math.round(bimb*100)+'% en el libro)');}
   const wb=whaleBias(60);
   if(wb&&wb.spotTot>=30000){if(wb.ss>wb.sb*1.4)push(-8,'ballenas spot distribuyendo ('+fmtK(wb.ss)+'↓ vs '+fmtK(wb.sb)+'↑)');else if(wb.sb>wb.ss*1.4)push(8,'ballenas spot acumulando ('+fmtK(wb.sb)+'↑ vs '+fmtK(wb.ss)+'↓)');}
   if(wb&&wb.futTot>=30000){if(wb.fs>wb.fl*1.4)push(-5,'futuros ballena mayoritariamente SHORT');else if(wb.fl>wb.fs*1.4)push(5,'futuros ballena mayoritariamente LONG');}

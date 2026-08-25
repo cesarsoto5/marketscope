@@ -186,7 +186,7 @@ Etiquetas del score:
 ### Contexto de mercado — función `marketContext()` (lectura de trader)
 Capa que sintetiza **tendencia + momentum + flujo + ballenas + macro + crowding** en un sesgo direccional `-100..+100` que el motor de decisión consulta ANTES de sugerir entradas. Evita el error clásico de recomendar "compra por valor" en un soporte mientras el precio cae con fuerza (atrapar el cuchillo).
 - `swingStruct()`: pivotes swing en 5m (~4h, ventana 3) → máximos/mínimos ascendentes o descendentes (`dir` −1/0/+1)
-- Factores ponderados en el sesgo: estructura swings (±18), EMAs 5m + cruce (±12/±6), cambio 24h (±14/±7), posición en el rango del día (±8), **precio vs VWAP de sesión (±6)**, MACD (±7/±3), RSI 1d/1h (±6/±5/±4), flujo taker (±8), ballenas spot/fut 1h (±8/±5), macro BTC/ETH (±7), crowding long/short + funding (±4/±2)
+- Factores ponderados en el sesgo: estructura swings (±18), EMAs 5m + cruce (±12/±6), cambio 24h (±14/±7), posición en el rango del día (±8), **precio vs VWAP de sesión (±6)**, MACD (±7/±3), RSI 1d/1h (±6/±5/±4), flujo taker (±8), **balance del libro ±1.5% (`bookSums`, ±8)**, ballenas spot/fut 1h (±8/±5), macro BTC/ETH (±7), crowding long/short + funding (±4/±2). Nota: el libro se pesa solo cerca del precio (±1.5%), no la profundidad total, porque las órdenes lejanas suelen ser spoofing
 - `regime`: TENDENCIA BAJISTA (≤−35) · CORRECCIÓN/DÉBIL (≤−15) · RANGO/INDECISIÓN · ALCISTA MODERADO (≥15) · TENDENCIA ALCISTA (≥35)
 - `phase`: caída con presión vendedora / caída en curso / rebote sin confirmar / impulso alcista
 - `fallingKnife`: bias ≤−25 **y** (chg 24h ≤−4% con precio en el cuarto inferior del rango) → bloquea sugerencias de compra en soportes
