@@ -1,7 +1,7 @@
 # Plan — Análisis ETHFI (ether.fi) ¿llegará a $0.50?
 
 ## Contexto
-- Usuario con posición en ETHFI: $3,880.44 invertidos, precio promedio $0.456.
+- La posición del usuario es genérica (se ingresa en la app, no está hardcodeada).
 - Fecha actual: 2026-07-18. Evento mencionado: sesión con inversionistas el 30 de julio.
 - Objetivo: revisar libros de órdenes, "mapas de calor", flujos de entrada/salida y noticias; evaluar probabilidad de que ETHFI alcance $0.50 en los próximos días.
 

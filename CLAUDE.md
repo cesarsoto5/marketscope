@@ -11,10 +11,8 @@ El proyecto nació de una serie de prompts de análisis manual:
 4. "¿Puedes traer datos de BingX?"
 ...hasta convertirse en una app web completa.
 
-## Contexto del usuario
-- Posición: ~8,510 ETHFI @ $0.456 promedio (~$3,880 invertidos)
-- Objetivo: $0.50 (+9.6% desde promedio)
-- Evento clave original: sesión mensual con analistas el 30 de julio 2026 (Mike Silagadze + Joe Chalom de SharpLink)
+## Posición del usuario (genérico)
+La app NO trae ninguna posición hardcodeada: debe funcionar de forma genérica para cualquier usuario. La posición (tokens + precio promedio) se ingresa por onboarding en modo "holder" y se guarda en `localStorage`; el modo "watcher" no requiere posición. No introducir valores de posición concretos en el código ni en esta documentación.
 
 ## Estructura de archivos
 - `app/index.html` — **archivo principal activo** (1864 líneas) — aquí van todos los cambios
@@ -185,6 +183,15 @@ Etiquetas del score:
 - 35–49: "Enfriándose" (ámbar)
 - 0–34: "Debilitándose" (rojo)
 
+### Contexto de mercado — función `marketContext()` (lectura de trader)
+Capa que sintetiza **tendencia + momentum + flujo + ballenas + macro + crowding** en un sesgo direccional `-100..+100` que el motor de decisión consulta ANTES de sugerir entradas. Evita el error clásico de recomendar "compra por valor" en un soporte mientras el precio cae con fuerza (atrapar el cuchillo).
+- `swingStruct()`: pivotes swing en 5m (~4h, ventana 3) → máximos/mínimos ascendentes o descendentes (`dir` −1/0/+1)
+- Factores ponderados en el sesgo: estructura swings (±18), EMAs 5m + cruce (±12/±6), cambio 24h (±14/±7), posición en el rango del día (±8), MACD (±7/±3), RSI 1d/1h (±6/±5/±4), flujo taker (±8), ballenas spot/fut 1h (±8/±5), macro BTC/ETH (±7), crowding long/short + funding (±4/±2)
+- `regime`: TENDENCIA BAJISTA (≤−35) · CORRECCIÓN/DÉBIL (≤−15) · RANGO/INDECISIÓN · ALCISTA MODERADO (≥15) · TENDENCIA ALCISTA (≥35)
+- `phase`: caída con presión vendedora / caída en curso / rebote sin confirmar / impulso alcista
+- `fallingKnife`: bias ≤−25 **y** (chg 24h ≤−4% con precio en el cuarto inferior del rango) → bloquea sugerencias de compra en soportes
+- Devuelve además `pros`/`cons` (top 4 razones alcistas/bajistas) mostradas como "Lectura: …" en las sugerencias
+
 ### Motor de decisión — función `decision()`
 **Banner:**
 - Precio ≥ r0 × 1.003 → ROMPIENDO
@@ -192,6 +199,12 @@ Etiquetas del score:
 - Precio ≥ s0 × 0.998 → EN RANGO
 - Precio ≥ s1 × 0.998 → ALERTA (soporte perdido)
 - Else → DEFENSA
+- **Override**: si `marketContext` es fallingKnife o sesgo ≤−35 y el precio no está atacando r0 → banner pasa a **CAÍDA · <régimen>** (rojo), sobre-escribiendo "EN RANGO"
+
+**Modo análisis (sin posición)** — usa el régimen para decidir el tono:
+- Cuchillo cayendo / sesgo ≤−25 → "No atrapes el cuchillo": objetivos bajistas s0→s1→s2, exige señal de agotamiento; los soportes son zona de VIGILANCIA, no compra automática
+- Sesgo ≥+25 (tendencia sana) → compra en retroceso con R:R hacia la resistencia
+- Rango → compra solo si el precio LLEGA al soporte y rebota (no anticipar)
 
 **Acciones modo holder (con posición):**
 - Precio ≥ $0.495 → "VENDE 40% ahora"
@@ -246,6 +259,8 @@ Modelo de reglas sobre probabilidades base (up=30, rango=30, down=30):
   - LON+NY 13–15: morado muy sutil (máximo volumen del día)
   - NY 15–21: ámbar muy sutil
 - EMA20 (turquesa `#4fd1c5`) y EMA50 (morado `#b982ff`)
+- **VWAP de sesión** (azul `#8ab4f8`): precio medio ponderado por volumen, anclado a la medianoche UTC (o al inicio de la ventana si no está). Se guarda en `S.vwap` y alimenta `marketContext()` (precio vs VWAP = ±6 al sesgo)
+- **Líneas de tendencia automáticas** (punteadas): une los 2 últimos swings de máximos (roja ↘ = resistencia) y de mínimos (verde ↗ = soporte), ventana de pivote 3, proyectadas al borde derecho
 - Línea punteada ámbar = precio actual con etiqueta
 - Línea blanca punteada = precio promedio del usuario ("tú")
 - Línea punteada ámbar tenue = objetivo $0.50
