@@ -186,11 +186,19 @@ Etiquetas del score:
 ### Contexto de mercado — función `marketContext()` (lectura de trader)
 Capa que sintetiza **tendencia + momentum + flujo + ballenas + macro + crowding** en un sesgo direccional `-100..+100` que el motor de decisión consulta ANTES de sugerir entradas. Evita el error clásico de recomendar "compra por valor" en un soporte mientras el precio cae con fuerza (atrapar el cuchillo).
 - `swingStruct()`: pivotes swing en 5m (~4h, ventana 3) → máximos/mínimos ascendentes o descendentes (`dir` −1/0/+1)
-- Factores ponderados en el sesgo: estructura swings (±18), EMAs 5m + cruce (±12/±6), cambio 24h (±14/±7), posición en el rango del día (±8), MACD (±7/±3), RSI 1d/1h (±6/±5/±4), flujo taker (±8), ballenas spot/fut 1h (±8/±5), macro BTC/ETH (±7), crowding long/short + funding (±4/±2)
+- Factores ponderados en el sesgo: estructura swings (±18), EMAs 5m + cruce (±12/±6), cambio 24h (±14/±7), posición en el rango del día (±8), **precio vs VWAP de sesión (±6)**, MACD (±7/±3), RSI 1d/1h (±6/±5/±4), flujo taker (±8), ballenas spot/fut 1h (±8/±5), macro BTC/ETH (±7), crowding long/short + funding (±4/±2)
 - `regime`: TENDENCIA BAJISTA (≤−35) · CORRECCIÓN/DÉBIL (≤−15) · RANGO/INDECISIÓN · ALCISTA MODERADO (≥15) · TENDENCIA ALCISTA (≥35)
 - `phase`: caída con presión vendedora / caída en curso / rebote sin confirmar / impulso alcista
 - `fallingKnife`: bias ≤−25 **y** (chg 24h ≤−4% con precio en el cuarto inferior del rango) → bloquea sugerencias de compra en soportes
-- Devuelve además `pros`/`cons` (top 4 razones alcistas/bajistas) mostradas como "Lectura: …" en las sugerencias
+- `stance` (postura): `bearish` / `turn` / `neutral` / `buy` — usada para avisar cambios de estado
+- Devuelve además `pros`/`cons` (top 4 razones alcistas/bajistas, en lenguaje llano) mostradas como "Lectura: …" en las sugerencias
+
+### Señales de giro — función `turnSignals(posInRng)`
+Detecta ACTIVAMENTE si la caída se está agotando (hasta 4 señales): RSI 1h girando desde sobreventa (usa `S.rsi1hSer`), cruce EMA alcista fresco / precio recuperó EMA20, MACD cruzando al alza o histograma bajista menguando, flujo taker girando a comprador con precio fuera de mínimos, mínimos ascendentes (5m), ballenas spot comprando la caída (30m), precio recuperando el tercio alto del rango. Devuelve `{cues, n}`.
+- En `decision()`: con **≥2 señales** en plena caída → cambia de "no atrapes el cuchillo" a **"⚡ Agotamiento a la vista"** con compra escalonada (25–33%) y stop; con 1 señal avisa "(1 señal presente, falta confirmar)"; en rango neutral con ≥2 señales → **"Giro alcista tomando forma"**
+
+### Aviso de cambio de estado — `stanceNotify(ctx)` (en `drawDecision`)
+Compara `ctx.stance` con `lastStance` (rank bearish<neutral<turn<buy). Cuando MEJORA (de bearish/neutral a turn/buy) dispara un `dlog` + **notificación push del navegador** (si alertas ON). Solo salta en la transición, no cada tick. Reutiliza el toggle 🔔 de alertas de ballenas.
 
 ### Motor de decisión — función `decision()`
 **Banner:**
@@ -260,7 +268,8 @@ Modelo de reglas sobre probabilidades base (up=30, rango=30, down=30):
   - NY 15–21: ámbar muy sutil
 - EMA20 (turquesa `#4fd1c5`) y EMA50 (morado `#b982ff`)
 - **VWAP de sesión** (azul `#8ab4f8`): precio medio ponderado por volumen, anclado a la medianoche UTC (o al inicio de la ventana si no está). Se guarda en `S.vwap` y alimenta `marketContext()` (precio vs VWAP = ±6 al sesgo)
-- **Líneas de tendencia automáticas** (punteadas): une los 2 últimos swings de máximos (roja ↘ = resistencia) y de mínimos (verde ↗ = soporte), ventana de pivote 3, proyectadas al borde derecho
+- **Líneas de tendencia automáticas** (punteadas): une los 2 últimos swings de máximos (roja = techo) y de mínimos (verde = piso), ventana de pivote 3, proyectadas al borde derecho. Flecha (↗/↘/→) según pendiente real. Etiqueta pequeña ("techo"/"piso") tipo chip en el ARRANQUE de la línea (no tapa el precio actual)
+- **Franja guía `#tlGuide`** (bajo el canvas): traduce las líneas a lenguaje llano y **consulta `marketContext()`** para ser consistente con la tendencia — p.ej. "precio entre piso y techo" en tendencia bajista dice "manda la tendencia, no es zona de compra" en vez de "en pausa". Detecta: tocando techo/piso, rayas juntándose (triángulo), o entre ambas; ícono ⚠️/🚀/✏️ según fuerza del sesgo. Función `tlGuide(tHi,tLo,p)`
 - Línea punteada ámbar = precio actual con etiqueta
 - Línea blanca punteada = precio promedio del usuario ("tú")
 - Línea punteada ámbar tenue = objetivo $0.50
@@ -324,6 +333,7 @@ S = {
   fund{}, fundT,                       // fundamentos
   whaleSrc{}, whaleSrcT,              // qué exchanges de ballenas respondieron
   emaState, macdState,                 // estado técnico calculado en drawChart/drawMacd
+  vwap,                                // VWAP de sesión (calculado en drawChart, usado en marketContext)
   curSess,                             // sesión de mercado actual (ASIA/LON/LON+NY/NY)
   perpAggId, spotAggId,               // último ID de aggTrades para relleno anti-huecos
   okxCt,                               // ctVal de OKX SWAP (cacheado)
