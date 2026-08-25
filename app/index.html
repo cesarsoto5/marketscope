@@ -450,7 +450,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="11" data-commit="2a41a86" data-date="2026-08-25 12:14">versión 11 · publicada 2026-08-25 12:14</span></footer>
+  <span id="appVer" data-build="12" data-commit="73eab88" data-date="2026-08-25 12:21">versión 12 · publicada 2026-08-25 12:21</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -1591,19 +1591,26 @@ function drawChart(){
       cx.moveTo(x+r,ry);cx.arcTo(x+w,ry,x+w,ry+h,r);cx.arcTo(x+w,ry+h,x,ry+h,r);cx.arcTo(x,ry+h,x,ry,r);cx.arcTo(x,ry,x+w,ry,r);cx.closePath();cx.fill();
       cx.globalAlpha=1;cx.fillStyle='#0b0e11';cx.fillText(text,x+3.5,y+2.6);
     };
-    const drawTL=(pts,getP,line,solid,tag,ldy)=>{
+    // anclaje = swing real que la línea une; anillo blanco para que se lea como trazo de trader, no como un promedio
+    const anchor=(x,y,col)=>{cx.fillStyle=col;cx.beginPath();cx.arc(x,y,2.7,0,7);cx.fill();cx.strokeStyle='rgba(255,255,255,.9)';cx.lineWidth=1;cx.beginPath();cx.arc(x,y,2.7,0,7);cx.stroke();};
+    const drawTL=(pts,getP,solid,tag,ldy)=>{
       if(pts.length<2)return null;
       const i1=pts[pts.length-2],i2=pts[pts.length-1];if(i2-i1<3)return null;
       const p1=getP(cs[i1]),p2=getP(cs[i2]),slope=(p2-p1)/(i2-i1),iE=cs.length-1,pE=p2+slope*(iE-i2);
-      cx.strokeStyle=line;cx.lineWidth=1.2;cx.setLineDash([6,4]);
-      cx.beginPath();cx.moveTo(X(i1),Y(p1));cx.lineTo(X(iE),Y(pE));cx.stroke();
-      cx.setLineDash([]);cx.lineWidth=1;
+      const x1=X(i1),y1=Y(p1),x2=X(i2),y2=Y(p2),xE=X(iE),yE=Y(pE);
+      // línea gruesa con glow — destaca por encima de EMAs/VWAP (que no tienen resplandor)
+      cx.save();cx.shadowColor=solid;cx.shadowBlur=7;cx.strokeStyle=solid;cx.lineWidth=2.2;cx.lineCap='round';cx.setLineDash([10,6]);
+      cx.beginPath();cx.moveTo(x1,y1);cx.lineTo(xE,yE);cx.stroke();cx.restore();
+      cx.setLineDash([]);cx.lineWidth=1;cx.lineCap='butt';
+      if(p1>=lo&&p1<=hi)anchor(x1,y1,solid);
+      if(p2>=lo&&p2<=hi)anchor(x2,y2,solid);
+      if(pE>=lo&&pE<=hi){cx.save();cx.shadowColor=solid;cx.shadowBlur=6;cx.fillStyle=solid;cx.beginPath();cx.arc(xE,yE,3.2,0,7);cx.fill();cx.restore();}
       const arw=slope>p*0.00004?'↗':slope<-p*0.00004?'↘':'→';
-      if(p1>=lo&&p1<=hi)chip(X(i1)+2,Y(p1)+ldy,tag+arw,solid);
+      if(p1>=lo&&p1<=hi)chip(x1+2,y1+ldy,tag+arw,solid);
       return{pE,slope};
     };
-    const tHi=drawTL(hh,c=>c.h,'rgba(246,70,93,.6)','#f6465d','techo ',-9);
-    const tLo=drawTL(ll,c=>c.l,'rgba(46,189,133,.6)','#2ebd85','piso ',9);
+    const tHi=drawTL(hh,c=>c.h,'#f6465d','techo ',-9);
+    const tLo=drawTL(ll,c=>c.l,'#2ebd85','piso ',9);
     tlGuide(tHi,tLo,p);
   }
   // marcadores de ballenas: solo ≥25K, agrupadas por proximidad (~34px) y lado · ×N = cuántas órdenes · tamaño ∝ total
