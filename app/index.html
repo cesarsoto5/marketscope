@@ -469,7 +469,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="15" data-commit="176fc0f" data-date="2026-08-25 16:14">versión 15 · publicada 2026-08-25 16:14</span></footer>
+  <span id="appVer" data-build="16" data-commit="d0efb11" data-date="2026-08-25 18:24">versión 16 · publicada 2026-08-25 18:24</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -1343,6 +1343,16 @@ function marketContext(){
   if(S.btcChg!=null&&S.ethChg!=null){const mac=(S.btcChg+S.ethChg)/2;if(mac<=-1.5)push(-7,'BTC/ETH arrastran a la baja');else if(mac>=1.5)push(7,'BTC/ETH acompañan al alza');else if(mac<0)push(-2,'macro ligeramente en rojo');}
   if(S.sent&&S.sent.topLong!=null){if(S.sent.topLong>=0.65)push(-4,'demasiada gente apostando a la subida en futuros ('+Math.round(S.sent.topLong*100)+'%) — si se giran, la caída se acelera');else if(S.sent.topLong<=0.4)push(4,'demasiada gente apostando a la baja ('+Math.round((1-S.sent.topLong)*100)+'%) — puede provocar un rebote brusco');}
   if(S.funding!=null){if(S.funding>0.0005)push(-2,'sale caro mantener apuestas a la subida (señal de exceso alcista)');else if(S.funding<-0.0003)push(2,'las apuestas a la baja están pagando — suele acompañar rebotes');}
+  // CVD (flujo de órdenes real spot+fut): confirma o desmiente el movimiento del precio. Una divergencia es de las señales más predictivas que existen
+  let cvdNote=null;
+  if(S.candles&&S.candles.length>=12){
+    const cvdE=cvdSeries(S.candles),dvE=cvdDivergence(S.candles,cvdE);
+    const cUp=cvdE[cvdE.length-1]>=cvdE[Math.max(0,cvdE.length-6)];
+    if(dvE&&dvE.bull){push(9,'el flujo real (CVD spot+fut) acumula pese a la caída — divergencia alcista');cvdNote={dir:'bull',txt:'el precio cae pero el flujo real (CVD spot+fut) COMPRA — posible absorción / agotamiento de la caída'};}
+    else if(dvE&&dvE.bear){push(-9,'el flujo real (CVD spot+fut) vende mientras el precio sube — divergencia bajista');cvdNote={dir:'bear',txt:'el precio sube pero el flujo real (CVD spot+fut) VENDE — la subida no está respaldada'};}
+    else if(cUp&&S.chg!=null&&S.chg<-1){push(5,'pese a la caída, entra más compra real que venta (CVD sostenido)');cvdNote={dir:'bull',txt:'aunque el precio baja, entra más compra real que venta (CVD sostenido) — vigila un posible giro'};}
+    else if(!cUp&&S.chg!=null&&S.chg>1){push(-5,'pese a la subida, el flujo real presiona a la baja (CVD débil)');cvdNote={dir:'bear',txt:'aunque el precio sube, el flujo real presiona a la baja (CVD débil) — subida frágil'};}
+  }
   bias=Math.max(-100,Math.min(100,Math.round(bias)));
   let regime;
   if(bias<=-35)regime='TENDENCIA BAJISTA';
@@ -1363,7 +1373,7 @@ function marketContext(){
   if(fallingKnife||bias<=-25)stance=turn.n>=2?'turn':'bearish';
   else if(bias>=25&&!sellP)stance='buy';
   else if(turn.n>=2&&!sellP)stance='buy';
-  return{bias,regime,phase,sw,posInRng,fallingKnife,stance,wb,turn,pros:pros.slice(0,4),cons:cons.slice(0,4)};
+  return{bias,regime,phase,sw,posInRng,fallingKnife,stance,wb,turn,cvdNote,pros:pros.slice(0,4),cons:cons.slice(0,4)};
 }
 // Detecta señales ACTIVAS de agotamiento/giro alcista (el cuchillo pierde fuerza)
 function turnSignals(posInRng){
@@ -1380,6 +1390,12 @@ function turnSignals(posInRng){
   else if(S.macdState&&S.macdState.hist<0&&S.macdState.growing)cues.push('el impulso vendedor se está frenando');
   if(S.flow!=null&&S.flow>=1.1&&posInRng>0.3)cues.push('las compras agresivas empiezan a dominar ('+S.flow.toFixed(2)+'×)');
   if(higherLows())cues.push('el precio empieza a hacer pisos más altos');
+  if(S.candles&&S.candles.length>=12){
+    const cvdT=cvdSeries(S.candles),dvT=cvdDivergence(S.candles,cvdT);
+    const cUpT=cvdT[cvdT.length-1]>=cvdT[Math.max(0,cvdT.length-8)];
+    if(dvT&&dvT.bull)cues.push('divergencia alcista de CVD (el flujo real acumula la caída)');
+    else if(cUpT&&posInRng<0.5)cues.push('el flujo real (CVD spot+fut) compra pese a la caída');
+  }
   const wb=whaleBias(30);
   if(wb&&wb.spotTot>=25000&&wb.sb>wb.ss*1.4)cues.push('ballenas comprando la caída ('+fmtK(wb.sb)+'↑ en 30m)');
   if(posInRng>=0.6)cues.push('el precio recuperó la parte alta del rango del día');
@@ -1417,7 +1433,11 @@ function decision(){
     :'Ni compradores ni vendedores mandan: el precio está <b>indeciso</b>, moviéndose de lado.';
   const biasGauge=b=>{const pos=Math.max(2,Math.min(98,Math.round((b+100)/2)));const col=ctxColor(b);
     return `<div class="biasgauge"><div class="bg-track"><span class="bg-val" style="left:${pos}%;color:${col}">${b>0?'+':''}${b}</span><span class="bg-mark" style="left:${pos}%"></span></div><div class="bg-labels"><span>−100 · venta ↓</span><span>0 · de lado</span><span>↑ compra · +100</span></div><div class="bg-say"><b>¿Qué es el sesgo?</b> Un termómetro de cómo se inclina el mercado <b>ahora</b>. ${biasPlain(b)}</div></div>`;};
-  const ctxLine=()=>{if(!ctx)return;const rs=(ctx.bias<0?ctx.cons:ctx.pros).slice(0,3);add(ctxColor(ctx.bias),`<b>Lectura: ${ctx.regime}</b> · sesgo ${ctx.bias>0?'+':''}${ctx.bias}/100${ctx.phase?' · '+ctx.phase:''}${rs.length?' — '+rs.join('; '):''}${biasGauge(ctx.bias)}`);};
+  const ctxLine=()=>{if(!ctx)return;const rs=(ctx.bias<0?ctx.cons:ctx.pros).slice(0,3);add(ctxColor(ctx.bias),`<b>Lectura: ${ctx.regime}</b> · sesgo ${ctx.bias>0?'+':''}${ctx.bias}/100${ctx.phase?' · '+ctx.phase:''}${rs.length?' — '+rs.join('; '):''}${biasGauge(ctx.bias)}`);
+    // Precio y flujo real (CVD) apuntan a lados distintos: explícalo en vez de dejar dos lecturas sueltas
+    if(ctx.cvdNote){const conflict=(ctx.cvdNote.dir==='bull'&&ctx.bias<0)||(ctx.cvdNote.dir==='bear'&&ctx.bias>0);
+      if(conflict)add(ctx.cvdNote.dir==='bull'?'var(--green)':'var(--red)',`<b>⚠ Señales cruzadas (precio vs flujo):</b> ${ctx.cvdNote.txt}. Hoy manda el precio, pero el flujo real insinúa lo contrario — espera confirmación (cierre de vela) antes de actuar en su contra.`);}
+  };
   let bt,bs,bcls;
   if(r0&&p>=r0.p*1.003){bt='ROMPIENDO $'+fmt(r0.p,3);bs=r1?'siguiente nivel: $'+fmt(r1.p,3):'camino abierto';bcls='b-green';}
   else if(r0&&p>=r0.p*0.995){bt='ATACANDO $'+fmt(r0.p,3);bs=m>=60?'ruptura fuerte en curso — exige que cierre arriba':'la toca pero con momentum débil — exige volumen';bcls=m>=60?'b-green':'b-amber';}
