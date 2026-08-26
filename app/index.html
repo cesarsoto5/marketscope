@@ -480,7 +480,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="19" data-commit="38aa3df" data-date="2026-08-25 18:40">versión 19 · publicada 2026-08-25 18:40</span></footer>
+  <span id="appVer" data-build="20" data-commit="14443c1" data-date="2026-08-25 18:42">versión 20 · publicada 2026-08-25 18:42</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -2198,8 +2198,9 @@ function drawGlob(){
 
 /* ===== Ballenas: línea de tiempo spot+futuros ===== */
 let WTL_MARKS=[];
-let WMARK_ON=true;
-function toggleWmark(){WMARK_ON=!WMARK_ON;const b=document.getElementById('wmarkBtn');if(b)b.textContent='ballenas: '+(WMARK_ON?'ON':'OFF');drawChart();}
+let WMARK_ON=localStorage.getItem('ethfi_wmark')!=='0';
+function toggleWmark(){WMARK_ON=!WMARK_ON;try{localStorage.setItem('ethfi_wmark',WMARK_ON?'1':'0');}catch(e){}const b=document.getElementById('wmarkBtn');if(b)b.textContent='ballenas: '+(WMARK_ON?'ON':'OFF');drawChart();}
+{const b=document.getElementById('wmarkBtn');if(b)b.textContent='ballenas: '+(WMARK_ON?'ON':'OFF');}
 let TLINE_ON=localStorage.getItem('ethfi_tline')!=='0';
 function toggleTline(){TLINE_ON=!TLINE_ON;try{localStorage.setItem('ethfi_tline',TLINE_ON?'1':'0');}catch(e){}const b=document.getElementById('tlineBtn');if(b)b.textContent='tendencia: '+(TLINE_ON?'ON':'OFF');const g=document.getElementById('tlGuide');if(g&&!TLINE_ON)g.style.display='none';drawChart();}
 {const b=document.getElementById('tlineBtn');if(b)b.textContent='tendencia: '+(TLINE_ON?'ON':'OFF');const g=document.getElementById('tlGuide');if(g&&!TLINE_ON)g.style.display='none';}
