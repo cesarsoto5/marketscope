@@ -325,7 +325,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
         <div class="wtlzoom" id="chartTF"><span>zoom:</span><button class="on" data-tf="5m" onclick="setTF('5m',this)" title="Velas de 5 min (~8h, el día en curso)">5m · ahora</button><button data-tf="15m" onclick="setTF('15m',this)" title="Velas de 15 min (~1 día)">15m</button><button data-tf="1h" onclick="setTF('1h',this)" title="Velas de 1 hora (~4 días)">1h · fondo</button><span class="tfhint" id="tfHint">últimas ~8h</span></div>
         <button id="chartFsBtn" class="fsbtn" onclick="toggleChartFs()" title="Ver el gráfico en grande">⛶ agrandar</button>
       </div>
-      <div class="tfhint" style="margin:-2px 0 6px;opacity:.85">ⓘ Esto solo acerca o aleja el <b>dibujo</b>. El análisis de abajo <b>no cambia</b>: ya combina corto y largo plazo.</div>
+      <div style="font-size:10px;color:var(--muted);margin:-2px 0 6px;opacity:.85;line-height:1.4">ⓘ Esto solo acerca o aleja el <b>dibujo</b>. El análisis de abajo <b>no cambia</b>: ya combina corto y largo plazo.</div>
       <div id="tfCompass" class="tfcompass" style="display:none"></div>
       <canvas id="chart"></canvas>
       <div id="tlGuide" class="tlguide" style="display:none"></div>
@@ -480,7 +480,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="23" data-commit="bbc6b7d" data-date="2026-08-25 19:07">versión 23 · publicada 2026-08-25 19:07</span></footer>
+  <span id="appVer" data-build="24" data-commit="9003bd2" data-date="2026-08-25 19:18">versión 24 · publicada 2026-08-25 19:18</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
