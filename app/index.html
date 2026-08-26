@@ -480,7 +480,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="22" data-commit="e0b2d00" data-date="2026-08-25 19:00">versión 22 · publicada 2026-08-25 19:00</span></footer>
+  <span id="appVer" data-build="23" data-commit="bbc6b7d" data-date="2026-08-25 19:07">versión 23 · publicada 2026-08-25 19:07</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -1551,17 +1551,24 @@ function decision(){
     else add('var(--green)',`Mantén — soporte $${fmt(s0.p,3)} aguanta (bids ~${fmtK(bidMuroS0)}${wBuyPressure?' · ballenas spot acumulando':''}).  Nada que hacer mientras no cierre abajo`);
   }
   else if(s1)add('var(--red)',`Soporte perdido: si la vela de 1h CIERRA bajo $${fmt(s1.p,3)} reduce la MITAD (<b>${Math.round(t*0.5).toLocaleString('en-US')} ETHFI</b>)`);
-  // canAdd: requiere muro bids real + ballenas spot no distribuyendo
-  const canAdd=s0&&p>=s0.p*0.998&&r0&&p<r0.p*1.02&&higherLows()&&S.flow>=1&&volTodayRatio()>=1&&bidMuroS0>=30000&&!wSellPressure;
-  if(canAdd)add('var(--amber)',`AÑADE ahora — se cumplen todas: soporte <b>$${s0?fmt(s0.p,3):'—'}</b> aguanta + flujo comprador (${S.flow.toFixed(2)}) + volumen sobre la media (${volTodayRatio().toFixed(2)}×)${wBuyPressure?' + ballenas spot acumulando':''}`);
+  // canAdd: requiere muro bids real + ballenas spot no distribuyendo + estructura NO bajista (no promediar a la baja)
+  const ctxBearAdd=ctx&&(ctx.fallingKnife||ctx.bias<=-25);
+  const addZone=DYN.sup.find(x=>x.p<p*0.999)||s0;            // dónde tendría sentido añadir: el soporte bajo el precio
+  const addMuro=addZone?nearAgg(addZone.p,'bids',0.001):0;
+  const addQty=Math.round(t*0.25);                            // tramo sugerido ≈25% de la posición actual
+  const addStop=s1?s1.p:(addZone?addZone.p*0.97:p*0.97);
+  const canAdd=s0&&p>=s0.p*0.998&&r0&&p<r0.p*1.02&&higherLows()&&S.flow>=1&&volTodayRatio()>=1&&bidMuroS0>=30000&&!wSellPressure&&!ctxBearAdd;
+  if(canAdd)add('var(--green)',`AÑADE ahora en <b>$${fmt(p,3)}</b> — ~<b>${addQty.toLocaleString('en-US')} ETHFI ≈ ${usd(addQty*p)}</b> (≈25% de tu posición). Se cumplen todas: soporte <b>$${fmt(s0.p,3)}</b> aguanta (bids ~${fmtK(bidMuroS0)}) + compras dominan (${S.flow.toFixed(2)}×) + volumen sobre la media (${volTodayRatio().toFixed(2)}×)${wBuyPressure?' + ballenas acumulando':''}. Pon stop si 1h cierra bajo <b>$${fmt(addStop,3)}</b>.`);
   else{
     const miss=[];
-    if(!higherLows())miss.push('mínimos ascendentes');
-    if(S.flow<1)miss.push('flujo comprador (ahora '+S.flow.toFixed(2)+')');
-    if(volTodayRatio()<1)miss.push('volumen sobre media ('+volTodayRatio().toFixed(2)+'×)');
-    if(bidMuroS0<30000)miss.push('muro bids en soporte ('+fmtK(bidMuroS0)+' / mín 30k)');
-    if(wSellPressure)miss.push('ballenas spot distribuyendo ('+fmtK(wb.ss)+' venta vs '+fmtK(wb.sb)+' compra)');
-    add('var(--muted)',`Para añadir espera: soporte + flujo>1 + volumen>media + muro bids + ballenas. Falta: <b>${miss.length?miss.join(', '):'verificando datos…'}</b>`);
+    if(ctxBearAdd)miss.push('que la tendencia deje de ser bajista (no promedies a la baja)');
+    if(!higherLows())miss.push('que empiece a hacer <b>pisos más altos</b> (ahora sigue marcando mínimos más bajos)');
+    if(S.flow<1)miss.push('que <b>manden las compras</b> — ahora mandan las ventas ('+S.flow.toFixed(2)+'×, hace falta ≥1)');
+    if(volTodayRatio()<1)miss.push('<b>volumen</b> — aún por debajo de la media ('+volTodayRatio().toFixed(2)+'× de 1×)');
+    if(bidMuroS0<30000)miss.push('un <b>muro de compras</b> firme en el soporte ('+fmtK(bidMuroS0)+', hace falta ≥30k)');
+    if(wSellPressure)miss.push('que las <b>ballenas dejen de vender</b> ('+fmtK(wb.ss)+'↓ vs '+fmtK(wb.sb)+'↑)');
+    const zoneTxt=addZone?`<b>Dónde añadir:</b> si el precio baja a <b>$${fmt(addZone.p,3)}</b> (soporte${addMuro>=30000?' con muro bids ~'+fmtK(addMuro):''}) y <b>rebota</b> — ahí entrarías ~<b>${addQty.toLocaleString('en-US')} ETHFI ≈ ${usd(addQty*p)}</b> (≈25%), stop si 1h cierra bajo $${fmt(addStop,3)}. `:'';
+    add('var(--muted)',`${zoneTxt}Pero <b>aún no</b>: falta ${miss.length?miss.join('; '):'verificar datos…'}. No añadas hasta que se cumpla.`);
   }
   // Resumen ballenas 1h — visible en sugerencias sin tener que bajar al panel
   if(wb&&wb.tot>=20000){
