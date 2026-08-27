@@ -480,7 +480,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="27" data-commit="ba0e9b1" data-date="2026-08-27 07:43">versión 27 · publicada 2026-08-27 07:43</span></footer>
+  <span id="appVer" data-build="28" data-commit="6a0166e" data-date="2026-08-27 07:49">versión 28 · publicada 2026-08-27 07:49</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -1625,8 +1625,11 @@ function drawChart(){
   cx.clearRect(0,0,W,H);
   const cs=(S.chartCandles&&S.chartCandles.length)?S.chartCandles:S.candles;if(!cs||!cs.length||!S.price)return;
   const p=S.price;
-  // ventana visible según el zoom (todo se calcula con el historial completo, pero se dibuja solo esta ventana)
-  const NV=Math.max(6,Math.min(cs.length,ZOOMN)),vStart=cs.length-NV,vis=cs.slice(vStart);
+  // ventana visible: se limita para que cada vela tenga un ancho mínimo legible (responsive).
+  // En móvil (canvas angosto) se muestran menos velas; en escritorio/pantalla completa, más panorama.
+  const MINCW=2.5; // px mínimos por vela para que no se vean como pared
+  const fitN=Math.max(6,Math.floor((W-72)/MINCW)); // W-72 = ancho útil (padL 8 + padR 64)
+  const NV=Math.max(6,Math.min(cs.length,ZOOMN,fitN)),vStart=cs.length-NV,vis=cs.slice(vStart);
   let lo=Math.min(...vis.map(c=>c.l)),hi=Math.max(...vis.map(c=>c.h));
   // encuadre proporcional: incluir niveles/entrada SOLO si están cerca de la acción (≤50% del alto de las velas),
   // evaluado contra el rango de las velas (sin encadenar) — así soportes/resistencias lejanos no aplastan las velas
@@ -2229,7 +2232,7 @@ function toggleTline(){TLINE_ON=!TLINE_ON;try{localStorage.setItem('ethfi_tline'
 // temporalidad del GRÁFICO (velas reales por intervalo). El motor de decisión sigue en 5m, aparte.
 let ZOOMN=999; // el gráfico muestra todas las velas de la temporalidad elegida
 const TF_LIMIT={'5m':288,'15m':96,'1h':96}; // gráfico: 5m≈1 día (288) · 15m≈1 día · 1h≈4 días. El MOTOR sigue en 96 velas de 5m (8h)
-const TF_HINT={'5m':'últimas ~24h','15m':'~1 día','1h':'~4 días'};
+const TF_HINT={'5m':'hasta ~1 día','15m':'~1 día','1h':'~4 días'};
 let TF=(()=>{try{const t=localStorage.getItem('ethfi_tf');return TF_LIMIT[t]?t:'5m';}catch(e){return '5m';}})();
 async function setTF(tf,btn){
   document.querySelectorAll('#chartTF button').forEach(b=>b.classList.toggle('on',b===btn));
