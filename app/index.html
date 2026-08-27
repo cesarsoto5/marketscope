@@ -322,7 +322,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
         <div style="color:var(--muted);font-size:12px" id="rng">—</div>
       </div>
       <div class="chartbar">
-        <div class="wtlzoom" id="chartTF"><span>zoom:</span><button class="on" data-tf="5m" onclick="setTF('5m',this)" title="Velas de 5 min (~8h, el día en curso)">5m · ahora</button><button data-tf="15m" onclick="setTF('15m',this)" title="Velas de 15 min (~1 día)">15m</button><button data-tf="1h" onclick="setTF('1h',this)" title="Velas de 1 hora (~4 días)">1h · fondo</button><span class="tfhint" id="tfHint">últimas ~8h</span></div>
+        <div class="wtlzoom" id="chartTF"><span>zoom:</span><button class="on" data-tf="5m" onclick="setTF('5m',this)" title="Velas de 5 min (~1 día, panorama amplio)">5m · ahora</button><button data-tf="15m" onclick="setTF('15m',this)" title="Velas de 15 min (~1 día)">15m</button><button data-tf="1h" onclick="setTF('1h',this)" title="Velas de 1 hora (~4 días)">1h · fondo</button><span class="tfhint" id="tfHint">últimas ~8h</span></div>
         <button id="chartFsBtn" class="fsbtn" onclick="toggleChartFs()" title="Ver el gráfico en grande">⛶ agrandar</button>
       </div>
       <div style="font-size:10px;color:var(--muted);margin:-2px 0 6px;opacity:.85;line-height:1.4">ⓘ Esto solo acerca o aleja el <b>dibujo</b>. El análisis de abajo <b>no cambia</b>: ya combina corto y largo plazo.</div>
@@ -480,7 +480,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="26" data-commit="959259a" data-date="2026-08-27 07:37">versión 26 · publicada 2026-08-27 07:37</span></footer>
+  <span id="appVer" data-build="27" data-commit="ba0e9b1" data-date="2026-08-27 07:43">versión 27 · publicada 2026-08-27 07:43</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -778,10 +778,19 @@ function recomputeFlow(){
 async function loadSlow(){
   if(typeof syncTFBtns==='function')syncTFBtns();  // asegura el resaltado del zoom en cada arranque
   const tasks=[];
-  tasks.push((async()=>{ // velas: el MOTOR siempre en 5m (calibrado); el GRÁFICO según la temporalidad elegida
-    try{ S.candles=await klinesFor('5m',96); }catch(e){}
-    try{ S.chartCandles = TF==='5m' ? S.candles : await klinesFor(TF, TF_LIMIT[TF]||96); }
-    catch(e){ if(TF==='5m') S.chartCandles=S.candles; }
+  tasks.push((async()=>{ // velas: el MOTOR siempre en 5m/96 (calibrado); el GRÁFICO según la temporalidad elegida
+    try{
+      if(TF==='5m'){
+        const big=await klinesFor('5m', TF_LIMIT['5m']);   // gráfico 5m: ~1 día (288) para un panorama amplio
+        S.chartCandles=big;
+        S.candles = big.length>96 ? big.slice(-96) : big;   // el motor usa solo las últimas 96 (8h), como siempre
+      }else{
+        S.candles=await klinesFor('5m',96);
+        S.chartCandles=await klinesFor(TF, TF_LIMIT[TF]||96);
+      }
+    }catch(e){
+      try{ S.candles=await klinesFor('5m',96); if(TF==='5m') S.chartCandles=S.candles; }catch(e2){}
+    }
   })());
   tasks.push((async()=>{ // volumen diario vs media
     try{
@@ -2219,8 +2228,8 @@ function toggleTline(){TLINE_ON=!TLINE_ON;try{localStorage.setItem('ethfi_tline'
 {const b=document.getElementById('tlineBtn');if(b)b.textContent='tendencia: '+(TLINE_ON?'ON':'OFF');const g=document.getElementById('tlGuide');if(g&&!TLINE_ON)g.style.display='none';}
 // temporalidad del GRÁFICO (velas reales por intervalo). El motor de decisión sigue en 5m, aparte.
 let ZOOMN=999; // el gráfico muestra todas las velas de la temporalidad elegida
-const TF_LIMIT={'5m':96,'15m':96,'1h':96}; // 5m≈8h · 15m≈1 día · 1h≈4 días
-const TF_HINT={'5m':'últimas ~8h','15m':'~1 día','1h':'~4 días'};
+const TF_LIMIT={'5m':288,'15m':96,'1h':96}; // gráfico: 5m≈1 día (288) · 15m≈1 día · 1h≈4 días. El MOTOR sigue en 96 velas de 5m (8h)
+const TF_HINT={'5m':'últimas ~24h','15m':'~1 día','1h':'~4 días'};
 let TF=(()=>{try{const t=localStorage.getItem('ethfi_tf');return TF_LIMIT[t]?t:'5m';}catch(e){return '5m';}})();
 async function setTF(tf,btn){
   document.querySelectorAll('#chartTF button').forEach(b=>b.classList.toggle('on',b===btn));
@@ -2228,7 +2237,7 @@ async function setTF(tf,btn){
   const hint=document.getElementById('tfHint');if(hint)hint.textContent=TF_HINT[tf]||'';
   if(TF===tf){drawChart();return;}
   TF=tf;try{localStorage.setItem('ethfi_tf',tf);}catch(e){}
-  try{S.chartCandles=tf==='5m'?S.candles:await klinesFor(tf,TF_LIMIT[tf]||96);}
+  try{S.chartCandles=await klinesFor(tf,TF_LIMIT[tf]||96);}  // 5m también trae su propio set amplio (288), sin tocar el motor
   catch(e){if(tf==='5m')S.chartCandles=S.candles;}
   drawChart();
 }
