@@ -339,10 +339,10 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
       <div class="macdleg"><b>MACD</b> · impulso: <span style="color:#4fd1c5">—</span> línea MACD · <span style="color:#f0b90b">—</span> señal · <span style="color:var(--green)">▮</span><span style="color:var(--red)">▮</span> fuerza</div>
       <canvas id="cvd"></canvas>
       <div class="macdleg" id="cvdMsg"><b>CVD</b> · flujo de órdenes acumulado — cargando…</div>
-      <details class="minihelp"><summary></summary><div><b>EMA 20 / EMA 50 (líneas turquesa y morada del gráfico):</b> el promedio del precio dando más peso a lo reciente — el “ritmo” del mercado. Precio <b>por encima de ambas</b> = tendencia sana; por debajo = vendedores al mando. Cuando la rápida (20) cruza sobre la lenta (50) suele anticipar subidas; al revés, caídas.<br><b>MACD (este panel):</b> mide si el impulso <b>acelera o se agota</b>. Barras verdes = impulso alcista, rojas = bajista; que crezcan = acelerando. “Cruce alcista” = la línea turquesa supera a la amarilla — los pumps de ETHFI suelen arrancar poco después de uno. Ideal para el patrón de este token: MACD agotándose tras un pump = fase de enfriamiento.<br><b>VWAP (línea azul):</b> es el precio promedio al que se ha negociado el token en lo que va del día, dándole más peso a las horas de mayor movimiento. Funciona como el “termómetro” de la jornada: si el precio va <b>por encima</b> de esta línea, los compradores llevan la ventaja y suele servir de piso; si va <b>por debajo</b>, mandan los vendedores y suele servir de techo. Es una de las referencias favoritas de los profesionales.<br><b>Canal de tendencia (rayas roja y verde):</b> la app traza la <b>dirección de mejor ajuste</b> de las velas recientes y dibuja dos rayas paralelas: el <b>techo</b> (raya roja, por arriba) y el <b>piso</b> (raya verde, por abajo). Como se calcula sobre las propias velas, <b>siempre apunta hacia donde van</b> (sube, baja o lateral, según la flecha). Cuando el precio se pega al techo o al piso, o rompe el canal, suele avisar el siguiente movimiento.<br><b>CVD (panel bajo el MACD):</b> suma la <b>compra agresiva menos la venta agresiva</b> vela a vela, combinando <b>spot + futuros</b> (en este token los futuros mueven más, así que pesan más) — el <b>dinero real</b> moviéndose, no las órdenes de adorno del libro. Lo potente son las <b>divergencias</b>: si el <b>precio</b> hace un máximo más alto pero el <b>CVD no</b> lo acompaña, la subida no tiene compradores reales → <b>giro a la baja probable</b> (y al revés: precio con mínimo más bajo pero CVD aguantando = acumulación oculta → giro al alza). Se adelanta al precio y el retail no suele mirarlo; la raya punteada marca la divergencia.<br><b>Pisos y techos (bandas verdes y rojas):</b> no todos aguantan igual. La app califica cada uno según <b>cuántas referencias coinciden</b> ahí (máximos/mínimos de días anteriores, zonas donde se negoció mucho volumen, números redondos), <b>cuántas veces el precio rebotó</b> en ese nivel en las últimas semanas (y cuántas lo atravesó) y si hay <b>órdenes reales esperando</b> en el libro. Banda <b>gruesa e intensa con raya</b> (▮▮▮) = piso/techo sólido: es donde el precio suele rebotar con más fuerza. Banda <b>tenue y fina</b> (▮) = frágil: el precio la puede atravesar con facilidad.<br><b>Sesiones (fondos de color, horario UTC):</b> ASIA 00–07 (volumen ligero) · LON 07–13 (entra Europa) · LON+NY 13–15 (solape — el momento de más volumen del día) · NY 15–21. Una ruptura de nivel durante Londres/NY pesa mucho más que una de madrugada.</div></details>
+      <details class="minihelp"><summary></summary><div><b>EMA 20 / EMA 50 (líneas turquesa y morada del gráfico):</b> el promedio del precio dando más peso a lo reciente — el “ritmo” del mercado. Precio <b>por encima de ambas</b> = tendencia sana; por debajo = vendedores al mando. Cuando la rápida (20) cruza sobre la lenta (50) suele anticipar subidas; al revés, caídas.<br><b>MACD (este panel):</b> mide si el impulso <b>acelera o se agota</b>. Barras verdes = impulso alcista, rojas = bajista; que crezcan = acelerando. “Cruce alcista” = la línea turquesa supera a la amarilla — los pumps de ETHFI suelen arrancar poco después de uno. Ideal para el patrón de este token: MACD agotándose tras un pump = fase de enfriamiento.<br><b>VWAP (línea azul):</b> es el precio promedio al que se ha negociado el token en lo que va del día, dándole más peso a las horas de mayor movimiento. Funciona como el “termómetro” de la jornada: si el precio va <b>por encima</b> de esta línea, los compradores llevan la ventaja y suele servir de piso; si va <b>por debajo</b>, mandan los vendedores y suele servir de techo. Es una de las referencias favoritas de los profesionales.<br><b>Canal de tendencia (rayas roja y verde):</b> la app traza la <b>dirección de mejor ajuste</b> de las velas recientes y dibuja dos rayas paralelas: el <b>techo</b> (raya roja, por arriba) y el <b>piso</b> (raya verde, por abajo). Como se calcula sobre las propias velas, <b>siempre apunta hacia donde van</b> (sube, baja o lateral, según la flecha). Cuando el precio se pega al techo o al piso, o rompe el canal, suele avisar el siguiente movimiento.<br><b>CVD (panel bajo el MACD):</b> suma la <b>compra agresiva menos la venta agresiva</b> vela a vela, combinando <b>spot + futuros</b> (en este token los futuros mueven más, así que pesan más) — el <b>dinero real</b> moviéndose, no las órdenes de adorno del libro. Lo potente son las <b>divergencias</b>: si el <b>precio</b> hace un máximo más alto pero el <b>CVD no</b> lo acompaña, la subida no tiene compradores reales → <b>giro a la baja probable</b> (y al revés: precio con mínimo más bajo pero CVD aguantando = acumulación oculta → giro al alza). Se adelanta al precio y el retail no suele mirarlo; la raya punteada marca la divergencia.<br><b>Pisos y techos (bandas verdes y rojas):</b> no todos aguantan igual. La app califica cada uno según <b>cuántas referencias coinciden</b> ahí (máximos/mínimos de días anteriores, zonas donde se negoció mucho volumen, números redondos), <b>cuántas veces el precio rebotó</b> en ese nivel en las últimas semanas (y cuántas lo atravesó) y si hay <b>órdenes reales esperando</b> en el libro. Banda <b>gruesa e intensa con raya</b> (▮▮▮) = piso/techo sólido: es donde el precio suele rebotar con más fuerza. Banda <b>tenue y fina</b> (▮) = frágil: el precio la puede atravesar con facilidad. Las bandas con <b>borde punteado</b> son <b>muros del libro</b>: precios donde ahora mismo hay muchas más órdenes de lo normal sumando los 13 exchanges, aunque no sean un nivel histórico. Cuanto más tiempo lleva el muro ahí, más se le cree; uno recién puesto puede ser de adorno y retirarse cuando el precio se acerca.<br><b>Sesiones (fondos de color, horario UTC):</b> ASIA 00–07 (volumen ligero) · LON 07–13 (entra Europa) · LON+NY 13–15 (solape — el momento de más volumen del día) · NY 15–21. Una ruptura de nivel durante Londres/NY pesa mucho más que una de madrugada.</div></details>
       <div class="legend">
         <div class="lg"><div class="sw" style="background:rgba(246,70,93,.5)"></div>techos (auto)</div>
-        <div class="lg"><div class="sw" style="background:rgba(46,189,133,.5)"></div>pisos (auto) · <b>más grueso e intenso = más sólido</b> (▮▮▮ sólido · ▮▮ medio · ▮ frágil)</div>
+        <div class="lg"><div class="sw" style="background:rgba(46,189,133,.5)"></div>pisos (auto) · <b>más grueso e intenso = más sólido</b> (▮▮▮ sólido · ▮▮ medio · ▮ frágil) · <b>borde punteado</b> = muro del libro</div>
         <div class="lg"><div class="sw" style="background:#eaecef"></div>tu entrada</div>
         <div class="lg"><div class="sw" style="background:var(--amber)"></div>precio / objetivo</div>
         <div class="lg"><span style="color:#4fd1c5">—</span> EMA20 &nbsp;<span style="color:#b982ff">—</span> EMA50 &nbsp;<span style="color:#8ab4f8">—</span> VWAP &nbsp;<span style="color:var(--red)">╌</span><span style="color:var(--green)">╌</span> tendencia &nbsp;<button id="tlineBtn" onclick="toggleTline()">tendencia: ON</button>&nbsp;<span style="color:rgba(234,236,239,.45)">▨</span> sesiones</div>
@@ -486,7 +486,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="29" data-commit="c7825aa" data-date="2026-10-13 07:35">versión 29 · publicada 2026-10-13 07:35</span></footer>
+  <span id="appVer" data-build="30" data-commit="6792f84" data-date="2026-10-13 08:22">versión 30 · publicada 2026-10-13 08:22</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -562,7 +562,7 @@ let S={price:0,chg:0,high:0,low:0,vol24:0,candles:[],books:{},exStatus:{},flow:1
        volAvg20:0,volToday:0,oi:0,oi0:0,funding:0,btc:0,btcChg:0,eth:0,ethChg:0,lastUpd:0,
        days:null,h4:null,atr:0,cycles:[],rsi1h:null,rsi4h:null,rsi1d:null,rsi1hSer:[],whales:[],whaleSeen:{},
        sent:{},sentT:0,fund:{},fundT:0,whaleSrc:{},whaleSrcT:0,newsItems:[]};
-let bnIdx=0;
+let bnIdx=0;const APP_T0=Date.now();
 
 /* perfil de usuario: 'holder' (con posición) o 'watcher' (solo análisis) — persistido en localStorage */
 let PROFILE=null,POS={tokens:null,avg:null};
@@ -786,16 +786,12 @@ async function loadSlow(){
   const tasks=[];
   tasks.push((async()=>{ // velas: el MOTOR siempre en 5m/96 (calibrado); el GRÁFICO según la temporalidad elegida
     try{
-      if(TF==='5m'){
-        const big=await klinesFor('5m', TF_LIMIT['5m']);   // gráfico 5m: ~1 día (288) para un panorama amplio
-        S.chartCandles=big;
-        S.candles = big.length>96 ? big.slice(-96) : big;   // el motor usa solo las últimas 96 (8h), como siempre
-      }else{
-        S.candles=await klinesFor('5m',96);
-        S.chartCandles=await klinesFor(TF, TF_LIMIT[TF]||96);
-      }
+      const big=await klinesFor('5m', TF_LIMIT['5m']);     // 5m ~1 día (288): VWAP del motor + gráfico 5m
+      S.c5=big;
+      S.candles = big.length>96 ? big.slice(-96) : big;     // el motor usa solo las últimas 96 (8h), como siempre
+      S.chartCandles = TF==='5m' ? big : await klinesFor(TF, TF_LIMIT[TF]||96);
     }catch(e){
-      try{ S.candles=await klinesFor('5m',96); if(TF==='5m') S.chartCandles=S.candles; }catch(e2){}
+      try{ S.candles=await klinesFor('5m',96); S.c5=S.candles; if(TF==='5m') S.chartCandles=S.candles; }catch(e2){}
     }
   })());
   tasks.push((async()=>{ // volumen diario vs media
@@ -1073,7 +1069,7 @@ let FAILS=0;
 async function loadAll(){
   try{await loadFast();}catch(e){}
   refreshFallback();
-  try{await loadBooks();}catch(e){}
+  try{await loadBooks();trackWalls();}catch(e){}
   if(S.price){
     FAILS=0;S.lastUpd=Date.now();render();
     try{localStorage.setItem('ethfi_snap',JSON.stringify({t:Date.now(),s:{price:S.price,chg:S.chg,high:S.high,low:S.low,vol24:S.vol24,btc:S.btc,btcChg:S.btcChg,eth:S.eth,ethChg:S.ethChg}}));}catch(e){}
@@ -1104,7 +1100,52 @@ function rsiCalc(cl,n=14){
 }
 function emaSeries(vals,n){const k=2/(n+1),out=[];let e=vals[0];for(let i=0;i<vals.length;i++){e=i?vals[i]*k+e*(1-k):vals[0];out.push(e);}return out;}
 function macdCalc(cl){if(!cl||cl.length<35)return null;const e12=emaSeries(cl,12),e26=emaSeries(cl,26);const m=cl.map((_,i)=>e12[i]-e26[i]);const sig=emaSeries(m,9);return{m,sig,hist:m.map((v,i)=>v-sig[i])};}
-function fmtAgo(m){return m<90?m+' min':(m/60).toFixed(1)+' h';}
+function fmtAgo(m){return m<1?'ahora':m<90?m+' min':(m/60).toFixed(1)+' h';}
+// ¿la última vela sigue abierta? Las señales (cruces, divergencias) se confirman solo con velas CERRADAS
+function closedBars(cs){
+  if(!cs||cs.length<2)return cs||[];
+  const step=cs[cs.length-1].t-cs[cs.length-2].t;
+  return Date.now()<cs[cs.length-1].t+step?cs.slice(0,-1):cs;
+}
+// VWAP anclado a la medianoche UTC; si el tramo del día es muy corto (<1h o <15% de la ventana), desde el inicio de la ventana
+function vwapSeries(cs){
+  const d0=new Date();d0.setUTCHours(0,0,0,0);
+  let a0=cs.findIndex(c=>c.t>=d0.getTime());
+  if(a0<0||cs.length-a0<Math.max(12,cs.length*0.15))a0=0;
+  let cpv=0,cvol=0;
+  return cs.map((c,i)=>{if(i<a0)return null;const tp=(c.h+c.l+c.c)/3;cpv+=tp*(c.v||0);cvol+=c.v||0;return cvol?cpv/cvol:c.c;});
+}
+/* Estado técnico del MOTOR (siempre velas 5m, sin importar el zoom del gráfico): EMAs, VWAP, MACD y divergencia CVD.
+   Así la lectura no cambia al cambiar la temporalidad del dibujo. */
+function engineTech(){
+  const cs=S.candles;if(!cs||cs.length<35)return;
+  const closes=cs.map(c=>c.c),li=closes.length-1;
+  const e20=emaSeries(closes,20),e50=emaSeries(closes,50);
+  let xc=-1;for(let j=li;j>0;j--){if((e20[j]>=e50[j])!==(e20[j-1]>=e50[j-1])){xc=j;break;}}
+  S.emaState={above20:closes[li]>e20[li],above50:closes[li]>e50[li],bull:e20[li]>e50[li],
+    cross:xc>0?{up:e20[xc]>e50[xc],mins:Math.round((Date.now()-cs[xc].t)/60000)}:null};
+  const vw=vwapSeries(S.c5&&S.c5.length?S.c5:cs);S.vwap=vw[vw.length-1];
+  S.macdState=macdState(cs);
+  const cb=closedBars(cs),cv=cvdSeries(cb),dv=cvdDivergence(cb,cv);
+  S.cvdDiv=dv?{bear:dv.bear&&{ta:cb[dv.bear.a].t,tb:cb[dv.bear.b].t},bull:dv.bull&&{ta:cb[dv.bull.a].t,tb:cb[dv.bull.b].t}}:null;
+}
+/* MACD con semántica de trader: accel = el histograma se aleja de cero (el impulso gana fuerza, sea alcista o bajista).
+   El cruce solo cuenta con la vela CERRADA; si la vela abierta está cruzando se marca como "pending" (aún puede deshacerse). */
+function macdState(cs){
+  const cb=closedBars(cs),md=macdCalc(cb.map(c=>c.c));if(!md)return null;
+  const h=md.hist,n=h.length-1;
+  let cross=-1;for(let j=n;j>0;j--){if((h[j]>=0)!==(h[j-1]>=0)){cross=j;break;}}
+  let prev=-1;if(cross>1)for(let j=cross-1;j>0;j--){if((h[j]>=0)!==(h[j-1]>=0)){prev=j;break;}}
+  const whip=cross>0&&prev>0&&cross-prev<6; // dos cruces en <6 velas: vaivén sin fuerza
+  const accel=(h[n]>=0)===(h[n-1]>=0)&&Math.abs(h[n])>Math.abs(h[n-1]);
+  // "se frena" de verdad: 2 velas seguidas acercándose a cero (una sola vela es ruido)
+  const fade=n>=2&&(h[n]>=0)===(h[n-2]>=0)&&Math.abs(h[n])<Math.abs(h[n-1])&&Math.abs(h[n-1])<Math.abs(h[n-2]);
+  let pending=null;
+  if(cb.length<cs.length){const ml=macdCalc(cs.map(c=>c.c));const hl=ml.hist[ml.hist.length-1];if((hl>=0)!==(h[n]>=0))pending={up:hl>=0};}
+  const step=cs.length>1?cs[cs.length-1].t-cs[cs.length-2].t:300000;
+  return{hist:h[n],accel,fade,growing:accel,pending,
+    cross:cross>0?{up:h[cross]>=0,whip,mins:Math.max(0,Math.round((Date.now()-(cb[cross].t+step))/60000))}:null};
+}
 function rsiSeries(cl,n=14){
   const out=[];if(!cl||cl.length<n+1)return out;
   let ag=0,al=0;
@@ -1219,12 +1260,13 @@ function nearAgg(lv,side,tol=0.0006){
 /* Solidez de un piso/techo (0-100): no todos los niveles aguantan igual.
    - estructura (40): cuántas fuentes coinciden (pivote diario/4h, nodo de volumen, redondo) → lv.sc
    - historial (30): veces que el precio llegó ahí y fue rechazado (velas 4h), restando las veces que lo atravesó
-   - liquidez (30): órdenes reales esperando en el nivel (bids en pisos, asks en techos) vs la densidad normal del libro
+   - liquidez (30): órdenes reales esperando en el nivel (bids en pisos, asks en techos) vs la densidad normal del libro,
+     descontada si el muro es recién puesto (puede ser spoofing). En un "muro del libro" (lv.book, sin estructura) pesa 70.
    Escala relativa al libro → funciona igual para cualquier token. */
 function levelStrength(lv,sup){
   if((lv.srcs||[]).includes('calculando…'))return{s:0,tier:0,why:[],lbl:''}; // nivel provisional: sin calificar
   const p=lv.p,why=[];
-  const st=Math.min(lv.sc||1,7)/7*40;
+  const book=!!lv.book,st=book?0:Math.min(lv.sc||1,7)/7*40;
   // historial de rebotes en 4h (fallback: diarias); se cuentan episodios, no velas seguidas
   const ks=(S.h4&&S.h4.length?S.h4:S.days)||[];
   let held=0,broke=0,prev=false;
@@ -1238,20 +1280,85 @@ function levelStrength(lv,sup){
   });
   const net=Math.max(0,held-broke*0.5);
   const th=Math.min(net,4)/4*30;
-  if(held)why.push((sup?'rebotó ':'frenó ')+held+'×'+(broke?' (lo cruzó '+broke+'×)':''));
+  if(held)why.push((sup?'rebotó ':'frenó ')+held+'×'+(broke?', lo cruzó '+broke+'×':''));
   // liquidez viva en el nivel (±0.25%) comparada con la densidad media del libro cerca del precio
   let lq=0,hasBook=Object.keys(S.books).length>0;
   if(hasBook&&S.price){
-    const wall=nearAgg(p,sup?'bids':'asks',p*0.0025);
+    let wall=nearAgg(p,sup?'bids':'asks',p*0.0025);
     const {sA,sB}=bookSums(),exp=(sA+sB)/6; // ±1.5% = 3% de ancho → por cada 0.5%
-    const ratio=exp>0?wall/exp:0;
-    lq=Math.min(ratio,2.5)/2.5*30;
-    if(ratio>=1.3)why.push('muro '+fmtK(wall)+' esperando');
+    // persistencia: un muro que lleva minutos ahí es liquidez real; uno recién aparecido puede retirarse
+    const w=wallNear(p,sup?'bids':'asks',p*0.0035),age=w?(Date.now()-w.first)/60000:0;
+    const ratio=Math.max(exp>0?wall/exp:0,w&&WALL_T-w.last<30000?w.r:0);
+    if(w&&w.r>=ratio)wall=w.q;
+    const pf=ratio<1.3?1:!w?0.7:age>=3?1:age>=1?0.75:0.5;
+    const cap=book?4:2.5;
+    lq=Math.min(ratio,cap)/cap*(book?70:30)*pf;
+    if(ratio>=1.3)why.push((sup?'compras ':'ventas ')+fmtK(wall)+' esperando'+(w?(age>=3?' · firme hace '+Math.round(age)+' min':' · recién puesto, puede retirarse'):''));
   }
   const s=Math.round(hasBook?st+th+lq:(st+th)/70*100);
   const tier=s>=62?3:s>=38?2:1;
   if((lv.srcs||[]).length>=2)why.push(lv.srcs.length+' referencias coinciden');
   return{s,tier,why,lbl:tier===3?'sólido':tier===2?'medio':'frágil'};
+}
+/* Muros del libro agregado (13 exchanges): precios donde se amontonan órdenes muy por encima de lo normal.
+   Se siguen tick a tick (cada 12s) para medir cuánto aguantan: los que aparecen y desaparecen pesan menos. */
+const WALLS=new Map(),WBOOK={};let WALL_BW=0,WALL_T=0;
+function trackWalls(){
+  const p=S.price;if(!p||!Object.keys(S.books).length)return;
+  const now=Date.now();
+  // último libro bueno por exchange (≤40s): si uno falla un ciclo no se mueve la escala ni "desaparecen" sus muros
+  Object.entries(S.books).forEach(([n,b])=>WBOOK[n]={b,t:now});
+  const books=Object.values(WBOOK).filter(x=>now-x.t<40000).map(x=>x.b);
+  if(!WALL_BW||Math.abs(p*0.0015/WALL_BW-1)>0.2){WALL_BW=p*0.0015;WALLS.clear();} // franjas de ~0.15%
+  const rng=p*0.025;let near=0;
+  books.forEach(b=>{b.bids.forEach(([pr,q])=>{if(pr>=p*0.985)near+=q;});b.asks.forEach(([pr,q])=>{if(pr<=p*1.015)near+=q;});});
+  const base=near/20; // cantidad media por franja en ±1.5%
+  if(!(base>0))return;
+  ['bids','asks'].forEach(side=>{
+    const bk=new Map();
+    books.forEach(b=>b[side].forEach(([pr,q])=>{
+      if(Math.abs(pr-p)>rng)return;
+      const k=Math.round(pr/WALL_BW),o=bk.get(k)||{q:0,pq:0};o.q+=q;o.pq+=pr*q;bk.set(k,o);
+    }));
+    // cada muro se mide sobre 3 franjas (~0.45%) para no partirlo cuando cae en el borde de una franja
+    const g=k=>bk.get(k)||{q:0,pq:0},w3=k=>{const a=g(k-1),b=g(k),c=g(k+1);return{q:a.q+b.q+c.q,pq:a.pq+b.pq+c.pq};};
+    const seen=new Set();
+    [...bk.keys()].sort((x,y)=>x-y).forEach(k=>{
+      const o=w3(k);
+      if(w3(k-1).q>o.q||w3(k+1).q>=o.q)return; // solo el pico de cada muro
+      const key=[k,k-1,k+1,k-2,k+2].map(x=>side+'|'+x).find(x=>WALLS.has(x)&&!seen.has(x));
+      if(o.q<base*(key?3.8:5))return;          // histéresis: cuesta entrar (5×) pero no sale por un bajón leve
+      const prev=key?WALLS.get(key):null;if(key)WALLS.delete(key);
+      seen.add(side+'|'+k);
+      WALLS.set(side+'|'+k,{p:o.pq/o.q,q:o.q,r:o.q/(base*3.33),side,first:prev?prev.first:now,last:now}); // r: veces lo normal por cada 0.5%
+    });
+  });
+  WALLS.forEach((w,k)=>{if(now-w.last>45000)WALLS.delete(k);});
+  // un muro que se desplazó puede quedar duplicado: fusiona los cercanos (≤0.3%) conservando el más antiguo
+  const ws=[...WALLS.entries()].sort((a,b)=>a[1].side.localeCompare(b[1].side)||a[1].p-b[1].p);
+  for(let i=1;i<ws.length;i++){
+    const [ka,a]=ws[i-1],[kb,b]=ws[i];
+    if(a.side!==b.side||Math.abs(b.p/a.p-1)>0.003||!WALLS.has(ka))continue;
+    const keep=a.last>=b.last?[ka,a,kb]:[kb,b,ka];
+    keep[1].first=Math.min(a.first,b.first);WALLS.delete(keep[2]);ws[i]=[keep[0],keep[1]];
+  }
+  WALL_T=now;
+}
+function wallNear(p,side,tol){
+  let best=null;WALLS.forEach(w=>{if(w.side===side&&Math.abs(w.p-p)<=tol&&(!best||w.q>best.q))best=w;});return best;
+}
+/* muros vivos que NO coinciden con un nivel calculado → se muestran como piso/techo propio "del libro" */
+function bookLevels(){
+  const p=S.price,out={res:[],sup:[]};if(!p)return out;
+  WALLS.forEach(w=>{
+    if(WALL_T-w.last>30000)return; // solo los vistos en los últimos ciclos
+    const sup=w.side==='bids';
+    if(sup?w.p>=p*0.999:w.p<=p*1.001)return;
+    if((sup?DYN.sup:DYN.res).some(l=>Math.abs(l.p/w.p-1)<0.004))return; // ya lo refuerza un nivel existente
+    (sup?out.sup:out.res).push({p:w.p,q:w.q,sc:0,srcs:['muro del libro'],book:true,n:'$'+fmt(w.p,4)+' · muro del libro'});
+  });
+  out.res=out.res.sort((a,b)=>b.q-a.q).slice(0,3);out.sup=out.sup.sort((a,b)=>b.q-a.q).slice(0,3);
+  return out;
 }
 function higherLows(){
   const cs=S.candles.slice(-24);if(cs.length<24)return false;
@@ -1324,7 +1431,7 @@ function forecast(){
   if(higherLows()){up+=4;dn-=2;why.push('mínimos ascendentes en las últimas 2h');}
   // Divergencia de CVD (flujo real que se adelanta al precio) — sobre las velas 5m del motor
   if(S.candles&&S.candles.length>=12){
-    const cvdF=cvdSeries(S.candles),dvF=cvdDivergence(S.candles,cvdF);
+    const dvF=S.cvdDiv;
     if(dvF&&dvF.bear){dn+=6;up-=3;why.push('divergencia bajista de CVD: el precio sube pero el flujo real no lo acompaña (giro a la baja)');}
     else if(dvF&&dvF.bull){up+=6;dn-=3;why.push('divergencia alcista de CVD: el precio cae pero el flujo real aguanta (acumulación oculta)');}
   }
@@ -1388,7 +1495,10 @@ function marketContext(){
   if(posInRng<=0.15)push(-8,'precio pegado al mínimo del día (vendedores al mando)');
   else if(posInRng>=0.85)push(8,'precio cerca del máximo del día (compradores al mando)');
   if(S.vwap){if(p>=S.vwap*1.002)push(6,'precio sobre el VWAP de sesión (compradores al mando)');else if(p<=S.vwap*0.998)push(-6,'precio bajo el VWAP de sesión (vendedores al mando)');}
-  if(S.macdState)push(S.macdState.hist>0?(S.macdState.growing?7:3):(S.macdState.growing?-3:-7),'MACD '+(S.macdState.hist>0?'alcista':'bajista')+(S.macdState.growing?' creciendo':' menguando'));
+  if(S.macdState){const M=S.macdState;
+    if(M.cross&&M.cross.mins<=20&&!M.cross.whip)push(M.cross.up?6:-6,'el impulso (MACD) acaba de girar '+(M.cross.up?'al alza':'a la baja')+' ('+fmtAgo(M.cross.mins)+')');
+    else if(M.hist>0)push(M.fade?3:7,'impulso alcista (MACD) '+(M.fade?'perdiendo fuerza':'firme'));
+    else push(M.fade?-3:-7,'impulso bajista (MACD) '+(M.fade?'perdiendo fuerza':'firme'));}
   if(S.rsi1d!=null){
     if(S.rsi1d<30)push(5,'RSI diario en sobreventa ('+S.rsi1d.toFixed(0)+')');
     else if(S.rsi1d>72)push(-6,'RSI diario en sobrecompra ('+S.rsi1d.toFixed(0)+')');
@@ -1396,7 +1506,7 @@ function marketContext(){
     else if(S.rsi1d<45)push(-4,'RSI diario débil ('+S.rsi1d.toFixed(0)+')');
   }
   if(S.rsi1h!=null){if(S.rsi1h<28)push(4,'RSI 1h en sobreventa extrema (rebote técnico probable)');else if(S.rsi1h>72)push(-4,'RSI 1h caliente ('+S.rsi1h.toFixed(0)+')');}
-  if(S.flow!=null){if(S.flow>=1.15)push(8,'compras agresivas dominando ahora ('+S.flow.toFixed(2)+'× vs ventas)');else if(S.flow<=0.85)push(-8,'ventas agresivas dominando ahora ('+S.flow.toFixed(2)+'× vs ventas)');}
+  if(S.flow!=null){if(S.flow>=1.15)push(8,'compras agresivas dominando ahora ('+S.flow.toFixed(2)+'× las ventas)');else if(S.flow<=0.85)push(-8,'ventas agresivas dominando ahora (por cada 1 vendido a mercado se compra '+S.flow.toFixed(2)+')');}
   // Presión del libro cerca del precio (±1.5%): las órdenes que de verdad marcan la pauta. Se pesa moderado porque en tendencia se comen/retiran
   {const{sA,sB}=bookSums();const bimb=(sA+sB)>0?(sB-sA)/(sB+sA):0;
    if(bimb>=0.06)push(Math.min(8,bimb*22),'más órdenes de compra que de venta pegadas al precio (+'+Math.round(bimb*100)+'% en el libro)');
@@ -1410,34 +1520,57 @@ function marketContext(){
   // CVD (flujo de órdenes real spot+fut): confirma o desmiente el movimiento del precio. Una divergencia es de las señales más predictivas que existen
   let cvdNote=null;
   if(S.candles&&S.candles.length>=12){
-    const cvdE=cvdSeries(S.candles),dvE=cvdDivergence(S.candles,cvdE);
+    const cvdE=cvdSeries(S.candles),dvE=S.cvdDiv;
     const cUp=cvdE[cvdE.length-1]>=cvdE[Math.max(0,cvdE.length-6)];
     if(dvE&&dvE.bull){push(9,'el flujo real (CVD spot+fut) acumula pese a la caída — divergencia alcista');cvdNote={dir:'bull',txt:'El precio sigue marcando mínimos más bajos, pero por debajo <b>se está comprando más de lo que se vende</b>. Eso suele avisar que a la caída le queda poca fuerza.'};}
     else if(dvE&&dvE.bear){push(-9,'el flujo real (CVD spot+fut) vende mientras el precio sube — divergencia bajista');cvdNote={dir:'bear',txt:'El precio sube, pero por debajo <b>se está vendiendo más de lo que se compra</b>. La subida no tiene respaldo y puede no aguantar.'};}
     else if(cUp&&S.chg!=null&&S.chg<-1){push(5,'pese a la caída, entra más compra real que venta (CVD sostenido)');cvdNote={dir:'bull',txt:'El precio baja, pero ahora mismo <b>se compra más de lo que se vende</b>. La caída podría estar perdiendo fuerza.'};}
     else if(!cUp&&S.chg!=null&&S.chg>1){push(-5,'pese a la subida, el flujo real presiona a la baja (CVD débil)');cvdNote={dir:'bear',txt:'El precio sube, pero ahora mismo <b>se vende más de lo que se compra</b>. La subida se ve floja.'};}
   }
+  // Tendencia de fondo (4h + diario): la escala grande manda la dirección; el resto del sesgo es el "ahora" (intradía)
+  const htf=htfTrend();
+  if(htf.dir>0)push(6,'la tendencia de fondo (4h/diario) sigue alcista');
+  else if(htf.dir<0)push(-6,'la tendencia de fondo (4h/diario) es bajista');
   bias=Math.max(-100,Math.min(100,Math.round(bias)));
-  let regime;
-  if(bias<=-35)regime='TENDENCIA BAJISTA';
-  else if(bias<=-15)regime='CORRECCIÓN / DÉBIL';
-  else if(bias>=35)regime='TENDENCIA ALCISTA';
-  else if(bias>=15)regime='ALCISTA MODERADO';
-  else regime='RANGO / INDECISIÓN';
+  return ctxFinalize({bias,sw,posInRng,wb,cvdNote,htf,pros:pros.slice(0,4),cons:cons.slice(0,4)});
+}
+// Régimen con nombre de trader: una caída intradía con el fondo alcista es una CORRECCIÓN, no una "tendencia bajista"
+function regimeOf(b,h){
+  if(b<=-35)return h>0?'CORRECCIÓN FUERTE · fondo alcista':'TENDENCIA BAJISTA';
+  if(b<=-15)return h>0?'CORRECCIÓN · fondo alcista':h<0?'DEBILIDAD · fondo bajista':'CORRECCIÓN / DÉBIL';
+  if(b>=35)return h<0?'REBOTE FUERTE · fondo bajista':'TENDENCIA ALCISTA';
+  if(b>=15)return h<0?'REBOTE · fondo bajista':'ALCISTA MODERADO';
+  return 'RANGO / INDECISIÓN';
+}
+function ctxFinalize(c){
+  const bias=c.bias,posInRng=c.posInRng,h=c.htf?c.htf.dir:0,sw=c.sw,wb=c.wb;
+  c.regime=regimeOf(bias,h);
   const dumping=S.chg!=null&&S.chg<=-4&&posInRng<0.28;
   let phase=null;
   if(dumping&&S.flow!=null&&S.flow<=0.9)phase='caída con presión vendedora (aún sin clímax)';
   else if(dumping)phase='caída en curso';
   else if(posInRng>0.45&&S.chg!=null&&S.chg<=-3&&S.flow>=1.05)phase='rebote desde mínimos (sin confirmar)';
   else if(bias>=25&&sw&&sw.dir>0)phase='impulso alcista';
-  const fallingKnife=(bias<=-25)&&dumping;
-  const turn=turnSignals(posInRng);
+  c.phase=phase;
+  c.fallingKnife=(bias<=-25)&&dumping;
+  c.turn=turnSignals(posInRng);
   const sellP=wb&&wb.spotTot>=30000&&wb.ss>wb.sb*1.5;
   let stance='neutral';
-  if(fallingKnife||bias<=-25)stance=turn.n>=2?'turn':'bearish';
+  if(c.fallingKnife||bias<=-25)stance=c.turn.n>=2?'turn':'bearish';
   else if(bias>=25&&!sellP)stance='buy';
-  else if(turn.n>=2&&!sellP)stance='buy';
-  return{bias,regime,phase,sw,posInRng,fallingKnife,stance,wb,turn,cvdNote,pros:pros.slice(0,4),cons:cons.slice(0,4)};
+  else if(c.turn.n>=2&&!sellP)stance='buy';
+  c.stance=stance;
+  return c;
+}
+/* Una sola lectura por tick, suavizada: el sesgo crudo salta con cada dato (flujo, libro…) y haría parpadear el régimen.
+   Media exponencial (40% el dato nuevo); si pasan >2 min sin ticks se reinicia. Todas las capas leen este mismo CTX. */
+let CTX=null,BIAS_SM=null,BIAS_T=0;
+function ctxTick(){
+  const c=marketContext();if(!c){CTX=null;return null;}
+  const now=Date.now();
+  BIAS_SM=(BIAS_SM==null||now-BIAS_T>120000)?c.bias:BIAS_SM+(c.bias-BIAS_SM)*0.4;
+  BIAS_T=now;c.raw=c.bias;c.bias=Math.round(BIAS_SM);
+  CTX=ctxFinalize(c);return CTX;
 }
 // Detecta señales ACTIVAS de agotamiento/giro alcista (el cuchillo pierde fuerza)
 function turnSignals(posInRng){
@@ -1450,12 +1583,12 @@ function turnSignals(posInRng){
   }
   if(S.emaState&&S.emaState.cross&&S.emaState.cross.up&&S.emaState.cross.mins<75)cues.push('los promedios acaban de cruzarse al alza ('+fmtAgo(S.emaState.cross.mins)+')');
   else if(S.emaState&&S.emaState.above20&&!S.emaState.bull)cues.push('el precio recuperó su promedio rápido');
-  if(S.macdState&&S.macdState.growing&&S.macdState.cross&&S.macdState.cross.up)cues.push('el impulso (MACD) cruzó al alza');
-  else if(S.macdState&&S.macdState.hist<0&&S.macdState.growing)cues.push('el impulso vendedor se está frenando');
+  if(S.macdState&&S.macdState.cross&&S.macdState.cross.up&&!S.macdState.cross.whip&&S.macdState.cross.mins<=45)cues.push('el impulso (MACD) cruzó al alza ('+fmtAgo(S.macdState.cross.mins)+')');
+  else if(S.macdState&&S.macdState.hist<0&&S.macdState.fade&&(!S.macdState.cross||S.macdState.cross.mins>=20))cues.push('el impulso vendedor se está frenando (MACD)');
   if(S.flow!=null&&S.flow>=1.1&&posInRng>0.3)cues.push('las compras agresivas empiezan a dominar ('+S.flow.toFixed(2)+'×)');
   if(higherLows())cues.push('el precio empieza a hacer pisos más altos');
   if(S.candles&&S.candles.length>=12){
-    const cvdT=cvdSeries(S.candles),dvT=cvdDivergence(S.candles,cvdT);
+    const cvdT=cvdSeries(S.candles),dvT=S.cvdDiv;
     const cUpT=cvdT[cvdT.length-1]>=cvdT[Math.max(0,cvdT.length-8)];
     if(dvT&&dvT.bull)cues.push('divergencia alcista de CVD (el flujo real acumula la caída)');
     else if(cUpT&&posInRng<0.5)cues.push('el flujo real (CVD spot+fut) compra pese a la caída');
@@ -1474,8 +1607,10 @@ function techSummary(){
       +(S.emaState.cross?' · EMA20 cruzó '+(S.emaState.cross.up?'SOBRE':'BAJO')+' EMA50 hace '+fmtAgo(S.emaState.cross.mins):''));
   }
   if(S.macdState){
-    bits.push('<b>MACD</b>: '+(S.macdState.hist>0?'impulso alcista':'impulso bajista')+(S.macdState.growing?' y creciendo':' y menguando')
-      +(S.macdState.cross?' · último cruce '+(S.macdState.cross.up?'ALCISTA':'BAJISTA')+' hace '+fmtAgo(S.macdState.cross.mins):''));
+    const M=S.macdState;
+    bits.push('<b>MACD 5m</b>: '+(M.cross&&M.cross.mins<=20&&!M.cross.whip?'impulso recién girado '+(M.cross.up?'al alza':'a la baja'):(M.hist>0?'impulso alcista':'impulso bajista')+(M.accel?' ganando fuerza':M.fade?' perdiendo fuerza':' estable'))
+      +(M.cross?' · último cruce confirmado '+(M.cross.up?'ALCISTA':'BAJISTA')+' hace '+fmtAgo(M.cross.mins)+(M.cross.whip?' (vaivén: cruzó de ida y vuelta, sin fuerza)':''):'')
+      +(M.pending?' · <i>posible cruce '+(M.pending.up?'alcista':'bajista')+' en la vela abierta (sin confirmar)</i>':''));
   }
   if(S.curSess&&S.curSess!=='FUERA'){
     const m={ASIA:'Asia (volumen ligero)',LON:'Londres (entra volumen)','LON+NY':'Londres+Nueva York (el pico de volumen del día)',NY:'Nueva York (volumen alto)'};
@@ -1486,7 +1621,7 @@ function techSummary(){
 function decision(){
   const p=S.price,m=momentum();
   const r0=DYN.res[0],r1=DYN.res[1],r2=DYN.res[2],s0=DYN.sup[0],s1=DYN.sup[1];
-  const ctx=marketContext();
+  const ctx=CTX||marketContext();
   const acts=[];
   const add=(c,txt)=>acts.push({c,txt});
   const ctxColor=b=>b<=-15?'var(--red)':b>=15?'var(--green)':'var(--amber)';
@@ -1495,8 +1630,11 @@ function decision(){
     :b>=35?'El mercado empuja con fuerza hacia <b>arriba</b>: mandan los compradores.'
     :b>=15?'Los <b>compradores</b> llevan una ligera ventaja.'
     :'Ni compradores ni vendedores mandan: el precio está <b>indeciso</b>, moviéndose de lado.';
+  const htfDir=ctx&&ctx.htf?ctx.htf.dir:0;
+  const htfPlain=b=>htfDir>0&&b<=-15?' Ojo: la <b>tendencia de fondo</b> (4h/diario) sigue alcista, así que por ahora es una <b>corrección</b>, no un cambio de rumbo.'
+    :htfDir<0&&b>=15?' Ojo: la <b>tendencia de fondo</b> (4h/diario) sigue bajista, así que por ahora es un <b>rebote</b>, no un cambio de rumbo.':'';
   const biasGauge=b=>{const pos=Math.max(2,Math.min(98,Math.round((b+100)/2)));const col=ctxColor(b);
-    return `<div class="biasgauge"><div class="bg-track"><span class="bg-val" style="left:${pos}%;color:${col}">${b>0?'+':''}${b}</span><span class="bg-mark" style="left:${pos}%"></span></div><div class="bg-labels"><span>−100 · venta ↓</span><span>0 · de lado</span><span>↑ compra · +100</span></div><div class="bg-say"><b>¿Qué es el sesgo?</b> Un termómetro de cómo se inclina el mercado <b>ahora</b>. ${biasPlain(b)}</div></div>`;};
+    return `<div class="biasgauge"><div class="bg-track"><span class="bg-val" style="left:${pos}%;color:${col}">${b>0?'+':''}${b}</span><span class="bg-mark" style="left:${pos}%"></span></div><div class="bg-labels"><span>−100 · venta ↓</span><span>0 · de lado</span><span>↑ compra · +100</span></div><div class="bg-say"><b>¿Qué es el sesgo?</b> Un termómetro de cómo se inclina el mercado <b>ahora</b>. ${biasPlain(b)}${htfPlain(b)}</div></div>`;};
   const ctxLine=()=>{if(!ctx)return;const rs=(ctx.bias<0?ctx.cons:ctx.pros).slice(0,3);add(ctxColor(ctx.bias),`<b>Lectura: ${ctx.regime}</b> · sesgo ${ctx.bias>0?'+':''}${ctx.bias}/100${ctx.phase?' · '+ctx.phase:''}${rs.length?' — '+rs.join('; '):''}${biasGauge(ctx.bias)}`);
     // Precio y flujo real (CVD) apuntan a lados distintos: explícalo en vez de dejar dos lecturas sueltas
     if(ctx.cvdNote){const conflict=(ctx.cvdNote.dir==='bull'&&ctx.bias<0)||(ctx.cvdNote.dir==='bear'&&ctx.bias>0);
@@ -1507,17 +1645,20 @@ function decision(){
   };
   let bt,bs,bcls;
   if(r0&&p>=r0.p*1.003){bt='ROMPIENDO $'+fmt(r0.p,3);bs=r1?'siguiente nivel: $'+fmt(r1.p,3):'camino abierto';bcls='b-green';}
-  else if(r0&&p>=r0.p*0.995){bt='ATACANDO $'+fmt(r0.p,3);bs=m>=60?'ruptura fuerte en curso — exige que cierre arriba':'la toca pero con momentum débil — exige volumen';bcls=m>=60?'b-green':'b-amber';}
+  else if(r0&&p>=r0.p*0.995){bt='ATACANDO $'+fmt(r0.p,3);
+    if(ctx&&ctx.bias<=-15){bs='la toca, pero el mercado está débil (sesgo '+ctx.bias+'): lo normal es que la rechace — exige cierre de 1h arriba con volumen';bcls='b-amber';}
+    else{bs=m>=60?'ruptura fuerte en curso — exige que cierre arriba':'la toca pero con momentum débil — exige volumen';bcls=m>=60?'b-green':'b-amber';}}
   else if(s0&&p>=s0.p*0.998){bt='EN RANGO · entre soporte $'+(s0?fmt(s0.p,3):'—')+' y tapa $'+(r0?fmt(r0.p,3):'—');bs='compresión: el lado que ceda primero marca la salida';bcls='b-amber';}
   else if(s1&&p>=s1.p*0.998){bt='ALERTA · soporte $'+(s0?fmt(s0.p,3):'—')+' perdido';bs='defensa activa: vigilar $'+fmt(s1.p,3);bcls='b-red';}
   else{bt='DEFENSA · estructura dañada';bs='los soportes dinámicos cedieron — protege capital';bcls='b-red';}
-  // El régimen bajista tiene prioridad: no llamar "EN RANGO" a una caída con momentum vendedor
-  if(ctx&&(ctx.fallingKnife||ctx.bias<=-35)&&!(r0&&p>=r0.p*0.995)){
-    bt='CAÍDA · '+ctx.regime;bs='momentum vendedor (sesgo '+ctx.bias+') — no compres soportes hasta ver agotamiento';bcls='b-red';
+  // El régimen manda sobre la foto de niveles: no llamar "EN RANGO" a una caída, ni "CAÍDA" a una corrección con el fondo alcista
+  if(ctx&&!(r0&&p>=r0.p*0.995)){
+    if(ctx.fallingKnife||(ctx.bias<=-35&&htfDir<=0)){bt='CAÍDA · '+ctx.regime;bs='momentum vendedor (sesgo '+ctx.bias+') — no compres soportes hasta ver agotamiento';bcls='b-red';}
+    else if(ctx.bias<=-25&&htfDir>0){bt='CORRECCIÓN · fondo alcista';bs='presión vendedora de corto plazo (sesgo '+ctx.bias+') — la compra está en un piso sólido, no en mitad del tramo';bcls='b-amber';}
   }
   document.getElementById('banner').className='banner '+bcls;
   document.getElementById('bTitle').textContent=bt;
-  const nextR=DYN.res.find(r=>r.p>p*1.001);
+  const nextR=DYN.res.find(r=>r.p>Math.max(p,/^(ATACANDO|ROMPIENDO)/.test(bt)&&r0?r0.p:0)*1.001);
   document.getElementById('bSub').textContent=bs+(nextR?' · próxima resistencia $'+fmt(nextR.p,3)+': +'+(( nextR.p/p-1)*100).toFixed(1)+'%':'');
 
   // Muros reales del libro en niveles clave — usados en sugerencias, no solo display
@@ -1536,46 +1677,75 @@ function decision(){
     const mktRisk=bcls==='b-red';
     add('var(--muted)','<b>Modo análisis</b> — sin posición registrada. Lectura del mercado como la haría un trader con años de oficio:');
     ctxLine();
-    const aboveR=DYN.res.find(r=>r.p>p*1.001);
-    const aboveR2=DYN.res.find(r=>r.p>p*1.001&&r!==aboveR);
-    const belowS=DYN.sup.find(r=>r.p<p*0.999);
-    const belowS2=DYN.sup.find(r=>r.p<p*0.999&&r!==belowS);
-    const belowS3=DYN.sup.find(r=>r.p<p*0.999&&r!==belowS&&r!==belowS2);
-    const bidMuroAtS=belowS?nearAgg(belowS.p,'bids',0.001):0;
+    // Niveles con su FUERZA real (estructura + rebotes + liquidez): el rebote probable está en el piso sólido, no en el más cercano
+    const BLv=bookLevels(),lvS=(l,sup)=>({l,p:l.p,st:levelStrength(l,sup)});
+    const supsBelow=[...DYN.sup,...BLv.sup].filter(l=>l.p<p*0.997).sort((a,b)=>b.p-a.p).map(l=>lvS(l,true));
+    const resAbove=[...DYN.res,...BLv.res].filter(l=>l.p>p*1.003).sort((a,b)=>a.p-b.p).map(l=>lvS(l,false));
+    const pick=arr=>arr.slice(0,4).find(x=>x.st.tier===3)||arr.slice(0,4).find(x=>x.st.tier===2)||arr[0];
+    const keySup=pick(supsBelow),keyRes=pick(resAbove);
+    const testing=DYN.sup.find(l=>Math.abs(l.p/p-1)<=0.003)||DYN.res.find(l=>Math.abs(l.p/p-1)<=0.003);
+    const lvTag=(x,sup)=>`<b>$${fmt(x.p,3)}</b> (${sup?'piso':'techo'} ${x.st.lbl}${x.st.why.length?': '+x.st.why[0]:''})`;
+    const fragile=keySup?supsBelow.filter(x=>x.p>keySup.p&&x.st.tier===1):[];
+    const fragTxt=fragile.length?` Los pisos intermedios (${fragile.map(x=>'$'+fmt(x.p,3)).join(', ')}) son <b>frágiles</b>: lo normal es que el precio los atraviese.`:'';
+    // nivel a RECUPERAR para invalidar la lectura bajista: el VWAP o la primera resistencia, siempre POR ENCIMA del precio
+    const recP=Math.min(S.vwap&&S.vwap>p*1.001?S.vwap:Infinity,resAbove[0]?resAbove[0].p:Infinity);
+    const recTxt=isFinite(recP)?'<b>$'+fmt(recP,3)+'</b>'+(S.vwap&&Math.abs(recP/S.vwap-1)<0.0005?' (el VWAP del día)':''):'la resistencia más cercana';
+    // stop: cierre de 1h por debajo del piso con margen ∝ volatilidad (¼ del ATR diario, entre 0.5% y 1.5%) para que una mecha no te saque
+    const buf=Math.max(0.005,Math.min(0.015,S.atr&&p?S.atr/p*0.25:0.008)),stopUnder=x=>x.p*(1-buf);
+    const rr=(e,st,t)=>t&&e>st?(t-e)/(e-st):null;
+    /* Plan de entrada como lo armaría un trader: stop bajo el piso real más cercano a la entrada, objetivo en el primer techo
+       con fuerza al menos 1% por encima (un techo pegado no es objetivo, es la barrera a romper) y R:R mínimo 1.5:1. */
+    const plan=(eP,floor)=>{
+      // comprando EN un piso, el stop va justo debajo de ESE piso; comprando a mercado, bajo el piso real más cercano
+      const below=supsBelow.filter(x=>x.p<eP*0.997),stopLv=floor||below.find(x=>x.st.tier>=2&&x.p>=eP*0.97)||below[0];
+      const stP=stopLv?stopUnder(stopLv):eP*0.97;
+      const ups=resAbove.filter(x=>x.p>=eP*1.01),tgt=ups.slice(0,3).find(x=>x.st.tier>=2)||ups[0];
+      const wall=resAbove.find(x=>x.p<eP*1.01);
+      return{eP,stP,stopLv,tgt,wall,floor,r:rr(eP,stP,tgt&&tgt.p)};
+    };
+    const planTxt=(pl,lead)=>{
+      const base=`${lead} <b>$${fmt(pl.eP,3)}</b>, stop si 1h cierra bajo <b>$${fmt(pl.stP,3)}</b>${pl.tgt?` · objetivo ${lvTag(pl.tgt,false)}`:''}`;
+      if(pl.r!=null&&pl.r>=1.5)return base+` · R:R ≈ ${pl.r.toFixed(1)}:1`+(pl.wall?`. Antes tiene que pasar <b>$${fmt(pl.wall.p,3)}</b> (techo ${pl.wall.st.lbl}).`:'.');
+      if(pl.floor)return `${base}. <b>Ojo: el recorrido hasta el objetivo es corto</b> (R:R ${pl.r!=null?pl.r.toFixed(1):'—'}:1): si llega ahí, entra con poco tamaño o espera a que rompa el techo.`;
+      const alt=keySup&&keySup.p<pl.eP*0.99?`un retroceso a ${lvTag(keySup,true)}`:'un retroceso a un piso';
+      return `${lead.replace(/ en$/,'')}, pero <b>a este precio no compensa</b>: arriesgas ${((1-pl.stP/pl.eP)*100).toFixed(1)}% para ganar ${pl.tgt?((pl.tgt.p/pl.eP-1)*100).toFixed(1)+'%':'poco'}${pl.r!=null?' (R:R '+pl.r.toFixed(1)+':1)':''}. Mejor espera ${alt}${pl.wall||resAbove[0]?` o un cierre de 1h sobre <b>$${fmt((pl.wall||resAbove[0]).p,3)}</b> que abra camino`:''}.`;
+    };
     const bearish=ctx&&(ctx.fallingKnife||ctx.bias<=-25);
     const healthy=ctx&&ctx.bias>=25&&!wSellPressure;
-    if(bearish){
-      const turnN=ctx.turn?ctx.turn.n:0;
-      if(turnN>=2){
-        const ent=s0||belowS,stop=belowS2||s1;
-        add('var(--green)',`<b>⚡ Agotamiento a la vista</b> — el cuchillo pierde fuerza: ${ctx.turn.cues.join('; ')}. Primera compra ESCALONADA (25–33% del plan) en <b>$${ent?fmt(ent.p,3):fmt(p,3)}</b>, stop si 1h cierra bajo <b>$${stop?fmt(stop.p,3):fmt((ent?ent.p:p)*0.97,3)}</b>. Confirma con cierre de vela de 1h antes de añadir el resto.`);
-      } else {
-        const tg=[belowS,belowS2,belowS3].filter(Boolean).map(s=>'$'+fmt(s.p,3)).join(' → ');
-        const rec=s0||belowS;
-        add('var(--red)',`<b>No atrapes el cuchillo.</b> Tendencia bajista con momentum vendedor: los muros de bids se comen en caídas, no son piso. El precio busca ${tg||'soportes inferiores'}. Antes de pensar en largos exige señal de agotamiento: vela de 1h que CIERRE recuperando <b>$${rec?fmt(rec.p,3):'—'}</b>, RSI 1h girando desde sobreventa, o clímax de volumen con mecha inferior.${turnN===1?' <b>(1 señal ya presente: '+ctx.turn.cues[0]+' — falta confirmar)</b>':''}`);
-        if(belowS)add('var(--muted)',`$${fmt(belowS.p,3)} (muro bids ~${fmtK(bidMuroAtS)}) es zona de VIGILANCIA, no de compra automática: solo entra si el precio LLEGA ahí y REACCIONA (vela de rechazo + flujo comprador). Si lo pierde con volumen, siguiente ${belowS2?'$'+fmt(belowS2.p,3):'soporte inferior'}.`);
-      }
+    const turnN=ctx&&ctx.turn?ctx.turn.n:0;
+    const oneCue=turnN===1?` <b>(1 señal de giro presente: ${ctx.turn.cues[0]} — falta confirmar)</b>`:'';
+    if(testing)add('var(--amber)',`El precio está <b>probando $${fmt(testing.p,3)}</b> ahora mismo: mira cómo cierra la vela de 1h — si cierra por encima, el nivel aguantó; si cierra por debajo, se perdió.`);
+    if(bearish&&turnN>=2){
+      const ent=keySup&&p/keySup.p<1.015?keySup:null,pl=plan(ent?ent.p:p,ent);
+      add('var(--green)',`<b>⚡ Agotamiento a la vista</b> — la caída pierde fuerza: ${ctx.turn.cues.join('; ')}. ${planTxt(pl,'Primera compra ESCALONADA (25–33% del plan) en')} Confirma con un cierre de 1h sobre ${recTxt} antes de añadir el resto.`);
+    } else if(bearish&&ctx.fallingKnife){
+      add('var(--red)',`<b>No atrapes el cuchillo.</b> Caída fuerte en curso (${S.chg.toFixed(1)}% en 24h, precio en la parte baja del día) con los vendedores al mando.${keySup?' El primer piso con fuerza real está en '+lvTag(keySup,true)+'.':''}${fragTxt} Antes de pensar en comprar exige agotamiento: que una vela de 1h cierre recuperando ${recTxt}, RSI 1h girando desde sobreventa, o un clímax de volumen con mecha larga abajo.${oneCue}`);
+    } else if(bearish&&htfDir>0){
+      add('var(--amber)',`<b>Corrección dentro de un fondo alcista.</b> A corto plazo mandan los vendedores, pero la tendencia de 4h/diario sigue arriba: suele ser un respiro, no un cambio de rumbo. <b>No compres en mitad del tramo.</b>${keySup?` La zona con más probabilidades de rebote es ${lvTag(keySup,true)}: si llega y reacciona (vela de rechazo + compras dominando), es la entrada a favor del fondo, con stop si 1h cierra bajo <b>$${fmt(stopUnder(keySup),3)}</b>${(p2=>p2.tgt?' · primer objetivo '+lvTag(p2.tgt,false)+(p2.r!=null?' (R:R ≈ '+p2.r.toFixed(1)+':1)':''):'')(plan(keySup.p,keySup))}.`:''}${fragTxt} Para que el corto plazo vuelva a ser comprador tiene que recuperar ${recTxt} con cierre de 1h.${oneCue}`);
+    } else if(bearish){
+      add('var(--red)',`<b>Presión vendedora${htfDir<0?' con el fondo también bajista':''}.</b> Lo más probable es que el precio siga buscando ${keySup?lvTag(keySup,true):'soportes más bajos'}.${fragTxt} ${htfDir<0?'Con el fondo bajista los pisos tienden a ceder, así que ni siquiera ahí es compra automática: ':''}No es momento de comprar; espera que una vela de 1h cierre recuperando ${recTxt}, o una reacción clara (vela de rechazo + compras dominando) en el piso.${oneCue}`);
     } else if(mktRisk){
       const ref=s0||s1;
       add('var(--red)',`Estructura dañada (${bt.split('·')[0].trim()}) — espera que el precio recupere <b>$${ref?fmt(ref.p,3):'—'}</b> y CIERRE una vela de 1h arriba antes de considerar cualquier entrada`);
-    } else if(healthy&&belowS){
-      const stop=belowS2?belowS2.p:belowS.p*0.97,rw=aboveR?((aboveR.p-belowS.p)/(belowS.p-stop)):null;
-      add('var(--green)',`Compra en retroceso: tendencia a favor, busca entrada hacia <b>$${fmt(belowS.p,3)}</b> (muro bids ~${fmtK(bidMuroAtS)}${wBuyPressure?' · ballenas acumulando':''}) por tramos; stop si 1h cierra bajo <b>$${fmt(stop,3)}</b>${rw&&rw>=1.5?` · R:R ≈ ${rw.toFixed(1)}:1 hacia $${fmt(aboveR.p,3)}`:''}`);
+    } else if(healthy&&keySup){
+      const pl=plan(keySup.p,keySup);
+      add('var(--green)',`<b>Compra en retroceso</b>: la tendencia acompaña. Mejor zona: ${lvTag(keySup,true)}${wBuyPressure?' · ballenas acumulando':''}. ${planTxt(pl,'Entrada por tramos en')}${fragTxt}`);
     } else if(ctx&&ctx.turn&&ctx.turn.n>=2&&!wSellPressure){
-      const ent=s0||belowS,stop=belowS2||belowS,tgt=r0||aboveR;
-      add('var(--green)',`<b>Giro alcista tomando forma</b>: ${ctx.turn.cues.join('; ')}. Zona de compra escalonada en <b>$${ent?fmt(ent.p,3):fmt(p,3)}</b>, stop bajo <b>$${stop?fmt(stop.p,3):fmt(p*0.97,3)}</b>${tgt?` · objetivo $${fmt(tgt.p,3)}`:''}. Aún exige cierre de 1h para confirmar la fuerza.`);
-    } else if(belowS&&bidMuroAtS>=30000&&!wSellPressure){
-      add('var(--amber)',`Rango/indecisión: soporte <b>$${fmt(belowS.p,3)}</b> con muro bids (~${fmtK(bidMuroAtS)}) — solo es compra si el precio LLEGA y rebota con vela de rechazo; no anticipes. Invalida si 1h cierra bajo <b>$${belowS2?fmt(belowS2.p,3):fmt(belowS.p*0.97,3)}</b>`);
-    } else if(belowS&&wSellPressure){
-      add('var(--amber)',`Soporte <b>$${fmt(belowS.p,3)}</b> (muro bids ~${fmtK(bidMuroAtS)}) pero ballenas spot distribuyendo (${fmtK(wb.ss)}↓ vs ${fmtK(wb.sb)}↑ 1h) — no entres hasta que dejen de vender`);
-    } else if(belowS){
-      add('var(--muted)',`Soporte <b>$${fmt(belowS.p,3)}</b> sin muro sólido (${fmtK(bidMuroAtS)}) — existe en el chart pero el libro no lo defiende aún; espera profundidad`);
+      const ent=keySup&&p/keySup.p<1.015?keySup:null,pl=plan(ent?ent.p:p,ent);
+      add(pl.r!=null&&pl.r>=1.5?'var(--green)':'var(--amber)',`<b>Giro alcista tomando forma</b>: ${ctx.turn.cues.join('; ')}. ${planTxt(pl,'Compra escalonada en')} Aún exige cierre de 1h para confirmar la fuerza.`);
+    } else if(keySup&&wSellPressure){
+      add('var(--amber)',`Piso ${lvTag(keySup,true)}, pero las ballenas spot están distribuyendo (${fmtK(wb.ss)}↓ vs ${fmtK(wb.sb)}↑) — no entres hasta que dejen de vender.`);
+    } else if(keySup){
+      const pl=plan(keySup.p,keySup);
+      add('var(--amber)',`<b>Rango / indecisión</b>: no operes en medio. Compra solo si el precio LLEGA a ${lvTag(keySup,true)} y rebota con vela de rechazo. ${planTxt(pl,'Plan: compra en')}${keySup.st.tier===1?' Ojo: ese piso es frágil; el rebote es menos fiable.':''}`);
     }
-    if(aboveR&&!bearish)add('var(--amber)',`Compra por ruptura: solo si 1h CIERRA sobre <b>$${fmt(aboveR.p,3)}</b> con volumen ≥ media (ahora ${volTodayRatio().toFixed(2)}×)`);
-    else if(aboveR)add('var(--muted)',`Ruptura de <b>$${fmt(aboveR.p,3)}</b>: descartada mientras la tendencia sea bajista — sería trampa alcista sin cambio de estructura`);
-    if(aboveR&&!bearish)add('var(--red)',`Toma de ganancias: <b>$${fmt(aboveR.p,3)}</b>${aboveR2?' → siguiente <b>$'+fmt(aboveR2.p,3)+'</b>':''}`);
+    const r1st=resAbove[0];
+    if(r1st&&!bearish)add('var(--amber)',`Compra por ruptura: solo si 1h CIERRA sobre ${lvTag(r1st,false)} con volumen ≥ media (ahora ${volTodayRatio().toFixed(2)}×)${r1st.st.tier===3?' — es un techo sólido: sin volumen fuerte, lo normal es que frene':''}`);
+    else if(r1st)add('var(--muted)',`Ruptura de <b>$${fmt(r1st.p,3)}</b>: descartada mientras manden los vendedores — sin cambio de estructura sería una trampa alcista`);
+    if(keyRes&&!bearish&&!keySup)add('var(--red)',`Toma de ganancias: ${lvTag(keyRes,false)}`);
     if(wb&&wb.tot>=20000){
-      const wTxt=`Ballenas 1h: spot ${fmtK(wb.sb)}↑ / ${fmtK(wb.ss)}↓${wb.futTot>=20000?' · fut '+fmtK(wb.fl)+' LONG / '+fmtK(wb.fs)+' SHORT':''}${wMegaBuy?' · <b>mega-ballena comprando</b>':''}`;
+      const wMin=Math.min(60,Math.round((Date.now()-Math.min(APP_T0,...S.whales.map(w=>w.t)))/60000));
+      const wTxt=`Ballenas ${wMin>=58?'1h':'últimos '+wMin+' min (lo que hay desde que se abrió la app)'}: spot ${fmtK(wb.sb)}↑ / ${fmtK(wb.ss)}↓${wb.futTot>=20000?' · fut '+fmtK(wb.fl)+' LONG / '+fmtK(wb.fs)+' SHORT':''}${wMegaBuy?' · <b>mega-ballena comprando</b>':''}`;
       add(wBuyPressure?'var(--green)':wSellPressure?'var(--red)':'var(--muted)',wTxt);
     }
     add('var(--muted)','Gestión: máximo 5–10% de tu capital por operación, stops siempre. Toca <b>”mi posición”</b> para registrar tu inversión y recibir sugerencias a tu medida.');
@@ -1677,8 +1847,9 @@ function drawChart(){
   // encuadre proporcional: incluir niveles/entrada SOLO si están cerca de la acción (≤50% del alto de las velas),
   // evaluado contra el rango de las velas (sin encadenar) — así soportes/resistencias lejanos no aplastan las velas
   const cLo=lo,cHi=hi,cSpan=(cHi-cLo)||cHi*0.01,nearY=p=>p>cLo-cSpan*0.5&&p<cHi+cSpan*0.5;
-  DYN.res.slice(0,4).forEach(r=>{if(nearY(r.p))hi=Math.max(hi,r.p);});
-  DYN.sup.slice(0,4).forEach(r=>{if(nearY(r.p))lo=Math.min(lo,r.p);});
+  const BL=bookLevels();
+  [...DYN.res.slice(0,4),...BL.res].forEach(r=>{if(nearY(r.p))hi=Math.max(hi,r.p);});
+  [...DYN.sup.slice(0,4),...BL.sup].forEach(r=>{if(nearY(r.p))lo=Math.min(lo,r.p);});
   if(POS.avg&&nearY(POS.avg)){lo=Math.min(lo,POS.avg);hi=Math.max(hi,POS.avg);}
   const pad=(hi-lo)*0.06;lo-=pad;hi+=pad;
   const padL=8,padR=64,cw=W-padL-padR,colW=cw/NV;
@@ -1688,7 +1859,10 @@ function drawChart(){
     const p=lv.p,{tier}=levelStrength(lv,sup),rgb=sup?'46,189,133':'246,70,93';
     const hw=0.0007*[1,0.7,1,1.6][tier],y0=Y(p+hw),y1=Y(p-hw),ym=(y0+y1)/2;
     cx.fillStyle=`rgba(${rgb},${[.12,.06,.14,.26][tier]})`;cx.fillRect(padL,y0,cw,Math.max(2,y1-y0));
-    if(tier===3){cx.strokeStyle=`rgba(${rgb},.6)`;cx.beginPath();cx.moveTo(padL,ym);cx.lineTo(padL+cw,ym);cx.stroke();}
+    if(lv.book){ // muro del libro: borde punteado (liquidez viva, puede retirarse)
+      cx.strokeStyle=`rgba(${rgb},.75)`;cx.setLineDash([3,3]);cx.strokeRect(padL,y0,cw,Math.max(2,y1-y0));cx.setLineDash([]);
+      cx.fillStyle=`rgba(${rgb},.9)`;cx.font='9px sans-serif';const mt='muro '+(sup?'compras':'ventas')+' '+fmtK(lv.q);cx.fillText(mt,padL+cw-cx.measureText(mt).width-4,y0-3); // a la derecha: no choca con el rótulo del VWAP
+    }else if(tier===3){cx.strokeStyle=`rgba(${rgb},.6)`;cx.beginPath();cx.moveTo(padL,ym);cx.lineTo(padL+cw,ym);cx.stroke();}
     const label=fmt(p,3);
     cx.fillStyle=tier===1?'rgba(234,236,239,.5)':'rgba(234,236,239,.85)';cx.font=(tier===3?'bold ':'')+'10px monospace';
     cx.fillText(label,W-padR+4,ym+3);
@@ -1696,8 +1870,8 @@ function drawChart(){
     const bx=W-padR+6+cx.measureText(label).width;
     if(tier)for(let k=0;k<3;k++){cx.fillStyle=k<tier?`rgba(${rgb},.95)`:'rgba(234,236,239,.15)';cx.fillRect(bx+k*4,ym-3,3,7);}
   };
-  DYN.res.slice(0,4).forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r,false);});
-  DYN.sup.slice(0,4).forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r,true);});
+  [...DYN.res.slice(0,4),...BL.res].forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r,false);});
+  [...DYN.sup.slice(0,4),...BL.sup].forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r,true);});
   if(POS.avg&&POS.avg>=lo&&POS.avg<=hi){
     cx.strokeStyle='rgba(234,236,239,.55)';cx.setLineDash([4,4]);cx.beginPath();cx.moveTo(padL,Y(POS.avg));cx.lineTo(padL+cw,Y(POS.avg));cx.stroke();cx.setLineDash([]);
     cx.fillStyle='#eaecef';cx.font='bold 10px sans-serif';cx.fillText(fmt(POS.avg,3)+' tú',W-padR+4,Y(POS.avg)-4);
@@ -1738,22 +1912,15 @@ function drawChart(){
   const e20=emaSeries(closes,20),e50=emaSeries(closes,50);
   const eline=(arr,col)=>{cx.strokeStyle=col;cx.lineWidth=1.4;cx.beginPath();arr.forEach((v,i)=>{const x=X(i),y=Y(v);i?cx.lineTo(x,y):cx.moveTo(x,y);});cx.stroke();cx.lineWidth=1;};
   eline(e20,'#4fd1c5');eline(e50,'#b982ff');
-  const li=closes.length-1;let xc=-1;
-  for(let j=e20.length-1;j>0;j--){if((e20[j]>=e50[j])!==(e20[j-1]>=e50[j-1])){xc=j;break;}}
-  S.emaState={above20:closes[li]>e20[li],above50:closes[li]>e50[li],bull:e20[li]>e50[li],
-    cross:xc>0?{up:e20[xc]>e50[xc],mins:Math.round((cs[li].t-cs[xc].t)/60000)}:null};
-  // VWAP de sesión (ancla en la medianoche UTC si está en la ventana) — la referencia intradía #1: precio arriba = compradores al mando
+  // (el estado de EMAs/VWAP que usa el análisis lo calcula engineTech() en 5m; aquí solo se dibuja)
+  S.view={vStart,NV,n:cs.length};
+  // VWAP de sesión (ancla en la medianoche UTC; si el tramo es muy corto, desde el inicio de la ventana para que se vea completo)
   {
-    const dayStart=new Date();dayStart.setUTCHours(0,0,0,0);
-    let a0=cs.findIndex(c=>c.t>=dayStart.getTime());if(a0<0)a0=0;
-    // Si la medianoche UTC deja un tramo demasiado corto (poco después de medianoche, o en vistas de varios días),
-    // el VWAP sería un muñón invisible pegado al borde: en ese caso lo anclamos al inicio de la ventana para que se vea completo.
-    if(a0>cs.length*0.55)a0=0;
-    let cpv=0,cvol=0;const vw=cs.map((c,i)=>{if(i<a0)return null;const tp=(c.h+c.l+c.c)/3;cpv+=tp*(c.v||0);cvol+=c.v||0;return cvol?cpv/cvol:c.c;});
+    const vw=vwapSeries(cs);
     cx.strokeStyle='#8ab4f8';cx.lineWidth=1.8;cx.beginPath();let st=false;
     vw.forEach((v,i)=>{if(v==null)return;const x=X(i),y=Y(v);st?cx.lineTo(x,y):cx.moveTo(x,y);st=true;});
     cx.stroke();cx.lineWidth=1;
-    const lv=vw[vw.length-1];S.vwap=lv;
+    const lv=vw[vw.length-1];
     if(lv!=null&&lv>=lo&&lv<=hi){cx.fillStyle='#8ab4f8';cx.font='bold 9px monospace';cx.fillText('VWAP '+fmt(lv,3),padL+3,Y(lv)-3);}
   }
   // Canal de tendencia por REGRESIÓN: la recta de mejor ajuste de las velas (siempre sigue su dirección real)
@@ -1819,7 +1986,7 @@ function drawChart(){
 function tlGuide(tHi,tLo,p){
   const el=document.getElementById('tlGuide');if(!el)return;
   if(!tHi&&!tLo){el.style.display='none';return;}
-  const ctx=(typeof marketContext==='function')?marketContext():null;
+  const ctx=CTX||((typeof marketContext==='function')?marketContext():null);
   const bias=ctx?ctx.bias:0;
   const bear=bias<=-15,strongBear=bias<=-35||(ctx&&ctx.fallingKnife),bull=bias>=15,strongBull=bias>=35;
   const cHi='<span class="tlchip" style="background:#f6465d">TECHO</span>',cLo='<span class="tlchip" style="background:#2ebd85">PISO</span>';
@@ -1838,11 +2005,18 @@ function tlGuide(tHi,tLo,p){
     } else if(tHi.slope<-p*0.00004&&tLo.slope>p*0.00004){
       msg=`Las dos rayas se están juntando (${cHi} y ${cLo}): el precio se aprieta y <b>suele venir un movimiento fuerte pronto</b>. ${strongBear?'Con la tendencia bajista, lo más probable es que rompa hacia <b>abajo</b>.':strongBull?'Con la tendencia alcista, lo más probable es que rompa hacia <b>arriba</b>.':'Espera a ver hacia qué lado rompe antes de entrar.'}`;
     } else {
-      msg=bear
-        ?`Aunque el precio va entre el ${cLo} (~$${fmt(piso,3)}) y el ${cHi} (~$${fmt(techo,3)}), <b>manda la tendencia y es bajista</b>: lo más probable es que busque el piso y lo rompa. <b>No es zona de compra</b>; espera señales de que la caída se frena.`
+      // el canal tiene su propia dirección: una caída dentro de un canal que SUBE es una corrección hacia el piso, no una ruptura segura
+      const chUp=tLo.slope>p*0.00004,chDn=tHi.slope<-p*0.00004;
+      const sol=x=>{const l=DYN.sup.concat(DYN.res).find(l=>Math.abs(l.p/x-1)<0.006);if(!l)return '';const st=levelStrength(l,l.p<p);return st.tier>=2?`, que además coincide con un nivel ${st.lbl} ($${fmt(l.p,3)})`:'';};
+      msg=bear&&chUp
+        ?`El precio corrige dentro de un canal que todavía apunta <b>hacia arriba</b>. A corto plazo mandan los vendedores, así que lo normal es que baje a probar el ${cLo} (~$${fmt(piso,3)}${sol(piso)}). <b>Ahí se decide</b>: si rebota, el canal alcista sigue vivo; si una vela de 1h cierra por debajo, la tendencia gira a bajista. En mitad del camino <b>no es zona de compra</b>.`
+        :bear
+        ?`El precio va entre el ${cLo} (~$${fmt(piso,3)}) y el ${cHi} (~$${fmt(techo,3)}) con <b>la tendencia bajista</b>${chDn?' y el canal apuntando abajo':''}: lo más probable es que siga presionando hacia el piso${sol(piso)}. <b>No es zona de compra</b>; espera señales de que la caída se frena.`
+        :bull&&chDn
+        ?`El precio rebota dentro de un canal que todavía apunta <b>hacia abajo</b>: lo normal es que el ${cHi} (~$${fmt(techo,3)}${sol(techo)}) lo frene. Solo si una vela de 1h cierra por encima, la tendencia gira a alcista.`
         :bull
-        ?`El precio va entre el ${cLo} (~$${fmt(piso,3)}) y el ${cHi} (~$${fmt(techo,3)}), y <b>la tendencia es alcista</b>: favorece que rompa el techo hacia arriba. Los apoyos en el piso son las entradas con la tendencia a favor.`
-        :`El precio va entre el ${cLo} (~$${fmt(piso,3)}) y el ${cHi} (~$${fmt(techo,3)}). Mientras siga dentro está en pausa; <b>el lado que rompa marca hacia dónde va</b>.`;
+        ?`El precio va entre el ${cLo} (~$${fmt(piso,3)}) y el ${cHi} (~$${fmt(techo,3)}), y <b>la tendencia es alcista</b>: favorece que rompa el techo hacia arriba. Los apoyos en el piso${sol(piso)} son las entradas con la tendencia a favor.`
+        :`El precio va entre el ${cLo} (~$${fmt(piso,3)}) y el ${cHi} (~$${fmt(techo,3)})${chUp?', en un canal que sube':chDn?', en un canal que baja':''}. Mientras siga dentro está en pausa; <b>el lado que rompa marca hacia dónde va</b>.`;
     }
   } else if(tHi){
     msg=`Por ahora solo hay ${cHi} claro (~$${fmt(techo,3)}) — la barrera de arriba. <b>Superarla con volumen abre paso a subir</b>; mientras no, cuesta avanzar.${bear?' Y con la tendencia bajista, cuesta aún más.':''}`;
@@ -1859,33 +2033,34 @@ function drawMacd(){
   const cvs=document.getElementById('macd');if(!cvs)return;
   const g=cvs.getContext('2d'),dpr=window.devicePixelRatio||1,W=cvs.clientWidth,H=cvs.clientHeight;
   cvs.width=W*dpr;cvs.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
-  const cs=S.candles;if(!cs.length)return;
+  // mismas velas y misma ventana visible que el gráfico → cada barra queda bajo su vela
+  const cs=(S.chartCandles&&S.chartCandles.length)?S.chartCandles:S.candles;if(!cs||!cs.length)return;
   const md=macdCalc(cs.map(c=>c.c));if(!md)return;
+  const v0=S.view&&S.view.n===cs.length?S.view.vStart:0,NV=cs.length-v0;
   const padL=8,padR=64,cw=W-padL-padR,mid=H/2;
-  const X=i=>padL+(i+0.5)*(cw/cs.length);
-  const mx=Math.max(...md.m.map(Math.abs),...md.sig.map(Math.abs),...md.hist.map(Math.abs),1e-7);
+  const X=i=>padL+(i-v0+0.5)*(cw/NV);
+  const vis=a=>a.slice(v0);
+  const mx=Math.max(...vis(md.m).map(Math.abs),...vis(md.sig).map(Math.abs),...vis(md.hist).map(Math.abs),1e-7);
   const sc=(H/2-8)/mx;
   g.strokeStyle='rgba(234,236,239,.14)';g.beginPath();g.moveTo(padL,mid);g.lineTo(padL+cw,mid);g.stroke();
-  const bw=Math.max(1.5,(cw/cs.length)*0.55);
+  const bw=Math.max(1.5,(cw/NV)*0.55);
   md.hist.forEach((h,i)=>{
+    if(i<v0)return;
     g.fillStyle=h>=0?'rgba(46,189,133,.7)':'rgba(246,70,93,.7)';
     const y=mid-h*sc;g.fillRect(X(i)-bw/2,Math.min(mid,y),bw,Math.max(1,Math.abs(y-mid)));
   });
-  const mline=(arr,col)=>{g.strokeStyle=col;g.lineWidth=1.3;g.beginPath();arr.forEach((v,i)=>{const x=X(i),y=mid-v*sc;i?g.lineTo(x,y):g.moveTo(x,y);});g.stroke();g.lineWidth=1;};
+  const mline=(arr,col)=>{g.strokeStyle=col;g.lineWidth=1.3;g.beginPath();let st=false;arr.forEach((v,i)=>{if(i<v0)return;const x=X(i),y=mid-v*sc;st?g.lineTo(x,y):g.moveTo(x,y);st=true;});g.stroke();g.lineWidth=1;};
   mline(md.m,'#4fd1c5');mline(md.sig,'#f0b90b');
-  // estado + último cruce
-  const n=md.hist.length-1;
-  let cross=-1;
-  for(let j=n;j>0;j--){if((md.hist[j]>=0)!==(md.hist[j-1]>=0)){cross=j;break;}}
-  const growing=Math.abs(md.hist[n])>Math.abs(md.hist[n-1]||0)&&(md.hist[n]>=0)===(md.hist[n-1]>=0);
-  S.macdState={hist:md.hist[n],growing,
-    cross:cross>0?{up:md.hist[cross]>=0,mins:Math.round((cs[n].t-cs[cross].t)/60000)}:null};
-  if(cross>0){
-    const up=md.hist[cross]>=0;
-    g.fillStyle=up?'#2ebd85':'#f6465d';g.font='bold 10px sans-serif';
-    const txt='cruce '+(up?'ALCISTA':'BAJISTA')+' hace '+fmtAgo(S.macdState.cross.mins);
-    g.fillText(txt,padL+cw-g.measureText(txt).width-2,11);
-    g.beginPath();g.arc(X(cross),mid,3.5,0,7);g.fill();
+  // rótulo: último cruce CONFIRMADO (vela cerrada) de la temporalidad que se ve; si la vela abierta está cruzando, se avisa aparte
+  const ms=macdState(cs);if(!ms)return;
+  const cb=closedBars(cs);
+  let txt=null,col;
+  if(ms.pending){txt='posible cruce '+(ms.pending.up?'ALCISTA':'BAJISTA')+' (vela sin cerrar)';col=ms.pending.up?'#2ebd85':'#f6465d';}
+  else if(ms.cross){txt='cruce '+(ms.cross.up?'ALCISTA':'BAJISTA')+' hace '+fmtAgo(ms.cross.mins)+(ms.cross.whip?' · vaivén, sin fuerza':'');col=ms.cross.up?'#2ebd85':'#f6465d';}
+  if(txt){g.fillStyle=col;g.font='bold 10px sans-serif';g.fillText(txt,padL+cw-g.measureText(txt).width-2,11);}
+  if(ms.cross){
+    let ci=-1;for(let j=cb.length-1;j>0;j--){if((md.hist[j]>=0)!==(md.hist[j-1]>=0)){ci=j;break;}}
+    if(ci>=v0){g.fillStyle=ms.cross.up?'#2ebd85':'#f6465d';g.beginPath();g.arc(X(ci),mid,3.5,0,7);g.fill();}
   }
 }
 
@@ -1906,18 +2081,24 @@ function cvdDivergence(cs,cvd){
     for(let k=1;k<=W;k++){if(cs[i].h<cs[i-k].h||cs[i].h<cs[i+k].h)isH=false;if(cs[i].l>cs[i-k].l||cs[i].l>cs[i+k].l)isL=false;}
     if(isH)His.push(i);if(isL)Los.push(i);
   }
+  // Para que cuente como divergencia (y no ruido): los dos picos separados ≥5 velas, el último reciente (≤12 velas),
+  // el precio supera/pierde el pico anterior ≥0.25% y el CVD se mueve en contra ≥6% de su rango en la ventana.
+  const minD=((Math.max(...cvd)-Math.min(...cvd))||1)*0.06;
+  const ok=(a,b)=>b-a>=5&&n-1-b<=12;
   let bear=null,bull=null;
-  if(His.length>=2){const a=His[His.length-2],b=His[His.length-1];if(cs[b].h>cs[a].h*1.001&&cvd[b]<cvd[a])bear={a,b};} // precio máximo más alto, CVD no
-  if(Los.length>=2){const a=Los[Los.length-2],b=Los[Los.length-1];if(cs[b].l<cs[a].l*0.999&&cvd[b]>cvd[a])bull={a,b};} // precio mínimo más bajo, CVD aguanta
-  return{bear,bull};
+  if(His.length>=2){const a=His[His.length-2],b=His[His.length-1];if(ok(a,b)&&cs[b].h>cs[a].h*1.0025&&cvd[a]-cvd[b]>=minD)bear={a,b};} // precio máximo más alto, CVD no
+  if(Los.length>=2){const a=Los[Los.length-2],b=Los[Los.length-1];if(ok(a,b)&&cs[b].l<cs[a].l*0.9975&&cvd[b]-cvd[a]>=minD)bull={a,b};} // precio mínimo más bajo, CVD aguanta
+  return(bear||bull)?{bear,bull}:null;
 }
 const cvv=document.getElementById('cvd'),cvx=cvv?cvv.getContext('2d'):null;
 function drawCVD(){
   if(!cvx)return;
   const dpr=window.devicePixelRatio||1,W=cvv.clientWidth,H=cvv.clientHeight;
   cvv.width=W*dpr;cvv.height=H*dpr;cvx.setTransform(dpr,0,0,dpr,0,0);cvx.clearRect(0,0,W,H);
-  const cs=(S.chartCandles&&S.chartCandles.length)?S.chartCandles:S.candles,el=document.getElementById('cvdMsg');
-  if(!cs||cs.length<8){if(el)el.innerHTML='<b>CVD</b> · flujo de órdenes acumulado — cargando…';return;}
+  const all=(S.chartCandles&&S.chartCandles.length)?S.chartCandles:S.candles,el=document.getElementById('cvdMsg');
+  if(!all||all.length<8){if(el)el.innerHTML='<b>CVD</b> · flujo de órdenes acumulado — cargando…';return;}
+  // misma ventana visible que el gráfico; el CVD se acumula desde el inicio de lo que se ve
+  const v0=S.view&&S.view.n===all.length?S.view.vStart:0,cs=all.slice(v0);
   const cvd=cvdSeries(cs),n=cs.length;
   const padL=8,padR=64,cw=W-padL-padR;
   const mn=Math.min(...cvd),mx=Math.max(...cvd),rng=(mx-mn)||1;
@@ -1932,14 +2113,20 @@ function drawCVD(){
   cvx.font='bold 9px monospace';const lblTxt='CVD '+(hasFut?'spot+fut ':'spot ')+(up?'↑ compra real':'↓ venta real');
   cvx.fillStyle='rgba(11,14,17,.72)';cvx.fillRect(padL,2,cvx.measureText(lblTxt).width+7,12); // fondo para que el rótulo se lea sobre la línea
   cvx.fillStyle=col;cvx.fillText(lblTxt,padL+3,11);
-  const dv=cvdDivergence(cs,cvd);
+  // divergencia: en 5m es la MISMA que usa el motor (coherencia con las ideas de operación); en otra temporalidad, la de esas velas
+  let dv=null;
+  if(TF==='5m'){
+    const ix=t=>cs.findIndex(c=>c.t===t),d=S.cvdDiv;
+    if(d&&d.bear&&ix(d.bear.ta)>=0&&ix(d.bear.tb)>=0)dv={bear:{a:ix(d.bear.ta),b:ix(d.bear.tb)}};
+    else if(d&&d.bull&&ix(d.bull.ta)>=0&&ix(d.bull.tb)>=0)dv={bull:{a:ix(d.bull.ta),b:ix(d.bull.tb)}};
+  }else{const cb=closedBars(cs);dv=cvdDivergence(cb,cvdSeries(cb));}
   const markDiv=(a,b,c)=>{cvx.strokeStyle=c;cvx.setLineDash([4,3]);cvx.lineWidth=1.5;cvx.beginPath();cvx.moveTo(X(a),Y(cvd[a]));cvx.lineTo(X(b),Y(cvd[b]));cvx.stroke();cvx.setLineDash([]);cvx.lineWidth=1;[a,b].forEach(i=>{cvx.fillStyle=c;cvx.beginPath();cvx.arc(X(i),Y(cvd[i]),2.8,0,7);cvx.fill();});};
-  let msg,sig=null;
-  if(dv&&dv.bear){markDiv(dv.bear.a,dv.bear.b,'#f6465d');sig='bear';msg='<b style="color:var(--red)">⚠ Divergencia bajista</b> · el precio hizo un máximo más alto pero el flujo real NO lo acompañó — compran en pantalla, el dinero de verdad vende. <b>Giro a la baja probable.</b>';}
-  else if(dv&&dv.bull){markDiv(dv.bull.a,dv.bull.b,'#2ebd85');sig='bull';msg='<b style="color:var(--green)">⚡ Divergencia alcista</b> · el precio hizo un mínimo más bajo pero el flujo real aguantó — venden en pantalla, el dinero de verdad acumula. <b>Giro al alza probable.</b>';}
-  else msg='<b>CVD</b> · el flujo real '+(up?'<b style="color:var(--green)">acompaña la subida</b>':'<b style="color:var(--red)">presiona a la baja</b>')+' — sin divergencia con el precio por ahora.';
+  let msg;
+  if(dv&&dv.bear){markDiv(dv.bear.a,dv.bear.b,'#f6465d');msg='<b style="color:var(--red)">⚠ Divergencia bajista</b> · el precio marcó un máximo más alto pero el flujo real (compras agresivas − ventas agresivas) fue <b>claramente menor</b>: la subida no tiene respaldo. <b>Riesgo de giro a la baja</b>; se confirma si el precio pierde el último mínimo.';}
+  else if(dv&&dv.bull){markDiv(dv.bull.a,dv.bull.b,'#2ebd85');msg='<b style="color:var(--green)">⚡ Divergencia alcista</b> · el precio marcó un mínimo más bajo pero el flujo real <b>aguantó claramente</b>: alguien está absorbiendo las ventas. <b>Posible giro al alza</b>; se confirma si el precio supera el último máximo.';}
+  else msg='<b>CVD</b> · el flujo real '+(up?'<b style="color:var(--green)">acompaña la subida</b>':'<b style="color:var(--red)">presiona a la baja</b>')+' — sin divergencia clara con el precio por ahora.';
   if(el)el.innerHTML=msg;
-  S.cvdSig=sig;S.cvdUp=up;
+  S.cvdUp=up;
 }
 
 /* ===== Brújula de temporalidades (corto / medio / fondo) ===== */
@@ -1955,6 +2142,10 @@ function tfDirFrom(candles,lookback,rsi){
   if(rsi!=null){if(rsi>=58)sc+=0.8;else if(rsi>=52)sc+=0.4;else if(rsi<=42)sc-=0.8;else if(rsi<=48)sc-=0.4;}
   return sc>=0.7?1:sc<=-0.7?-1:0;
 }
+function htfTrend(){
+  const dM=tfDirFrom(S.h4,30,S.rsi4h),dF=tfDirFrom(S.days,20,S.rsi1d),t=dM+dF;
+  return{dM,dF,dir:t>=1?1:t<=-1?-1:0};
+}
 function drawTfCompass(){
   const box=document.getElementById('tfCompass');if(!box)return;
   if(!S.price||!S.candles||S.candles.length<10){box.style.display='none';return;}
@@ -1966,9 +2157,8 @@ function drawTfCompass(){
   if(S.macdState){sN+=S.macdState.hist>0?0.5:-0.5;}
   const dN=sN>=0.8?1:sN<=-0.8?-1:0;
   // Tendencia (días): velas 4h + RSI 4h
-  const dM=tfDirFrom(S.h4,30,S.rsi4h);
-  // Fondo (semanas): velas diarias + RSI 1d
-  const dF=tfDirFrom(S.days,20,S.rsi1d);
+  // Tendencia (días: velas 4h + RSI 4h) y Fondo (semanas: diarias + RSI 1d) — la misma lectura que usa el motor
+  const{dM,dF}=htfTrend();
   const A=d=>d>0?{a:'↑',w:'subiendo',c:'var(--green)'}:d<0?{a:'↓',w:'bajando',c:'var(--red)'}:{a:'→',w:'de lado',c:'var(--amber)'};
   const aN=A(dN),aM=A(dM),aF=A(dF);
   const cell=(h,sub,x)=>`<div class="tfc-cell"><div class="tfc-h">${h}</div><div class="tfc-sub">${sub}</div><div class="tfc-dir" style="color:${x.c}">${x.a} ${x.w}</div></div>`;
@@ -2032,9 +2222,10 @@ function drawLevels(){
       ${st.tier?`<span class="lstr" title="${tip}">${meter}<em>${st.lbl}</em></span>`:''}
       <span class="ds">${d>=0?'+':''}${d.toFixed(1)}%</span><span class="chip ${cls}">${chip}</span></div>`;
   };
-  [...DYN.res].sort((a,b)=>b.p-a.p).forEach(r=>row(r,false));
+  const BL=bookLevels();
+  [...DYN.res,...BL.res].sort((a,b)=>b.p-a.p).forEach(r=>row(r,false));
   html+=`<div class="lv" style="border-top:1px solid var(--border)"><span class="p" style="color:var(--amber)">${fmt(p,3)}</span><span class="n" style="color:var(--amber)">precio actual</span><span class="ds"></span><span></span></div>`;
-  [...DYN.sup].sort((a,b)=>b.p-a.p).forEach(r=>row(r,true));
+  [...DYN.sup,...BL.sup].sort((a,b)=>b.p-a.p).forEach(r=>row(r,true));
   document.getElementById('levels').innerHTML=html;
 }
 
@@ -2515,6 +2706,7 @@ function render(){
   const ch=document.getElementById('chg');
   ch.textContent=(S.chg>=0?'+':'')+S.chg.toFixed(2)+'%';ch.className='chg '+(S.chg>=0?'up':'down');
   document.getElementById('rng').textContent='24h: '+fmt(S.low)+' – '+fmt(S.high);
+  engineTech();ctxTick();
   drawCtx();drawChart();drawMacd();drawCVD();drawTfCompass();drawBook();drawLevels();drawSigs();drawDecision();drawForecast();drawCycles();drawRSI();drawWhales();drawMetrics();drawSent();drawFund();drawGlob();pushSnap();drawHeat();
   document.getElementById('clock').textContent=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }

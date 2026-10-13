@@ -15,9 +15,8 @@ El proyecto nació de una serie de prompts de análisis manual:
 La app NO trae ninguna posición hardcodeada: debe funcionar de forma genérica para cualquier usuario. La posición (tokens + precio promedio) se ingresa por onboarding en modo "holder" y se guarda en `localStorage`; el modo "watcher" no requiere posición. No introducir valores de posición concretos en el código ni en esta documentación.
 
 ## Estructura de archivos
-- `app/index.html` — **archivo principal activo** (1864 líneas) — aquí van todos los cambios
-- `ethfi-monitor/index.html` — copia idéntica (respaldo, verificado con diff)
-- `Monitor_ETHFI.html.txt` — copia idéntica (respaldo/exportación)
+- `app/index.html` — **archivo principal activo** — aquí van todos los cambios
+- `scripts/stamp-version.sh` + `scripts/pre-commit.hook` — sellan la versión del footer en cada commit
 - `analisis_ETHFI_2026-07-18.md` — análisis manual de mercado del 18-jul-2026
 - `plan.md` — plan de análisis original de la IA
 
@@ -186,12 +185,29 @@ Etiquetas del score:
 ### Contexto de mercado — función `marketContext()` (lectura de trader)
 Capa que sintetiza **tendencia + momentum + flujo + ballenas + macro + crowding** en un sesgo direccional `-100..+100` que el motor de decisión consulta ANTES de sugerir entradas. Evita el error clásico de recomendar "compra por valor" en un soporte mientras el precio cae con fuerza (atrapar el cuchillo).
 - `swingStruct()`: pivotes swing en 5m (~4h, ventana 3) → máximos/mínimos ascendentes o descendentes (`dir` −1/0/+1)
-- Factores ponderados en el sesgo: estructura swings (±18), EMAs 5m + cruce (±12/±6), cambio 24h (±14/±7), posición en el rango del día (±8), **precio vs VWAP de sesión (±6)**, MACD (±7/±3), RSI 1d/1h (±6/±5/±4), flujo taker (±8), **balance del libro ±1.5% (`bookSums`, ±8)**, ballenas spot/fut 1h (±8/±5), macro BTC/ETH (±7), crowding long/short + funding (±4/±2). Nota: el libro se pesa solo cerca del precio (±1.5%), no la profundidad total, porque las órdenes lejanas suelen ser spoofing
-- `regime`: TENDENCIA BAJISTA (≤−35) · CORRECCIÓN/DÉBIL (≤−15) · RANGO/INDECISIÓN · ALCISTA MODERADO (≥15) · TENDENCIA ALCISTA (≥35)
+- Factores ponderados en el sesgo: estructura swings (±18), EMAs 5m + cruce (±12/±6), cambio 24h (±14/±7), posición en el rango del día (±8), **precio vs VWAP de sesión (±6)**, MACD (±7/±3; cruce reciente confirmado ±6), RSI 1d/1h (±6/±5/±4), flujo taker (±8), **balance del libro ±1.5% (`bookSums`, ±8)**, ballenas spot/fut 1h (±8/±5), macro BTC/ETH (±7), crowding long/short + funding (±4/±2), CVD (±9/±5), tendencia de fondo 4h/diario (±6). Nota: el libro se pesa solo cerca del precio (±1.5%), no la profundidad total, porque las órdenes lejanas suelen ser spoofing
+- `regime`: por umbrales de sesgo (≤−35 / ≤−15 / rango / ≥15 / ≥35) **combinados con la tendencia de fondo** — ver `regimeOf()` más abajo
 - `phase`: caída con presión vendedora / caída en curso / rebote sin confirmar / impulso alcista
 - `fallingKnife`: bias ≤−25 **y** (chg 24h ≤−4% con precio en el cuarto inferior del rango) → bloquea sugerencias de compra en soportes
 - `stance` (postura): `bearish` / `turn` / `neutral` / `buy` — usada para avisar cambios de estado
 - Devuelve además `pros`/`cons` (top 4 razones alcistas/bajistas, en lenguaje llano) mostradas como "Lectura: …" en las sugerencias
+
+### Motor técnico independiente del gráfico — `engineTech()` (al inicio de cada `render`)
+- Calcula `S.emaState`, `S.vwap`, `S.macdState`, `S.cvdDiv` SIEMPRE sobre velas 5m del motor (`S.candles` = últimas 96; `S.c5` = 288 velas 5m para el VWAP anclado a medianoche UTC). El zoom del gráfico (`TF`) ya no cambia el análisis; `drawChart/drawMacd/drawCVD` solo dibujan (MACD y CVD usan la misma ventana visible que las velas, `S.view`)
+- `closedBars()`: cruces y divergencias solo con velas CERRADAS. `macdState()`: `accel` (histograma se aleja de 0), `fade` (2 velas seguidas acercándose a 0), `pending` (la vela abierta está cruzando, sin confirmar), `cross.whip` (dos cruces en <6 velas = vaivén, no cuenta como señal)
+- `cvdDivergence()` exige: picos separados ≥5 velas, el último ≤12 velas atrás, precio ±0.25% más allá del pico anterior y CVD en contra ≥6% de su rango (antes marcaba ruido como divergencia)
+
+### Lectura única por tick — `ctxTick()` / `CTX`
+- `marketContext()` suma la tendencia de fondo `htfTrend()` (4h + diario, misma función que la brújula) ±6, y `ctxFinalize()` calcula régimen/fase/postura
+- `ctxTick()` suaviza el sesgo (EMA 40%, reinicia tras 2 min sin ticks) para que el régimen no parpadee; banner, ideas y franja guía leen el MISMO `CTX`
+- `regimeOf(bias, htf)`: con fondo alcista una caída intradía es "CORRECCIÓN (FUERTE) · fondo alcista", no "TENDENCIA BAJISTA"; con fondo bajista una subida es "REBOTE · fondo bajista"
+- Banner: "CAÍDA" solo con cuchillo real o sesgo ≤−35 sin fondo alcista; sesgo ≤−25 con fondo alcista → "CORRECCIÓN · fondo alcista" (ámbar). Atacar un techo con sesgo ≤−15 → "lo normal es que la rechace"
+
+### Ideas modo análisis (en `decision()`)
+- Usan la solidez real: `keySup`/`keyRes` = primer piso/techo sólido (o medio) entre los 4 más cercanos; avisa de pisos intermedios frágiles
+- Invalidación bajista = recuperar el VWAP o la primera resistencia POR ENCIMA del precio (nunca un nivel ya debajo)
+- `plan(entrada, piso)`: stop bajo el piso de entrada con margen ¼ ATR diario (0.5–1.5%), objetivo en el primer techo con fuerza ≥1% arriba, R:R mínimo 1.5:1; si no compensa lo dice y propone el retroceso al piso sólido o el cierre de 1h sobre el techo
+- Rama "corrección con fondo alcista": no comprar en mitad del tramo; entrada a favor del fondo en el piso sólido con stop y R:R
 
 ### Señales de giro — función `turnSignals(posInRng)`
 Detecta ACTIVAMENTE si la caída se está agotando (hasta 4 señales): RSI 1h girando desde sobreventa (usa `S.rsi1hSer`), cruce EMA alcista fresco / precio recuperó EMA20, MACD cruzando al alza o histograma bajista menguando, flujo taker girando a comprador con precio fuera de mínimos, mínimos ascendentes (5m), ballenas spot comprando la caída (30m), precio recuperando el tercio alto del rango. Devuelve `{cues, n}`.
@@ -235,7 +251,9 @@ Compara `ctx.stance` con `lastStance` (rank bearish<neutral<turn<buy). Cuando ME
 Puntaje 0–100 por nivel → `tier` 3 sólido (≥62) / 2 medio (≥38) / 1 frágil; 0 = nivel provisional sin calificar.
 - Estructura (40): `lv.sc` (fuentes que coinciden en el cluster), cap 7
 - Historial (30): episodios en velas 4h (fallback diarias) donde el precio tocó el nivel (±0.4%) y fue rechazado, menos ½ por cada vez que lo atravesó; cap 4
-- Liquidez viva (30): órdenes en el lado que defiende (bids en pisos, asks en techos) ±0.25% vs densidad media del libro ±1.5% (relativo → sirve para cualquier token); sin libro se reescala sobre 70
+- Liquidez viva (30): órdenes en el lado que defiende (bids en pisos, asks en techos) ±0.25% vs densidad media del libro ±1.5% (relativo → sirve para cualquier token), o el muro seguido más cercano si es mayor; multiplicada por persistencia (muro <1 min ×0.5, 1–3 min ×0.75, ≥3 min ×1). Sin libro se reescala sobre 70
+- **Muros del libro** — `trackWalls()` (tras cada `loadBooks`): agrega los 13 exchanges (cachea el último libro bueno de cada uno ≤40s para que un exchange que falla no mueva la escala) en franjas de 0.15%, mide cada muro sobre 3 franjas y lo registra en `WALLS` si ≥5× lo normal (se mantiene mientras ≥3.8×, histéresis). Guarda `first`/`last` para medir cuánto aguanta; fusiona duplicados ≤0.3%. `wallNear()` busca el muro de un nivel
+- `bookLevels()`: muros vivos que no coinciden (≥0.4%) con un nivel calculado se muestran como piso/techo propio (`lv.book`, sin estructura; la liquidez pesa 70). En el gráfico: borde punteado + rótulo "muro compras/ventas X"
 - Gráfico: banda más gruesa/intensa según tier, raya central en los sólidos, mini medidor ▮▮▮ junto al precio. Lista de niveles: medidor + motivo ("rebotó 5×", "muro 120K esperando") y tooltip con el puntaje
 
 ### RSI(14) — implementación Wilder EMA
