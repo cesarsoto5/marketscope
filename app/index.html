@@ -118,7 +118,13 @@ body.noscroll{overflow:hidden}
 .lv .p{font:600 13px var(--mono);width:58px}
 .lv .n{flex:1;color:var(--muted);font-size:12.5px}
 .lv .ds{font:500 12px var(--mono);width:64px;text-align:right}
+.lstr{display:flex;align-items:center;gap:2px;cursor:help;white-space:nowrap}
+.lstr i{display:inline-block;width:4px;height:11px;border-radius:1px;background:rgba(255,255,255,.12)}
+.lstr i.on-g{background:var(--green)} .lstr i.on-r{background:var(--red)}
+.lstr em{font-style:normal;font-size:10.5px;color:var(--muted);margin-left:4px;width:34px}
+@media(max-width:520px){.lstr em{display:none}}
 .chip{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.lv .chip{min-width:78px;text-align:center}
 .c-green{color:var(--green);background:var(--green-bg)} .c-red{color:var(--red);background:var(--red-bg)}
 .c-amber{color:var(--amber);background:var(--amber-bg)} .c-gray{color:var(--muted);background:rgba(255,255,255,.06)}
 .sig{margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
@@ -333,10 +339,10 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
       <div class="macdleg"><b>MACD</b> · impulso: <span style="color:#4fd1c5">—</span> línea MACD · <span style="color:#f0b90b">—</span> señal · <span style="color:var(--green)">▮</span><span style="color:var(--red)">▮</span> fuerza</div>
       <canvas id="cvd"></canvas>
       <div class="macdleg" id="cvdMsg"><b>CVD</b> · flujo de órdenes acumulado — cargando…</div>
-      <details class="minihelp"><summary></summary><div><b>EMA 20 / EMA 50 (líneas turquesa y morada del gráfico):</b> el promedio del precio dando más peso a lo reciente — el “ritmo” del mercado. Precio <b>por encima de ambas</b> = tendencia sana; por debajo = vendedores al mando. Cuando la rápida (20) cruza sobre la lenta (50) suele anticipar subidas; al revés, caídas.<br><b>MACD (este panel):</b> mide si el impulso <b>acelera o se agota</b>. Barras verdes = impulso alcista, rojas = bajista; que crezcan = acelerando. “Cruce alcista” = la línea turquesa supera a la amarilla — los pumps de ETHFI suelen arrancar poco después de uno. Ideal para el patrón de este token: MACD agotándose tras un pump = fase de enfriamiento.<br><b>VWAP (línea azul):</b> es el precio promedio al que se ha negociado el token en lo que va del día, dándole más peso a las horas de mayor movimiento. Funciona como el “termómetro” de la jornada: si el precio va <b>por encima</b> de esta línea, los compradores llevan la ventaja y suele servir de piso; si va <b>por debajo</b>, mandan los vendedores y suele servir de techo. Es una de las referencias favoritas de los profesionales.<br><b>Canal de tendencia (rayas roja y verde):</b> la app traza la <b>dirección de mejor ajuste</b> de las velas recientes y dibuja dos rayas paralelas: el <b>techo</b> (raya roja, por arriba) y el <b>piso</b> (raya verde, por abajo). Como se calcula sobre las propias velas, <b>siempre apunta hacia donde van</b> (sube, baja o lateral, según la flecha). Cuando el precio se pega al techo o al piso, o rompe el canal, suele avisar el siguiente movimiento.<br><b>CVD (panel bajo el MACD):</b> suma la <b>compra agresiva menos la venta agresiva</b> vela a vela, combinando <b>spot + futuros</b> (en este token los futuros mueven más, así que pesan más) — el <b>dinero real</b> moviéndose, no las órdenes de adorno del libro. Lo potente son las <b>divergencias</b>: si el <b>precio</b> hace un máximo más alto pero el <b>CVD no</b> lo acompaña, la subida no tiene compradores reales → <b>giro a la baja probable</b> (y al revés: precio con mínimo más bajo pero CVD aguantando = acumulación oculta → giro al alza). Se adelanta al precio y el retail no suele mirarlo; la raya punteada marca la divergencia.<br><b>Sesiones (fondos de color, horario UTC):</b> ASIA 00–07 (volumen ligero) · LON 07–13 (entra Europa) · LON+NY 13–15 (solape — el momento de más volumen del día) · NY 15–21. Una ruptura de nivel durante Londres/NY pesa mucho más que una de madrugada.</div></details>
+      <details class="minihelp"><summary></summary><div><b>EMA 20 / EMA 50 (líneas turquesa y morada del gráfico):</b> el promedio del precio dando más peso a lo reciente — el “ritmo” del mercado. Precio <b>por encima de ambas</b> = tendencia sana; por debajo = vendedores al mando. Cuando la rápida (20) cruza sobre la lenta (50) suele anticipar subidas; al revés, caídas.<br><b>MACD (este panel):</b> mide si el impulso <b>acelera o se agota</b>. Barras verdes = impulso alcista, rojas = bajista; que crezcan = acelerando. “Cruce alcista” = la línea turquesa supera a la amarilla — los pumps de ETHFI suelen arrancar poco después de uno. Ideal para el patrón de este token: MACD agotándose tras un pump = fase de enfriamiento.<br><b>VWAP (línea azul):</b> es el precio promedio al que se ha negociado el token en lo que va del día, dándole más peso a las horas de mayor movimiento. Funciona como el “termómetro” de la jornada: si el precio va <b>por encima</b> de esta línea, los compradores llevan la ventaja y suele servir de piso; si va <b>por debajo</b>, mandan los vendedores y suele servir de techo. Es una de las referencias favoritas de los profesionales.<br><b>Canal de tendencia (rayas roja y verde):</b> la app traza la <b>dirección de mejor ajuste</b> de las velas recientes y dibuja dos rayas paralelas: el <b>techo</b> (raya roja, por arriba) y el <b>piso</b> (raya verde, por abajo). Como se calcula sobre las propias velas, <b>siempre apunta hacia donde van</b> (sube, baja o lateral, según la flecha). Cuando el precio se pega al techo o al piso, o rompe el canal, suele avisar el siguiente movimiento.<br><b>CVD (panel bajo el MACD):</b> suma la <b>compra agresiva menos la venta agresiva</b> vela a vela, combinando <b>spot + futuros</b> (en este token los futuros mueven más, así que pesan más) — el <b>dinero real</b> moviéndose, no las órdenes de adorno del libro. Lo potente son las <b>divergencias</b>: si el <b>precio</b> hace un máximo más alto pero el <b>CVD no</b> lo acompaña, la subida no tiene compradores reales → <b>giro a la baja probable</b> (y al revés: precio con mínimo más bajo pero CVD aguantando = acumulación oculta → giro al alza). Se adelanta al precio y el retail no suele mirarlo; la raya punteada marca la divergencia.<br><b>Pisos y techos (bandas verdes y rojas):</b> no todos aguantan igual. La app califica cada uno según <b>cuántas referencias coinciden</b> ahí (máximos/mínimos de días anteriores, zonas donde se negoció mucho volumen, números redondos), <b>cuántas veces el precio rebotó</b> en ese nivel en las últimas semanas (y cuántas lo atravesó) y si hay <b>órdenes reales esperando</b> en el libro. Banda <b>gruesa e intensa con raya</b> (▮▮▮) = piso/techo sólido: es donde el precio suele rebotar con más fuerza. Banda <b>tenue y fina</b> (▮) = frágil: el precio la puede atravesar con facilidad.<br><b>Sesiones (fondos de color, horario UTC):</b> ASIA 00–07 (volumen ligero) · LON 07–13 (entra Europa) · LON+NY 13–15 (solape — el momento de más volumen del día) · NY 15–21. Una ruptura de nivel durante Londres/NY pesa mucho más que una de madrugada.</div></details>
       <div class="legend">
-        <div class="lg"><div class="sw" style="background:rgba(246,70,93,.5)"></div>resistencias (auto)</div>
-        <div class="lg"><div class="sw" style="background:rgba(46,189,133,.5)"></div>soportes (auto)</div>
+        <div class="lg"><div class="sw" style="background:rgba(246,70,93,.5)"></div>techos (auto)</div>
+        <div class="lg"><div class="sw" style="background:rgba(46,189,133,.5)"></div>pisos (auto) · <b>más grueso e intenso = más sólido</b> (▮▮▮ sólido · ▮▮ medio · ▮ frágil)</div>
         <div class="lg"><div class="sw" style="background:#eaecef"></div>tu entrada</div>
         <div class="lg"><div class="sw" style="background:var(--amber)"></div>precio / objetivo</div>
         <div class="lg"><span style="color:#4fd1c5">—</span> EMA20 &nbsp;<span style="color:#b982ff">—</span> EMA50 &nbsp;<span style="color:#8ab4f8">—</span> VWAP &nbsp;<span style="color:var(--red)">╌</span><span style="color:var(--green)">╌</span> tendencia &nbsp;<button id="tlineBtn" onclick="toggleTline()">tendencia: ON</button>&nbsp;<span style="color:rgba(234,236,239,.45)">▨</span> sesiones</div>
@@ -480,7 +486,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="28" data-commit="6a0166e" data-date="2026-08-27 07:49">versión 28 · publicada 2026-08-27 07:49</span></footer>
+  <span id="appVer" data-build="29" data-commit="c7825aa" data-date="2026-10-13 07:35">versión 29 · publicada 2026-10-13 07:35</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -1210,6 +1216,43 @@ function bookSums(){
 function nearAgg(lv,side,tol=0.0006){
   let s=0;Object.values(S.books).forEach(bk=>bk[side].forEach(([pr,q])=>{if(Math.abs(pr-lv)<tol)s+=q;}));return s;
 }
+/* Solidez de un piso/techo (0-100): no todos los niveles aguantan igual.
+   - estructura (40): cuántas fuentes coinciden (pivote diario/4h, nodo de volumen, redondo) → lv.sc
+   - historial (30): veces que el precio llegó ahí y fue rechazado (velas 4h), restando las veces que lo atravesó
+   - liquidez (30): órdenes reales esperando en el nivel (bids en pisos, asks en techos) vs la densidad normal del libro
+   Escala relativa al libro → funciona igual para cualquier token. */
+function levelStrength(lv,sup){
+  if((lv.srcs||[]).includes('calculando…'))return{s:0,tier:0,why:[],lbl:''}; // nivel provisional: sin calificar
+  const p=lv.p,why=[];
+  const st=Math.min(lv.sc||1,7)/7*40;
+  // historial de rebotes en 4h (fallback: diarias); se cuentan episodios, no velas seguidas
+  const ks=(S.h4&&S.h4.length?S.h4:S.days)||[];
+  let held=0,broke=0,prev=false;
+  ks.forEach(c=>{
+    const touch=sup?(c.l<=p*1.004&&c.h>=p*0.996):(c.h>=p*0.996&&c.l<=p*1.004);
+    if(touch&&!prev){
+      if(sup?c.c>=p*0.997:c.c<=p*1.003)held++;
+      else broke++;
+    }
+    prev=touch;
+  });
+  const net=Math.max(0,held-broke*0.5);
+  const th=Math.min(net,4)/4*30;
+  if(held)why.push((sup?'rebotó ':'frenó ')+held+'×'+(broke?' (lo cruzó '+broke+'×)':''));
+  // liquidez viva en el nivel (±0.25%) comparada con la densidad media del libro cerca del precio
+  let lq=0,hasBook=Object.keys(S.books).length>0;
+  if(hasBook&&S.price){
+    const wall=nearAgg(p,sup?'bids':'asks',p*0.0025);
+    const {sA,sB}=bookSums(),exp=(sA+sB)/6; // ±1.5% = 3% de ancho → por cada 0.5%
+    const ratio=exp>0?wall/exp:0;
+    lq=Math.min(ratio,2.5)/2.5*30;
+    if(ratio>=1.3)why.push('muro '+fmtK(wall)+' esperando');
+  }
+  const s=Math.round(hasBook?st+th+lq:(st+th)/70*100);
+  const tier=s>=62?3:s>=38?2:1;
+  if((lv.srcs||[]).length>=2)why.push(lv.srcs.length+' referencias coinciden');
+  return{s,tier,why,lbl:tier===3?'sólido':tier===2?'medio':'frágil'};
+}
 function higherLows(){
   const cs=S.candles.slice(-24);if(cs.length<24)return false;
   const mins=[0,8,16].map(i=>Math.min(...cs.slice(i,i+8).map(c=>c.l)));
@@ -1640,14 +1683,21 @@ function drawChart(){
   const pad=(hi-lo)*0.06;lo-=pad;hi+=pad;
   const padL=8,padR=64,cw=W-padL-padR,colW=cw/NV;
   const X=i=>padL+((i-vStart)+0.5)*colW,Y=p=>H-(p-lo)/(hi-lo)*H;
-  const zone=(p,color,label)=>{
-    const y0=Y(p+0.0007),y1=Y(p-0.0007);
-    cx.fillStyle=color;cx.fillRect(padL,y0,cw,Math.max(2,y1-y0));
-    cx.fillStyle='rgba(234,236,239,.75)';cx.font='10px monospace';
-    cx.fillText(label,W-padR+4,(y0+y1)/2+3);
+  // zonas de piso/techo: más gruesas e intensas cuanto más sólidas (ver levelStrength)
+  const zone=(lv,sup)=>{
+    const p=lv.p,{tier}=levelStrength(lv,sup),rgb=sup?'46,189,133':'246,70,93';
+    const hw=0.0007*[1,0.7,1,1.6][tier],y0=Y(p+hw),y1=Y(p-hw),ym=(y0+y1)/2;
+    cx.fillStyle=`rgba(${rgb},${[.12,.06,.14,.26][tier]})`;cx.fillRect(padL,y0,cw,Math.max(2,y1-y0));
+    if(tier===3){cx.strokeStyle=`rgba(${rgb},.6)`;cx.beginPath();cx.moveTo(padL,ym);cx.lineTo(padL+cw,ym);cx.stroke();}
+    const label=fmt(p,3);
+    cx.fillStyle=tier===1?'rgba(234,236,239,.5)':'rgba(234,236,239,.85)';cx.font=(tier===3?'bold ':'')+'10px monospace';
+    cx.fillText(label,W-padR+4,ym+3);
+    // mini medidor de solidez (▮▮▮) junto al precio
+    const bx=W-padR+6+cx.measureText(label).width;
+    if(tier)for(let k=0;k<3;k++){cx.fillStyle=k<tier?`rgba(${rgb},.95)`:'rgba(234,236,239,.15)';cx.fillRect(bx+k*4,ym-3,3,7);}
   };
-  DYN.res.slice(0,4).forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r.p,'rgba(246,70,93,.13)',fmt(r.p,3));});
-  DYN.sup.slice(0,4).forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r.p,'rgba(46,189,133,.12)',fmt(r.p,3));});
+  DYN.res.slice(0,4).forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r,false);});
+  DYN.sup.slice(0,4).forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r,true);});
   if(POS.avg&&POS.avg>=lo&&POS.avg<=hi){
     cx.strokeStyle='rgba(234,236,239,.55)';cx.setLineDash([4,4]);cx.beginPath();cx.moveTo(padL,Y(POS.avg));cx.lineTo(padL+cw,Y(POS.avg));cx.stroke();cx.setLineDash([]);
     cx.fillStyle='#eaecef';cx.font='bold 10px sans-serif';cx.fillText(fmt(POS.avg,3)+' tú',W-padR+4,Y(POS.avg)-4);
@@ -1975,9 +2025,11 @@ function drawLevels(){
     const d=(lv.p/p-1)*100;let chip,cls;
     if(sup){if(p<lv.p-0.0005){chip='PERDIDO';cls='c-red';}else if(Math.abs(d)<=0.4){chip='PROBANDO';cls='c-amber';}else{chip='FIRME';cls='c-green';}}
     else{if(p>lv.p+0.0005){chip='SUPERADO';cls='c-green';}else if(Math.abs(d)<=0.4){chip='EN BATALLA';cls='c-amber';}else{chip='PENDIENTE';cls='c-gray';}}
-    const wall=nearAgg(lv.p,sup?'bids':'asks',0.001);
-    const wallTxt=wall>=40000?' · muro ~'+fmtK(wall):'';
-    html+=`<div class="lv"><span class="p">${fmt(lv.p,3)}</span><span class="n">${lv.n}${wallTxt}</span>
+    const st=levelStrength(lv,sup);
+    const meter=[0,1,2].map(k=>`<i class="${k<st.tier?(sup?'on-g':'on-r'):''}"></i>`).join('');
+    const tip=(sup?'Piso ':'Techo ')+st.lbl+' ('+st.s+'/100)'+(st.why.length?': '+st.why.join(' · '):'');
+    html+=`<div class="lv"><span class="p">${fmt(lv.p,3)}</span><span class="n">${lv.n}${st.why.filter(w=>!/referencias/.test(w)).map(w=>' · '+w).join('')}</span>
+      ${st.tier?`<span class="lstr" title="${tip}">${meter}<em>${st.lbl}</em></span>`:''}
       <span class="ds">${d>=0?'+':''}${d.toFixed(1)}%</span><span class="chip ${cls}">${chip}</span></div>`;
   };
   [...DYN.res].sort((a,b)=>b.p-a.p).forEach(r=>row(r,false));

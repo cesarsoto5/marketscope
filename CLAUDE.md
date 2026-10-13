@@ -231,6 +231,13 @@ Compara `ctx.stance` con `lastStance` (rank bearish<neutral<turn<buy). Cuando ME
 6. $0.50 siempre forzado en resistencias si no hay ninguna cerca
 7. Resultado: hasta 6 resistencias y 6 soportes dinámicos
 
+### Solidez de pisos/techos — función `levelStrength(lv, sup)`
+Puntaje 0–100 por nivel → `tier` 3 sólido (≥62) / 2 medio (≥38) / 1 frágil; 0 = nivel provisional sin calificar.
+- Estructura (40): `lv.sc` (fuentes que coinciden en el cluster), cap 7
+- Historial (30): episodios en velas 4h (fallback diarias) donde el precio tocó el nivel (±0.4%) y fue rechazado, menos ½ por cada vez que lo atravesó; cap 4
+- Liquidez viva (30): órdenes en el lado que defiende (bids en pisos, asks en techos) ±0.25% vs densidad media del libro ±1.5% (relativo → sirve para cualquier token); sin libro se reescala sobre 70
+- Gráfico: banda más gruesa/intensa según tier, raya central en los sólidos, mini medidor ▮▮▮ junto al precio. Lista de niveles: medidor + motivo ("rebotó 5×", "muro 120K esperando") y tooltip con el puntaje
+
 ### RSI(14) — implementación Wilder EMA
 - 1h: 72 velas; sparkline de las últimas 48 velas
 - 4h: 120 velas
