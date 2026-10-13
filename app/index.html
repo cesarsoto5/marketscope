@@ -486,7 +486,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin:16px 0 6px}
   Sentimiento: Binance Futures · Fundamentos: CoinGecko + DefiLlama (TVL/fees) · Miedo/Codicia: alternative.me<br>
   Actualización automática cada 12s · niveles dinámicos recalculados cada ~2 min (pivotes + perfil de volumen + muros del libro) · <span class="err" id="err"></span><br>
   Herramienta de seguimiento con reglas de tu plan — no es asesoría financiera.<br>
-  <span id="appVer" data-build="30" data-commit="6792f84" data-date="2026-10-13 08:22">versión 30 · publicada 2026-10-13 08:22</span></footer>
+  <span id="appVer" data-build="31" data-commit="7cf0840" data-date="2026-10-13 08:28">versión 31 · publicada 2026-10-13 08:28</span></footer>
   <details class="dbgwrap"><summary>🔍 Diagnóstico de conexión (tócalo y mándame captura si algo falla)</summary>
     <pre id="dbg" class="dbg">iniciando diagnóstico…</pre>
   </details>
@@ -1847,7 +1847,8 @@ function drawChart(){
   // encuadre proporcional: incluir niveles/entrada SOLO si están cerca de la acción (≤50% del alto de las velas),
   // evaluado contra el rango de las velas (sin encadenar) — así soportes/resistencias lejanos no aplastan las velas
   const cLo=lo,cHi=hi,cSpan=(cHi-cLo)||cHi*0.01,nearY=p=>p>cLo-cSpan*0.5&&p<cHi+cSpan*0.5;
-  const BL=bookLevels();
+  const BL=bookLevels(),narrow=W<600;
+  if(narrow){BL.res=BL.res.slice(0,1);BL.sup=BL.sup.slice(0,1);} // en móvil, solo el muro más grande por lado (menos ruido)
   [...DYN.res.slice(0,4),...BL.res].forEach(r=>{if(nearY(r.p))hi=Math.max(hi,r.p);});
   [...DYN.sup.slice(0,4),...BL.sup].forEach(r=>{if(nearY(r.p))lo=Math.min(lo,r.p);});
   if(POS.avg&&nearY(POS.avg)){lo=Math.min(lo,POS.avg);hi=Math.max(hi,POS.avg);}
@@ -1855,20 +1856,38 @@ function drawChart(){
   const padL=8,padR=64,cw=W-padL-padR,colW=cw/NV;
   const X=i=>padL+((i-vStart)+0.5)*colW,Y=p=>H-(p-lo)/(hi-lo)*H;
   // zonas de piso/techo: más gruesas e intensas cuanto más sólidas (ver levelStrength)
+  const AX=[]; // rótulos del eje derecho: se acomodan al final para que no se encimen
   const zone=(lv,sup)=>{
     const p=lv.p,{tier}=levelStrength(lv,sup),rgb=sup?'46,189,133':'246,70,93';
     const hw=0.0007*[1,0.7,1,1.6][tier],y0=Y(p+hw),y1=Y(p-hw),ym=(y0+y1)/2;
     cx.fillStyle=`rgba(${rgb},${[.12,.06,.14,.26][tier]})`;cx.fillRect(padL,y0,cw,Math.max(2,y1-y0));
     if(lv.book){ // muro del libro: borde punteado (liquidez viva, puede retirarse)
       cx.strokeStyle=`rgba(${rgb},.75)`;cx.setLineDash([3,3]);cx.strokeRect(padL,y0,cw,Math.max(2,y1-y0));cx.setLineDash([]);
-      cx.fillStyle=`rgba(${rgb},.9)`;cx.font='9px sans-serif';const mt='muro '+(sup?'compras':'ventas')+' '+fmtK(lv.q);cx.fillText(mt,padL+cw-cx.measureText(mt).width-4,y0-3); // a la derecha: no choca con el rótulo del VWAP
+      // rótulo con la cantidad solo si hay ancho de sobra (en móvil taparía las velas; el detalle está en la lista de niveles)
+      if(!narrow){cx.font='9px sans-serif';const mt='muro '+(sup?'compras':'ventas')+' '+fmtK(lv.q),tw=cx.measureText(mt).width,tx=padL+cw*0.42;
+        cx.fillStyle='rgba(11,14,17,.75)';cx.fillRect(tx-3,y0-12,tw+6,11);cx.fillStyle=`rgba(${rgb},.95)`;cx.fillText(mt,tx,y0-3);}
     }else if(tier===3){cx.strokeStyle=`rgba(${rgb},.6)`;cx.beginPath();cx.moveTo(padL,ym);cx.lineTo(padL+cw,ym);cx.stroke();}
-    const label=fmt(p,3);
-    cx.fillStyle=tier===1?'rgba(234,236,239,.5)':'rgba(234,236,239,.85)';cx.font=(tier===3?'bold ':'')+'10px monospace';
-    cx.fillText(label,W-padR+4,ym+3);
-    // mini medidor de solidez (▮▮▮) junto al precio
-    const bx=W-padR+6+cx.measureText(label).width;
-    if(tier)for(let k=0;k<3;k++){cx.fillStyle=k<tier?`rgba(${rgb},.95)`:'rgba(234,236,239,.15)';cx.fillRect(bx+k*4,ym-3,3,7);}
+    AX.push({y:ym,y0:ym,label:fmt(p,3),tier,rgb});
+  };
+  // acomoda los rótulos del eje: separación mínima entre ellos y respetando la etiqueta del precio actual
+  const drawAxis=()=>{
+    const G=12,yP=Y(S.price);
+    // si dos niveles quedan casi en el mismo pixel, se muestra solo el más sólido
+    AX.sort((a,b)=>a.y0-b.y0);
+    const L=[];AX.forEach(a=>{const last=L[L.length-1];if(last&&a.y0-last.y0<5){if(a.tier>last.tier)L[L.length-1]=a;}else L.push(a);});
+    // reparte en dos bloques (encima / debajo del precio) empujando hacia afuera para no tapar la etiqueta del precio
+    const up=L.filter(a=>a.y0<yP).reverse(),dn=L.filter(a=>a.y0>=yP);
+    let lim=yP-(9+G/2);up.forEach(a=>{a.y=Math.min(a.y0,lim);lim=a.y-G;});
+    lim=yP+(9+G/2);dn.forEach(a=>{a.y=Math.max(a.y0,lim);lim=a.y+G;});
+    L.forEach(a=>{
+      if(a.y<6||a.y>H-3)return;
+      const x0=W-padR+4;
+      if(Math.abs(a.y-a.y0)>2){cx.strokeStyle=`rgba(${a.rgb},.6)`;cx.beginPath();cx.moveTo(W-padR,a.y0);cx.lineTo(x0-1,a.y);cx.stroke();} // guía si se movió
+      cx.fillStyle=a.tier===1?'rgba(234,236,239,.5)':'rgba(234,236,239,.85)';cx.font=(a.tier===3?'bold ':'')+'10px monospace';
+      cx.fillText(a.label,x0,a.y+3);
+      const bx=x0+2+cx.measureText(a.label).width; // mini medidor de solidez (▮▮▮) junto al precio
+      if(a.tier)for(let k=0;k<3;k++){cx.fillStyle=k<a.tier?`rgba(${a.rgb},.95)`:'rgba(234,236,239,.15)';cx.fillRect(bx+k*4,a.y-3,3,7);}
+    });
   };
   [...DYN.res.slice(0,4),...BL.res].forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r,false);});
   [...DYN.sup.slice(0,4),...BL.sup].forEach(r=>{if(r.p<=hi&&r.p>=lo)zone(r,true);});
@@ -1978,6 +1997,7 @@ function drawChart(){
     if(o.mega){cx.strokeStyle=col;cx.beginPath();cx.arc(x,o.side==='b'?y-r-6:y+r+6,r+4,0,7);cx.stroke();}
     if(o.n>1){cx.fillStyle='#c8cdd3';cx.font='bold 9px monospace';cx.fillText('×'+o.n,x+r+2,o.side==='b'?y-r-4:y+r*2+2);}
   });
+  drawAxis();
   cx.strokeStyle='#f0b90b';cx.setLineDash([5,4]);cx.beginPath();cx.moveTo(padL,Y(S.price));cx.lineTo(padL+cw,Y(S.price));cx.stroke();cx.setLineDash([]);
   cx.fillStyle='#f0b90b';cx.fillRect(W-padR,Y(S.price)-9,padR-4,16);
   cx.fillStyle='#0b0e11';cx.font='bold 10px monospace';cx.fillText(fmt(S.price),W-padR+4,Y(S.price)+3);
